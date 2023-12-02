@@ -27,6 +27,12 @@ Immerse yourself in the fundamentals of assembly language programming while buil
 For our development process, we used the following tools:
 [[TODO: Add tools used]]
 
+### NOTICE
+
+We helped contribute and learned from this repository we highly recommend you check it out:
+[Assembly x86 Helper](https://github.com/amir-kedis/Assembly-x86-helper)
+You have any questions about game development in assembly, make sure to give it a look.
+
 For the conventions we followed, check this page:
 [Conventions](./docs/conventions.md)
 
