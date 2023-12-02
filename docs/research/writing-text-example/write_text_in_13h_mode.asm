@@ -32,35 +32,55 @@ CODE SEGMENT USE16
      BEG: 
           MOV    AX,DATA
           MOV    DS,AX
+          MOV    ES,AX
 
      ; set video mode
-          MOV    AH,0                 ; Set video mode
-          MOV    AL,13h               ; 320x200 256 color mode
+          MOV    AH,0                   ; Set video mode
+          MOV    AL,13h                 ; 320x200 256 color mode
           INT    10H
 
      ; Fill the screen color
-          MOV    AX,0A000h            ; Set ES to point to video memory
+          MOV    AX,0A000h              ; Set ES to point to video memory
           MOV    ES,AX
-          MOV    DI,0                 ; Set DI to point to the first pixel
-          MOV    CX,SCREEN_SIZE       ; Set CX to the number of pixels on the screen
-          MOV    AL,currentColor      ; Set AL to the color to fill the screen with
-          REP    STOSB                ; Fill the screen with the color in AL
+          MOV    DI,0                   ; Set DI to point to the first pixel
+          MOV    CX,SCREEN_SIZE         ; Set CX to the number of pixels on the screen
+          MOV    AL,currentColor        ; Set AL to the color to fill the screen with
+          REP    STOSB                  ; Fill the screen with the color in AL
 
      ;; Write text
 
      ; Set cursur position to midlle of the screen
-          MOV    AH,2                 ; Set cursor position
-          MOV    BH,0                 ; Page number
-          MOV    DH,SCREEN_ROWS/2     ; Row
-          MOV    DL,14                ; Column
+          MOV    AH,2                   ; Set cursor position
+          MOV    BH,0                   ; Page number
+          MOV    DH,SCREEN_ROWS/2       ; Row
+          MOV    DL,14                  ; Column
           INT    10H
   
-     ; Write text
-          MOV    AH,9                 ; Write string
-          MOV    DX,OFFSET text       ; Set DX to point to the string
+     ; Write text (int 21h, ah=09h)
+          MOV    AH,9                   ; Write string
+          MOV    DX,OFFSET text         ; Set DX to point to the string
           INT    21H
 
+     ; Set Next row
+          MOV    AH,2                   ; Set cursor position
+          MOV    BH,0                   ; Page number
+          MOV    DH,SCREEN_ROWS/2+2     ; Row
+          MOV    DL,14                  ; Column
+          INT    10H
+     
+     ; Write char (int 10h, ah=09h)
+          MOV    AH, 09H                ; Write char
+          MOV    AL, 'A'                ; Char to write
+          MOV    BH, 0                  ; Page number
+          MOV    BL, 4                  ; Color
+          MOV    CX, textLength-1       ; Number of times to write
+          INT    10H
+
+     ; Wait for key press
+          MOV    AH,0                   ; Waite for key press
+          INT    16H
+
           MOV    AH,4CH
-          INT    21H                  ;back to dos
+          INT    21H                    ;back to dos
 CODE ENDS
 END BEG
