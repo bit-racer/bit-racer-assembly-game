@@ -30,8 +30,8 @@ WHITE           equ 15
 
 ;* scan codes of pressed keys
 ;* scan code of released key = scan code + 80h
-ESCAPE          equ 01h
-ENTER           equ 1ch
+ESCAPE_KEY      equ 01h
+ENTER_KEY       equ 1ch
 F1              equ 3bh
 F2              equ 3ch
 UP_ARROW        equ 48h

@@ -107,7 +107,7 @@ main PROC
     waiting:
         mov ah, 0
         int 16h ; wait for keypress from user: ah = scancode
-        cmp ah, ENTER
+        cmp ah, ENTER_KEY
         je next
     jmp waiting
 
