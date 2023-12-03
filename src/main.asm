@@ -51,6 +51,7 @@
 
 .code
 include procs.inc
+include macros.inc
 ;right now it has only page 0 : username and points of both users
 main PROC
     mov ax, @data
@@ -60,43 +61,21 @@ main PROC
     mov currentColor, CYAN
     call fillScreen
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;; Read username1
     mov currentColumn, 1
     mov currentRow, 1
     call moveCursor
     
-    ; print prompt string
-    mov dx, offset str_enter_usrname1
-    call printmsg
-
-    inc currentRow
-    call moveCursor
-    
-    ; read username
-    mov dx, offset usernameBuffer1
-    mov ah, 0ah
-    int 21h
-
-    inc currentRow
-    call moveCursor
-    ;;;;;;;;;;;;;;;;;;;;;;;;; Read points1
+    ; Read username1
+    readData str_enter_usrname1, usernameBuffer1
 
     ; leave a space
     add currentRow, 4
     call moveCursor
     
-    ; print prompt string
-    mov dx, offset str_initial_points1
-    call printmsg
-
-    inc currentRow
-    call moveCursor
+    ; Read points1
+    readData str_initial_points1, pointsBuffer1
     
-    ; read initial points
-    mov dx, offset pointsBuffer1
-    mov ah, 0ah
-    int 21h
-
+    ; leave a space
     add currentRow, 4
     call moveCursor
 
@@ -108,27 +87,13 @@ main PROC
         mov ah, 0
         int 16h ; wait for keypress from user: ah = scancode
         cmp ah, ENTER_KEY
-        je next
+        je nextScreen
     jmp waiting
 
 
-    next:
-    inc currentRow
-    call moveCursor
-
-    mov dx, offset username1
-    call printmsg
-
-    inc currentRow
-    call moveCursor
-
-    mov dx, offset pointsString1
-    call printmsg
-
-    inc currentRow
-    call moveCursor
-
-
+    nextScreen:
+    call fillScreen
+    
     ;;;;;;;;;;;;;;;;;;;;;;;;; End 
     byebye:
     mov ax ,4c00h
