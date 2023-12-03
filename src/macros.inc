@@ -14,3 +14,17 @@ readData MACRO promt, buffer
     inc currentRow
     call moveCursor
 ENDM
+
+printData MACRO usrname, ptsString
+    mov dx, offset usrname
+    call printmsg
+
+    inc currentRow
+    call moveCursor
+
+    mov dx, offset ptsString
+    call printmsg
+
+    inc currentRow
+    call moveCursor
+ENDM

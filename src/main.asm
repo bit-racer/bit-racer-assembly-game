@@ -92,8 +92,56 @@ main PROC
 
 
     nextScreen:
+    mov currentColor, LIGHT_GREEN
     call fillScreen
+;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    mov currentColumn, 1
+    mov currentRow, 1
+    call moveCursor
+
+    ; Read username2
+    readData str_enter_usrname2, usernameBuffer2
+
+    ; leave a space
+    add currentRow, 4
+    call moveCursor
     
+    ; Read points1
+    readData str_initial_points2, pointsBuffer2
+    
+    ; leave a space
+    add currentRow, 4
+    call moveCursor
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;; promt and wait for enter key
+    mov dx, offset str_press_enter_key
+    call printmsg
+
+    waiting2:
+        mov ah, 0
+        int 16h ; wait for keypress from user: ah = scancode
+        cmp ah, ENTER_KEY
+        je nextScreen2
+    jmp waiting2
+
+
+    nextScreen2:
+    mov currentColor, YELLOW
+    call fillScreen
+;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    mov currentColumn, 1
+    mov currentRow, 1
+    call moveCursor
+
+    ; print both data to make sure    
+    printData username1, pointsString1
+    
+    ; leave a space
+    add currentRow, 4
+    call moveCursor
+    
+    printData username2, pointsString2
+
     ;;;;;;;;;;;;;;;;;;;;;;;;; End 
     byebye:
     mov ax ,4c00h
