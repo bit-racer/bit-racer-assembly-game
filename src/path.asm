@@ -1,27 +1,31 @@
-.MODEL SMALL
+                                    .MODEL SMALL
 .STACK 64
 
 .DATA
 
-   LIGHT_GREY EQU 7
-   DARK_GREY EQU 8
-   SEGMENT_LENGTH EQU 25
-   SEGMENT_WIDTH EQU 20
-   SCREEN_WIDTH EQU 320
-   DIRECTIONS DB 2,1,2,3,2,2,1,1,0,1,2,2,2,2,3,0,3
-
+    LIGHT_GREY EQU 7
+    DARK_GREY EQU 8
+    SEGMENT_LENGTH EQU 60
+    SEGMENT_WIDTH EQU 20
+    SCREEN_WIDTH EQU 320
+    STARTING_ROW EQU 170
+    ;DIRECTIONS_DEMO  DB 2,2,2,1,2,2,1,0,0,0,3,0
+    ;DIRECTIONS_DEMO  DB 2,1,2,3,2,1,1,0,1,2,2,2,3,0,3
+    ;DIRECTIONS_DEMO  DB 2,2,2,2,2,1,1,1,0,0,0,0,0,3,2,2,2,2
+    DIRECTIONS_DEMO  DB 2,1,2,3,2,1,2,3,2,1,2,3,2,1,1,1,0,3,0
+    N DB $-DIRECTIONS_DEMO
    
 .CODE 
 
 
-    
+     
     
     COLOR_ROW PROC
         
         PUSH SI
         DRAW_ROW:
-           MOV BL , LIGHT_GREY
-           MOV ES:[SI] , BL
+           MOV DL , LIGHT_GREY
+           MOV ES:[SI] , DL
            INC SI
            CMP SI , DI
            JE FINISH_ROW
@@ -36,8 +40,8 @@
         
         PUSH SI
         DRAW_COLUMN:
-           MOV BL , LIGHT_GREY
-           MOV ES:[SI] , BL
+           MOV DL , LIGHT_GREY
+           MOV ES:[SI] , DL
            ADD SI , SCREEN_WIDTH
            CMP SI , DI
            JE FINISH_COLUMN
@@ -103,57 +107,6 @@
     
     
     
-    FILL_GAP_UP PROC
-        
-        MOV CX,SEGMENT_WIDTH
-        GAP_UP:
-            
-            CALL COLOR_ROW
-            SUB SI , SCREEN_WIDTH
-            SUB DI , SCREEN_WIDTH
-            LOOP GAP_UP
-        
-        RET
-    FILL_GAP_UP ENDP 
-    
-    FILL_GAP_DOWN PROC
-        
-        MOV CX,SEGMENT_WIDTH
-        GAP_DOWN:
-            
-            CALL COLOR_ROW
-            ADD SI , SCREEN_WIDTH
-            ADD DI , SCREEN_WIDTH
-            LOOP GAP_DOWN
-        
-        RET
-    FILL_GAP_DOWN ENDP 
-    
-    FILL_GAP_RIGHT PROC
-        
-        MOV CX,SEGMENT_WIDTH
-        GAP_RIGHT:
-            
-            CALL COLOR_COLUMN
-            INC SI
-            INC DI
-            LOOP GAP_RIGHT
-        
-        RET
-    FILL_GAP_RIGHT ENDP 
-    
-    FILL_GAP_LEFT PROC
-        
-        MOV CX,SEGMENT_WIDTH
-        GAP_LEFT:
-            
-            CALL COLOR_COLUMN
-            DEC SI
-            DEC DI
-            LOOP GAP_LEFT
-        
-        RET
-    FILL_GAP_LEFT ENDP 
     
     DRAW_SEGMENT PROC
         CMP AH , 0
@@ -229,26 +182,24 @@
             CALL DRAW_SEGMENT_LEFT
             JMP FAR PTR FINISH_DRAW_SEGMENT
 
-        FIRST_IS_LEFT_SECOND_IS_UP:
-            CALL FILL_GAP_LEFT                   
-            INC SI                               
-            MOV DI,SI                            
+        FIRST_IS_LEFT_SECOND_IS_UP:             
+            SUB DI , SCREEN_WIDTH                               
+            MOV SI,DI                            
             ADD DI , SEGMENT_WIDTH               
             CALL DRAW_SEGMENT_UP
             JMP FAR PTR FINISH_DRAW_SEGMENT
         
-        FIRST_IS_LEFT_SECOND_IS_DOWN:
-            CALL FILL_GAP_LEFT                  
-            INC DI                              
-            MOV SI,DI                           
+        FIRST_IS_LEFT_SECOND_IS_DOWN:            
+            INC SI                              
+            MOV DI,SI                           
             ADD DI , SEGMENT_WIDTH              
             CALL DRAW_SEGMENT_DOWN
             JMP FAR PTR FINISH_DRAW_SEGMENT
 
         FIRST_IS_UP_SECOND_IS_LEFT:
-            CALL FILL_GAP_UP                 
-            MOV DI,SI                        
-            ADD SI , SCREEN_WIDTH            
+            DEC DI               
+            MOV SI,DI                        
+            ;ADD SI , SCREEN_WIDTH            
             ADD DI,SEGMENT_WIDTH*SCREEN_WIDTH
             CALL DRAW_SEGMENT_LEFT
             JMP FAR PTR FINISH_DRAW_SEGMENT
@@ -257,18 +208,17 @@
             CALL DRAW_SEGMENT_UP
             JMP FAR PTR FINISH_DRAW_SEGMENT
 
-        FIRST_IS_UP_SECOND_IS_RIGHT:
-            CALL FILL_GAP_UP                 
-            MOV SI,DI                        
-            ADD SI , SCREEN_WIDTH            
+        FIRST_IS_UP_SECOND_IS_RIGHT:         
+            MOV DI,SI                        
+            ;ADD SI , SCREEN_WIDTH            
             ADD DI,SEGMENT_WIDTH*SCREEN_WIDTH
             CALL DRAW_SEGMENT_RIGHT
             JMP FAR PTR FINISH_DRAW_SEGMENT
 
         FIRST_IS_RIGHT_SECOND_IS_UP:
-            CALL FILL_GAP_RIGHT              
-            MOV DI,SI                        
-            SUB SI , SEGMENT_WIDTH           
+            SUB DI , SCREEN_WIDTH              
+            MOV SI,DI                        
+            SUB SI , SEGMENT_WIDTH         
             CALL DRAW_SEGMENT_UP
             JMP FAR PTR FINISH_DRAW_SEGMENT
 
@@ -276,23 +226,21 @@
             CALL DRAW_SEGMENT_RIGHT
             JMP FAR PTR FINISH_DRAW_SEGMENT
 
-        FIRST_IS_RIGHT_SECOND_IS_DOWN:
-            CALL FILL_GAP_RIGHT              
-            MOV SI,DI                        
+        FIRST_IS_RIGHT_SECOND_IS_DOWN:        
+            MOV DI,SI                        
             SUB SI , SEGMENT_WIDTH                     
             CALL DRAW_SEGMENT_DOWN
             JMP FAR PTR FINISH_DRAW_SEGMENT
 
         FIRST_IS_DOWN_SECOND_IS_LEFT:
-            CALL FILL_GAP_DOWN                  
-            MOV DI,SI                           
+            DEC DI                 
+            MOV SI,DI                           
             SUB SI , SEGMENT_WIDTH*SCREEN_WIDTH 
             CALL DRAW_SEGMENT_LEFT
             JMP FAR PTR FINISH_DRAW_SEGMENT
 
-        FIRST_IS_DOWN_SECOND_IS_RIGHT:
-            CALL FILL_GAP_DOWN                  
-            MOV SI,DI                           
+        FIRST_IS_DOWN_SECOND_IS_RIGHT:   
+            MOV DI,SI                           
             SUB SI , SEGMENT_WIDTH*SCREEN_WIDTH 
             CALL DRAW_SEGMENT_RIGHT
             JMP FAR PTR FINISH_DRAW_SEGMENT
@@ -304,6 +252,27 @@
         FINISH_DRAW_SEGMENT:
             RET
     DRAW_SEGMENT ENDP
+
+    
+    DRAW_PATH_SEGMENTS PROC
+        MOV BX,OFFSET DIRECTIONS_DEMO + 1
+        MOV DH,N
+        DEC DH
+        MOV AX,0202H
+        CALL DRAW_SEGMENT
+        DIRECTIONS_LOOP:
+            MOV AH,[BX-1]
+            MOV AL,[BX]
+            CALL DRAW_SEGMENT
+            INC BX
+            DEC DH
+            JNZ DIRECTIONS_LOOP  
+        RET
+    DRAW_PATH_SEGMENTS ENDP
+
+
+
+
 
     MAIN PROC FAR
         
@@ -318,198 +287,13 @@
         MOV AX, 19
         INT 10H
         
-        MOV SI , 140*SCREEN_WIDTH
+        MOV SI , STARTING_ROW*SCREEN_WIDTH
         MOV DI , SI
         ADD DI , SEGMENT_WIDTH*SCREEN_WIDTH
-
-;---------------------------------------------------------------------------;        
-        MOV AX,0202H
-        CALL DRAW_SEGMENT
-
-    ;   CALL DRAW_SEGMENT_RIGHT        
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-        MOV AX,0201H
-        CALL DRAW_SEGMENT
-
-        ; ;WHAT TODO IF HE MOVED UP AFTER RIGHT
-        ;     CALL FILL_GAP_RIGHT              ;
-        ;     MOV DI,SI                        ;
-        ;     SUB SI , SEGMENT_WIDTH           ;
-        ; ;------------------------------------;
         
-        ; CALL DRAW_SEGMENT_UP
-;---------------------------------------------------------------------------;
 
-;---------------------------------------------------------------------------;
-        MOV AX,0102H
-        CALL DRAW_SEGMENT
+        CALL DRAW_PATH_SEGMENTS
 
-        ; ;WHAT TODO IF HE MOVED RIGHT AFTER UP
-        ;     CALL FILL_GAP_UP                 ;
-        ;     MOV SI,DI                        ;
-        ;     ADD SI , SCREEN_WIDTH            ;
-        ;     ADD DI,SEGMENT_WIDTH*SCREEN_WIDTH;
-        ; ;------------------------------------;
-
-        ; CALL DRAW_SEGMENT_RIGHT
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-        MOV AX,0203H
-        CALL DRAW_SEGMENT
-
-    ;    ;WHAT TODO IF HE MOVED DOWN AFTER RIGHT
-    ;         CALL FILL_GAP_RIGHT              ;
-    ;         MOV SI,DI                        ;
-    ;         SUB SI , SEGMENT_WIDTH           ;           
-    ;    ;-------------------------------------;
-
-    ;    CALL DRAW_SEGMENT_DOWN
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-        MOV AX , 0302H
-        CALL DRAW_SEGMENT
-    ;    ;  WHAT TODO IF HE MOVED RIGHT AFTER DOWN
-    ;         CALL FILL_GAP_DOWN                  ;
-    ;         MOV SI,DI                           ;
-    ;         SUB SI , SEGMENT_WIDTH*SCREEN_WIDTH ;
-    ;    ;----------------------------------------;
-
-    ;     CALL DRAW_SEGMENT_RIGHT
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-        MOV AX,0202H
-        CALL DRAW_SEGMENT
-
-    ;     CALL DRAW_SEGMENT_RIGHT
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-        MOV AX , 0201H
-        CALL DRAW_SEGMENT
-
-    ;    ;WHAT TODO IF HE MOVED UP AFTER RIGHT
-    ;         CALL FILL_GAP_RIGHT              ;
-    ;         MOV DI,SI                        ;
-    ;         SUB SI , SEGMENT_WIDTH           ;
-    ;     ;------------------------------------;
-
-    ;     CALL DRAW_SEGMENT_UP
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-        MOV AX , 0101H
-        CALL DRAW_SEGMENT
-
-    ;   CALL DRAW_SEGMENT_UP
-;---------------------------------------------------------------------------;
-
-
-;---------------------------------------------------------------------------;
-
-        MOV AX , 0100H
-        CALL DRAW_SEGMENT
-
-        ; ;WHAT TODO IF HE MOVED LEFT AFTER UP
-        ;     CALL FILL_GAP_UP                 ;
-        ;     MOV DI,SI                        ;
-        ;     ADD SI , SCREEN_WIDTH            ;
-        ;     ADD DI,SEGMENT_WIDTH*SCREEN_WIDTH;
-        ; ;------------------------------------;
-        ; CALL DRAW_SEGMENT_LEFT
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-        
-        MOV AX,0001H
-        CALL DRAW_SEGMENT
-        
-        ; ;WHAT TODO IF HE MOVED UP AFTER LEFT
-        ;     CALL FILL_GAP_LEFT               ;
-        ;     INC SI                           ;
-        ;     MOV DI,SI                        ;
-        ;     ADD DI , SEGMENT_WIDTH           ;
-        ; ;------------------------------------;
-        
-        ; CALL DRAW_SEGMENT_UP             
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-
-        MOV AX , 0102H 
-        CALL DRAW_SEGMENT
-
-        ; ;WHAT TODO IF HE MOVED RIGHT AFTER UP
-        ;     CALL FILL_GAP_UP                 ;
-        ;     MOV SI,DI                        ;
-        ;     ADD SI , SCREEN_WIDTH            ;
-        ;     ADD DI,SEGMENT_WIDTH*SCREEN_WIDTH;
-        ; ;------------------------------------;
-
-        ; CALL DRAW_SEGMENT_RIGHT
-
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-        MOV AX,0202H
-        CALL DRAW_SEGMENT
-        CALL DRAW_SEGMENT
-        CALL DRAW_SEGMENT
-
-        ; CALL DRAW_SEGMENT_RIGHT
-        ; CALL DRAW_SEGMENT_RIGHT
-        ; CALL DRAW_SEGMENT_RIGHT
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-        
-        MOV AX,0203H
-        CALL DRAW_SEGMENT
-
-        ; ;WHAT TODO IF HE MOVED DOWN AFTER RIGHT
-        ;     CALL FILL_GAP_RIGHT              ;
-        ;     MOV SI,DI                        ;
-        ;     SUB SI , SEGMENT_WIDTH           ;
-        ; ;------------------------------------;
-
-            
-        ; CALL DRAW_SEGMENT_DOWN          
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-
-        MOV AX,0300H
-        CALL DRAW_SEGMENT
-
-        ; ;  WHAT TODO IF HE MOVED LEFT AFTER DOWN
-        ;     CALL FILL_GAP_DOWN                  ;
-        ;     MOV DI,SI                           ;
-        ;     SUB SI , SEGMENT_WIDTH*SCREEN_WIDTH ;
-        ; ;---------------------------------------;
-
-        ; CALL DRAW_SEGMENT_LEFT              
-
-;---------------------------------------------------------------------------;
-
-;---------------------------------------------------------------------------;
-        
-        MOV AX,0003H
-        CALL DRAW_SEGMENT
-
-        ; ;  WHAT TODO IF HE MOVED DOWN AFTER LEFT
-        ;     CALL FILL_GAP_LEFT                  ;
-        ;     INC DI                              ;
-        ;     MOV SI,DI                           ;
-        ;     ADD DI , SEGMENT_WIDTH              ;
-        ; ;---------------------------------------;
-
-        ; CALL DRAW_SEGMENT_DOWN              
-
-;---------------------------------------------------------------------------;
 
         MOV AH, 4CH
         INT 21H
