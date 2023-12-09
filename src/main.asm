@@ -14,7 +14,7 @@
 
 .386
 .MODEL COMPACT
-.STACK 8192
+.STACK 4084
 ;=================================================================================
 
 ;=================================================================================
@@ -106,9 +106,23 @@ CODE SEGMENT USE16
                 ColorScreen        BG_COLOR
 
     ; Draw Logo
-                MOV                SI, offset ll_img                                          ;  SI = offset of the image
+                MOV                SI, offset ll_img                                                              ;  SI = offset of the image
                 SetDrawImageParams ll_offset_x, ll_offset_y, ll_size_x, ll_size_y, 0, 0, 0
                 CALl               DrawImage
+    
+    ; Draw design
+                MOV                SI, offset design_img
+                SetDrawImageParams DESIGN_offset_x, DESIGN_offset_y, DESIGN_size_x, DESIGN_size_y, 0, 0, 0
+                CALl               DrawImage
+
+    ; Draw entname
+                MOV                SI, offset entname_img
+                SetDrawImageParams ENTNAME_offset_x, ENTNAME_offset_y, ENTNAME_size_x, ENTNAME_size_y, 0, 0, 0
+                CALl               DrawImage
+
+    
+                WaitForKeyPress
+
     
 
                 mov                currentColumn, 40
@@ -135,7 +149,7 @@ CODE SEGMENT USE16
 
     waiting:    
                 mov                ah, 0
-                int                16h                                                        ; wait for keypress from user: ah = scancode
+                int                16h                                                                            ; wait for keypress from user: ah = scancode
                 cmp                ah, ENTER_KEY
                 je                 nextScreen
                 jmp                waiting
@@ -167,7 +181,7 @@ CODE SEGMENT USE16
 
     waiting2:   
                 mov                ah, 0
-                int                16h                                                        ; wait for keypress from user: ah = scancode
+                int                16h                                                                            ; wait for keypress from user: ah = scancode
                 cmp                ah, ENTER_KEY
                 je                 nextScreen2
                 jmp                waiting2
