@@ -30,6 +30,7 @@ LIGHT_RED       equ 12
 LIGHT_MAGENTA   equ 13
 YELLOW          equ 14
 WHITE           equ 15
+BG_COLOR        equ 204
 
 ;* scan codes of pressed keys
 ;* scan code of released key = scan code + 80h

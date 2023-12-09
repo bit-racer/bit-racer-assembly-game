@@ -99,8 +99,11 @@ CODE SEGMENT USE16
                 mov                ax, DATA
                 mov                ds, ax
     
+    ;=================================================================================
+    ; Code Starts Here
+    
                 SetVideoMode
-                ColorScreen 204
+                ColorScreen        BG_COLOR
 
     ; Draw Logo
                 MOV                SI, offset ll_img                                          ;  SI = offset of the image
@@ -108,8 +111,8 @@ CODE SEGMENT USE16
                 CALl               DrawImage
     
 
-                mov                currentColumn, 1
-                mov                currentRow, 1
+                mov                currentColumn, 40
+                mov                currentRow, 13
                 call               moveCursor
     
     ; Read username1
@@ -139,8 +142,6 @@ CODE SEGMENT USE16
 
 
     nextScreen: 
-                mov                currentColor, LIGHT_GREEN
-                ColorScreen        currentColor
     ;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                 mov                currentColumn, 1
                 mov                currentRow, 1
@@ -173,8 +174,6 @@ CODE SEGMENT USE16
 
 
     nextScreen2:
-                mov                currentColor, YELLOW
-                ColorScreen        currentColor
     ;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                 mov                currentColumn, 1
                 mov                currentRow, 1
