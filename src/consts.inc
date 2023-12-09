@@ -1,8 +1,11 @@
 ;* only constant values, not variables.
 
 ; sceen info video mode
-SCREEN_WIDTH    equ 320
-SCREEN_HEIGHT   equ 200
+VIDEO_MODE     EQU     4F02h         ; SVGA MODE
+VIDEO_MODE_BX  EQU     0101h         ; SCREEN SIZES
+
+SCREEN_WIDTH    equ 640
+SCREEN_HEIGHT   equ 480
 SCREEN_SIZE     equ SCREEN_HEIGHT * SCREEN_WIDTH
 
 ; sceen info text mode

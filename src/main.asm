@@ -20,7 +20,8 @@
 ;=================================================================================
 ; MACROS INCLUDE
 
-include   macros.inc
+include     macros.inc
+include     drawM.inc
 ;=================================================================================
 
 ;=================================================================================
@@ -73,107 +74,108 @@ DATA ENDS
 ; CODE SEGMENT
 
 CODE SEGMENT USE16
-                ASSUME    CS:CODE, DS:DATA
+                ASSUME       CS:CODE, DS:DATA
 
     ;=================================================================================
     ; PROCEDURES INCLUDE
 
-                include   procs.inc
+                include      procs.inc
     ;=================================================================================
 
     BEG:        
-                mov       ax, DATA
-                mov       ds, ax
+                mov          ax, DATA
+                mov          ds, ax
     
-                call      enterVideoMode
-                mov       currentColor, CYAN
-                call      fillScreen
+                SetVideoMode
+                mov          currentColor, CYAN
+                ColorScreen  currentColor
+    
 
-                mov       currentColumn, 1
-                mov       currentRow, 1
-                call      moveCursor
+                mov          currentColumn, 1
+                mov          currentRow, 1
+                call         moveCursor
     
     ; Read username1
-                readData  str_enter_usrname1, usernameBuffer1
+                readData     str_enter_usrname1, usernameBuffer1
 
     ; leave a space
-                add       currentRow, 4
-                call      moveCursor
+                add          currentRow, 4
+                call         moveCursor
     
     ; Read points1
-                readData  str_initial_points1, pointsBuffer1
+                readData     str_initial_points1, pointsBuffer1
     
     ; leave a space
-                add       currentRow, 4
-                call      moveCursor
+                add          currentRow, 4
+                call         moveCursor
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; promt and wait for enter key
-                mov       dx, offset str_press_enter_key
-                call      printmsg
+                mov          dx, offset str_press_enter_key
+                call         printmsg
 
     waiting:    
-                mov       ah, 0
-                int       16h                                    ; wait for keypress from user: ah = scancode
-                cmp       ah, ENTER_KEY
-                je        nextScreen
-                jmp       waiting
+                mov          ah, 0
+                int          16h                                    ; wait for keypress from user: ah = scancode
+                cmp          ah, ENTER_KEY
+                je           nextScreen
+                jmp          waiting
 
 
     nextScreen: 
-                mov       currentColor, LIGHT_GREEN
-                call      fillScreen
+                mov          currentColor, LIGHT_GREEN
+                ColorScreen  currentColor
     ;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                mov       currentColumn, 1
-                mov       currentRow, 1
-                call      moveCursor
+                mov          currentColumn, 1
+                mov          currentRow, 1
+                call         moveCursor
 
     ; Read username2
-                readData  str_enter_usrname2, usernameBuffer2
+                readData     str_enter_usrname2, usernameBuffer2
 
     ; leave a space
-                add       currentRow, 4
-                call      moveCursor
+                add          currentRow, 4
+                call         moveCursor
     
     ; Read points1
-                readData  str_initial_points2, pointsBuffer2
+                readData     str_initial_points2, pointsBuffer2
     
     ; leave a space
-                add       currentRow, 4
-                call      moveCursor
+                add          currentRow, 4
+                call         moveCursor
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; promt and wait for enter key
-                mov       dx, offset str_press_enter_key
-                call      printmsg
+                mov          dx, offset str_press_enter_key
+                call         printmsg
 
     waiting2:   
-                mov       ah, 0
-                int       16h                                    ; wait for keypress from user: ah = scancode
-                cmp       ah, ENTER_KEY
-                je        nextScreen2
-                jmp       waiting2
+                mov          ah, 0
+                int          16h                                    ; wait for keypress from user: ah = scancode
+                cmp          ah, ENTER_KEY
+                je           nextScreen2
+                jmp          waiting2
 
 
     nextScreen2:
-                mov       currentColor, YELLOW
-                call      fillScreen
+                mov          currentColor, YELLOW
+                ColorScreen  currentColor
     ;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                mov       currentColumn, 1
-                mov       currentRow, 1
-                call      moveCursor
+                mov          currentColumn, 1
+                mov          currentRow, 1
+                call         moveCursor
 
     ; print both data to make sure
-                printData username1, pointsString1
+                printData    username1, pointsString1
     
     ; leave a space
-                add       currentRow, 4
-                call      moveCursor
+                add          currentRow, 4
+                call         moveCursor
     
-                printData username2, pointsString2
+                printData    username2, pointsString2
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; End
     byebye:     
-                mov       ax ,4c00h
-                int       21h
+                mov          ax ,4c00h
+                int          21h
 
 CODE ENDS
 ;=================================================================================
