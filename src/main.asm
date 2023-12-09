@@ -28,9 +28,22 @@ include     drawM.inc
 ; DATA SEGMENT
 DATA SEGMENT USE16
     ;=================================================================================
-    ; constants includes
+    ; includes
                         include         consts.inc
+                        include         images.inc
     ;=================================================================================
+
+    ; --------------------------------------------------------------------------------------------------------------------------------
+    ; DRAW PARAMETERS
+    IMAGE_OFFSET_X      dw              0
+    IMAGE_OFFSET_Y      dw              0
+    IMAGE_SIZE_X        dw              0
+    IMAGE_SIZE_Y        dw              0
+    REVERSE             DB              0
+    ERASE               DB              0
+    RECOLOR             DB              0
+    ;---------------------------------------------------------------------------------------------------------------------------------
+
 
     ; strings to print
     str_enter_usrname1  db              "User1's Name:", '$'
@@ -74,108 +87,112 @@ DATA ENDS
 ; CODE SEGMENT
 
 CODE SEGMENT USE16
-                ASSUME       CS:CODE, DS:DATA
+                ASSUME             CS:CODE, DS:DATA
 
     ;=================================================================================
     ; PROCEDURES INCLUDE
-
-                include      procs.inc
+                include            procs.inc
+                include            drawP.inc
     ;=================================================================================
 
     BEG:        
-                mov          ax, DATA
-                mov          ds, ax
+                mov                ax, DATA
+                mov                ds, ax
     
                 SetVideoMode
-                mov          currentColor, CYAN
-                ColorScreen  currentColor
+                ColorScreen 204
+
+    ; Draw Logo
+                MOV                SI, offset ll_img                                          ;  SI = offset of the image
+                SetDrawImageParams ll_offset_x, ll_offset_y, ll_size_x, ll_size_y, 0, 0, 0
+                CALl               DrawImage
     
 
-                mov          currentColumn, 1
-                mov          currentRow, 1
-                call         moveCursor
+                mov                currentColumn, 1
+                mov                currentRow, 1
+                call               moveCursor
     
     ; Read username1
-                readData     str_enter_usrname1, usernameBuffer1
+                readData           str_enter_usrname1, usernameBuffer1
 
     ; leave a space
-                add          currentRow, 4
-                call         moveCursor
+                add                currentRow, 4
+                call               moveCursor
     
     ; Read points1
-                readData     str_initial_points1, pointsBuffer1
+                readData           str_initial_points1, pointsBuffer1
     
     ; leave a space
-                add          currentRow, 4
-                call         moveCursor
+                add                currentRow, 4
+                call               moveCursor
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; promt and wait for enter key
-                mov          dx, offset str_press_enter_key
-                call         printmsg
+                mov                dx, offset str_press_enter_key
+                call               printmsg
 
     waiting:    
-                mov          ah, 0
-                int          16h                                    ; wait for keypress from user: ah = scancode
-                cmp          ah, ENTER_KEY
-                je           nextScreen
-                jmp          waiting
+                mov                ah, 0
+                int                16h                                                        ; wait for keypress from user: ah = scancode
+                cmp                ah, ENTER_KEY
+                je                 nextScreen
+                jmp                waiting
 
 
     nextScreen: 
-                mov          currentColor, LIGHT_GREEN
-                ColorScreen  currentColor
+                mov                currentColor, LIGHT_GREEN
+                ColorScreen        currentColor
     ;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                mov          currentColumn, 1
-                mov          currentRow, 1
-                call         moveCursor
+                mov                currentColumn, 1
+                mov                currentRow, 1
+                call               moveCursor
 
     ; Read username2
-                readData     str_enter_usrname2, usernameBuffer2
+                readData           str_enter_usrname2, usernameBuffer2
 
     ; leave a space
-                add          currentRow, 4
-                call         moveCursor
+                add                currentRow, 4
+                call               moveCursor
     
     ; Read points1
-                readData     str_initial_points2, pointsBuffer2
+                readData           str_initial_points2, pointsBuffer2
     
     ; leave a space
-                add          currentRow, 4
-                call         moveCursor
+                add                currentRow, 4
+                call               moveCursor
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; promt and wait for enter key
-                mov          dx, offset str_press_enter_key
-                call         printmsg
+                mov                dx, offset str_press_enter_key
+                call               printmsg
 
     waiting2:   
-                mov          ah, 0
-                int          16h                                    ; wait for keypress from user: ah = scancode
-                cmp          ah, ENTER_KEY
-                je           nextScreen2
-                jmp          waiting2
+                mov                ah, 0
+                int                16h                                                        ; wait for keypress from user: ah = scancode
+                cmp                ah, ENTER_KEY
+                je                 nextScreen2
+                jmp                waiting2
 
 
     nextScreen2:
-                mov          currentColor, YELLOW
-                ColorScreen  currentColor
+                mov                currentColor, YELLOW
+                ColorScreen        currentColor
     ;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                mov          currentColumn, 1
-                mov          currentRow, 1
-                call         moveCursor
+                mov                currentColumn, 1
+                mov                currentRow, 1
+                call               moveCursor
 
     ; print both data to make sure
-                printData    username1, pointsString1
+                printData          username1, pointsString1
     
     ; leave a space
-                add          currentRow, 4
-                call         moveCursor
+                add                currentRow, 4
+                call               moveCursor
     
-                printData    username2, pointsString2
+                printData          username2, pointsString2
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; End
     byebye:     
-                mov          ax ,4c00h
-                int          21h
+                mov                ax ,4c00h
+                int                21h
 
 CODE ENDS
 ;=================================================================================
