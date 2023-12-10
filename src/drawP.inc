@@ -74,3 +74,66 @@ DrawImage PROC
                            RET
 
 DrawImage ENDP
+
+; ============================================================================================================================
+; Draw Makrer
+; Draws a marker to the screen at the correct position by index
+; actulay erase first then draw
+; INPUT PARAMETERS:
+;  * curCar
+; ============================================================================================================================
+DrawMarker PROC FAR
+               ;; Erase Prev Markers
+               SetDrawImageParams 205, 345, car_marker_width, car_marker_height, BG_COLOR, 0, 1
+               MOV                SI, offset img_car_marker
+               CALL               DrawImage
+               SetDrawImageParams 268, 345, car_marker_width, car_marker_height, BG_COLOR, 0, 1
+               MOV                SI, offset img_car_marker
+               CALL               DrawImage
+               SetDrawImageParams 330, 345, car_marker_width, car_marker_height, BG_COLOR, 0, 1
+               MOV                SI, offset img_car_marker
+               CALL               DrawImage
+               SetDrawImageParams 390, 345, car_marker_width, car_marker_height, BG_COLOR, 0, 1
+               MOV                SI, offset img_car_marker
+               CALL               DrawImage
+
+               CMP curCar, 0
+               JZ  DrawMarker1
+               CMP curCar, 1
+               JZ  DrawMarker2
+               CMP curCar, 2
+               JZ  DrawMarker3
+               CMP curCar, 3
+               JZ  DrawMarker4
+               JMP DONE
+
+               DrawMarker1:
+                    SetDrawImageParams 205, 345, car_marker_width, car_marker_height, 0, 0, 0
+                    MOV                SI, offset img_car_marker
+                    CALL               DrawImage
+
+               JMP DONE
+
+               DrawMarker2:
+                    SetDrawImageParams 268, 345, car_marker_width, car_marker_height, 0, 0, 0
+                    MOV                SI, offset img_car_marker
+                    CALL               DrawImage
+               JMP DONE
+
+               DrawMarker3:
+                    SetDrawImageParams 330, 345, car_marker_width, car_marker_height, 0, 0, 0
+                    MOV                SI, offset img_car_marker
+                    CALL               DrawImage
+               JMP DONE
+
+
+               DrawMarker4:
+                    SetDrawImageParams 390, 345, car_marker_width, car_marker_height, 0, 0, 0
+                    MOV                SI, offset img_car_marker
+                    CALL               DrawImage
+               JMP DONE
+
+               DONE:
+
+               RET 
+DrawMarker ENDP

@@ -42,3 +42,9 @@ UP_ARROW        equ 48h
 DOWN_ARROW      equ 50h
 LEFT_ARROW      equ 4bh
 RIGHT_ARROW     equ 4dh
+
+	key_w                    equ         11h
+	key_s                    equ         1FH
+	key_a                    equ         1EH
+	key_d                    equ         20h
+	key_f                    equ         21h

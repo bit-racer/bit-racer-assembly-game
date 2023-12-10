@@ -124,14 +124,9 @@ DrawPage0 MACRO
             MOV                SI, offset img_pink_car_large
             CALL               DrawImage
 
-  ; Draw Marker
-            SetDrawImageParams 205, 345, car_marker_width, car_marker_height, 0, 0, 0
-            MOV                SI, offset img_car_marker
-            CALL               DrawImage
-
-
   ; Draw Thank
             SetDrawImageParams 150, 459, thank_width, thank_height, 0, 0, 0
             MOV                SI, offset img_thank
             CALL               DrawImage
 ENDM
+
