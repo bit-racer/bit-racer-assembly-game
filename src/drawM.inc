@@ -91,3 +91,47 @@ SetDrawImageParams MACRO X, Y, WIDTH, HEIGHT, ERASE_COLOR, REV, ERASE_IMAGE
                      MOV REVERSE, REV
                      MOV ERASE, ERASE_IMAGE
 ENDM
+
+; =================================================================================
+; Draw Page 0 images
+; Draws all images in the image that are on page 0
+; =================================================================================
+DrawPage0 MACRO
+  ; DRAW LOGO
+            SetDrawImageParams 126, 66, logo_width, logo_height, 0, 0, 0
+            MOV                SI, offset img_logo
+            CALL               DrawImage
+    
+  ; Draw Name Prompt
+            SetDrawImageParams 151, 240, name_prompt_width, name_prompt_height, 0, 0, 0
+            MOV                SI, offset img_name_prompt
+            CALL               DrawImage
+
+  ; Draw cars
+            SetDrawImageParams 211, 351, red_car_large_width, red_car_large_height, 0, 0, 0
+            MOV                SI, offset img_red_car_large
+            CALL               DrawImage
+
+            SetDrawImageParams 273, 351, green_car_large_width, green_car_large_height, 0, 0, 0
+            MOV                SI, offset img_green_car_large
+            CALL               DrawImage
+
+            SetDrawImageParams 335, 351, reed_car_large_width, reed_car_large_height, 0, 0, 0
+            MOV                SI, offset img_reed_car_large
+            CALL               DrawImage
+
+            SetDrawImageParams 397, 351, pink_car_large_width, pink_car_large_height, 0, 0, 0
+            MOV                SI, offset img_pink_car_large
+            CALL               DrawImage
+
+  ; Draw Marker
+            SetDrawImageParams 205, 345, car_marker_width, car_marker_height, 0, 0, 0
+            MOV                SI, offset img_car_marker
+            CALL               DrawImage
+
+
+  ; Draw Thank
+            SetDrawImageParams 150, 459, thank_width, thank_height, 0, 0, 0
+            MOV                SI, offset img_thank
+            CALL               DrawImage
+ENDM

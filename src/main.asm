@@ -30,7 +30,17 @@ DATA SEGMENT USE16
     ;=================================================================================
     ; includes
                         include         consts.inc
-                        include         images.inc
+    ;include         images.inc
+
+    ; Images
+                        include         logo_img.inc                          ; logo image
+                        include         np_img.inc                            ; name prompt image
+                        include         car1.inc                              ; red car large
+                        include         car2.inc                              ; green car large
+                        include         car3.inc                              ; reed car large
+                        include         car4.inc                              ; pink car large
+                        include         tn_img.inc                            ; thank you image
+                        include         cmr_img.inc                           ; car makrer image
     ;=================================================================================
 
     ; --------------------------------------------------------------------------------------------------------------------------------
@@ -87,125 +97,99 @@ DATA ENDS
 ; CODE SEGMENT
 
 CODE SEGMENT USE16
-                ASSUME             CS:CODE, DS:DATA
+                ASSUME          CS:CODE, DS:DATA
 
     ;=================================================================================
     ; PROCEDURES INCLUDE
-                include            procs.inc
-                include            drawP.inc
+                include         procs.inc
+                include         drawP.inc
     ;=================================================================================
 
     BEG:        
-                mov                ax, DATA
-                mov                ds, ax
+                mov             ax, DATA
+                mov             ds, ax
     
     ;=================================================================================
     ; Code Starts Here
     
                 SetVideoMode
-                ColorScreen        BG_COLOR
+                ColorScreen     BG_COLOR
 
-    ; Draw Logo
-                MOV                SI, offset ll_img                                                              ;  SI = offset of the image
-                SetDrawImageParams ll_offset_x, ll_offset_y, ll_size_x, ll_size_y, 0, 0, 0
-                CALl               DrawImage
-    
-    ; Draw design
-                MOV                SI, offset design_img
-                SetDrawImageParams DESIGN_offset_x, DESIGN_offset_y, DESIGN_size_x, DESIGN_size_y, 0, 0, 0
-                CALl               DrawImage
-
-    ; Draw entname
-                MOV                SI, offset entname_img
-                SetDrawImageParams ENTNAME_offset_x, ENTNAME_offset_y, ENTNAME_size_x, ENTNAME_size_y, 0, 0, 0
-                CALl               DrawImage
-
+    ; DRAW PAGE 0
+                DrawPage0
     
                 WaitForKeyPress
 
     
 
-                mov                currentColumn, 40
-                mov                currentRow, 13
-                call               moveCursor
+                mov             currentColumn, 30
+                mov             currentRow, 16
+                call            moveCursor
     
     ; Read username1
-                readData           str_enter_usrname1, usernameBuffer1
-
-    ; leave a space
-                add                currentRow, 4
-                call               moveCursor
+                readData        str_enter_usrname1, usernameBuffer1
     
     ; Read points1
-                readData           str_initial_points1, pointsBuffer1
+                readData        str_initial_points1, pointsBuffer1
     
-    ; leave a space
-                add                currentRow, 4
-                call               moveCursor
+
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; promt and wait for enter key
-                mov                dx, offset str_press_enter_key
-                call               printmsg
+                mov             dx, offset str_press_enter_key
+                call            printmsg
 
     waiting:    
-                mov                ah, 0
-                int                16h                                                                            ; wait for keypress from user: ah = scancode
-                cmp                ah, ENTER_KEY
-                je                 nextScreen
-                jmp                waiting
+                mov             ah, 0
+                int             16h                                    ; wait for keypress from user: ah = scancode
+                cmp             ah, ENTER_KEY
+                je              nextScreen
+                jmp             waiting
 
 
     nextScreen: 
     ;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                mov                currentColumn, 1
-                mov                currentRow, 1
-                call               moveCursor
+                ColorScreen     BG_COLOR
+                DrawPage0
+                mov             currentColumn, 30
+                mov             currentRow, 16
+                call            moveCursor
 
     ; Read username2
-                readData           str_enter_usrname2, usernameBuffer2
+                readData        str_enter_usrname2, usernameBuffer2
 
-    ; leave a space
-                add                currentRow, 4
-                call               moveCursor
-    
     ; Read points1
-                readData           str_initial_points2, pointsBuffer2
-    
-    ; leave a space
-                add                currentRow, 4
-                call               moveCursor
+                readData        str_initial_points2, pointsBuffer2
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; promt and wait for enter key
-                mov                dx, offset str_press_enter_key
-                call               printmsg
+                mov             dx, offset str_press_enter_key
+                call            printmsg
 
     waiting2:   
-                mov                ah, 0
-                int                16h                                                                            ; wait for keypress from user: ah = scancode
-                cmp                ah, ENTER_KEY
-                je                 nextScreen2
-                jmp                waiting2
+                mov             ah, 0
+                int             16h                                    ; wait for keypress from user: ah = scancode
+                cmp             ah, ENTER_KEY
+                je              nextScreen2
+                jmp             waiting2
 
 
     nextScreen2:
     ;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                mov                currentColumn, 1
-                mov                currentRow, 1
-                call               moveCursor
+                ColorScreen     BG_COLOR
+                DrawPage0
+                mov             currentColumn, 30
+                mov             currentRow, 16
+                call            moveCursor
 
     ; print both data to make sure
-                printData          username1, pointsString1
-    
-    ; leave a space
-                add                currentRow, 4
-                call               moveCursor
-    
-                printData          username2, pointsString2
+                printData       username1, pointsString1
+                printData       username2, pointsString2
+
+                WaitForKeyPress
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; End
     byebye:     
-                mov                ax ,4c00h
-                int                21h
+                mov             ax ,4c00h
+                int             21h
 
 CODE ENDS
 ;=================================================================================
