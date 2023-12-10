@@ -1,9 +1,16 @@
 import os
-from PIL import Image
+from PIL import Image, ImageOps
+
+reverse=True
+mirror=True
 
 def load_image(filename):
     try:
         im = Image.open(filename)
+        
+        im = ImageOps.flip(im)
+        im = ImageOps.mirror(im)
+
         return im
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found.")

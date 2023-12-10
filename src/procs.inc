@@ -1,12 +1,6 @@
 ;* commonly used sequences
 
-enterVideoMode PROC
-    mov ax, 0a000h
-    mov es, ax
-    mov ax, 0013h
-    int 10h
-    ret
-ENDP
+
 
 ;* first set row and column variables
 moveCursor PROC
@@ -26,11 +20,3 @@ printmsg PROC
     ret
 ENDP
 
-;* first set currentColor
-fillScreen PROC
-    mov di, 0
-    mov al, currentColor
-    mov cx, SCREEN_SIZE
-    rep stosb
-    ret
-ENDP

@@ -1,8 +1,11 @@
 ;* only constant values, not variables.
 
 ; sceen info video mode
-SCREEN_WIDTH    equ 320
-SCREEN_HEIGHT   equ 200
+VIDEO_MODE     EQU     4F02h         ; SVGA MODE
+VIDEO_MODE_BX  EQU     0101h         ; SCREEN SIZES
+
+SCREEN_WIDTH    equ 640
+SCREEN_HEIGHT   equ 480
 SCREEN_SIZE     equ SCREEN_HEIGHT * SCREEN_WIDTH
 
 ; sceen info text mode
@@ -27,6 +30,7 @@ LIGHT_RED       equ 12
 LIGHT_MAGENTA   equ 13
 YELLOW          equ 14
 WHITE           equ 15
+BG_COLOR        equ 204
 
 ;* scan codes of pressed keys
 ;* scan code of released key = scan code + 80h
@@ -38,3 +42,9 @@ UP_ARROW        equ 48h
 DOWN_ARROW      equ 50h
 LEFT_ARROW      equ 4bh
 RIGHT_ARROW     equ 4dh
+
+	key_w                    equ         11h
+	key_s                    equ         1FH
+	key_a                    equ         1EH
+	key_d                    equ         20h
+	key_f                    equ         21h
