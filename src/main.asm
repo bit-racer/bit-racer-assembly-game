@@ -200,9 +200,9 @@ CODE SEGMENT USE16
     ChooseCar2:     
                     MOV             AH, 0                                  ; wait for keypress from user: ah = scancode
                     INT             16h
-                    CMP             AH, key_a                              ; left arrow
+                    CMP             AH, LEFT_ARROW                         ; left arrow
                     JE              ChooseCar2Left
-                    CMP             AH, key_d                              ; right arrow
+                    CMP             AH, RIGHT_ARROW                        ; right arrow
                     JE              ChooseCar2Right
                     CMP             AH, ENTER_KEY
                     JE              ChooseCar2Done
