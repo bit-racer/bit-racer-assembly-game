@@ -30,7 +30,6 @@ DATA SEGMENT USE16
     ;=================================================================================
     ; includes
                         include         consts.inc
-    ;include         images.inc
 
     ; Images
                         include         logo_img.inc                          ; logo image
@@ -144,9 +143,9 @@ CODE SEGMENT USE16
     ChooseCar1:     
                     MOV             AH, 0                                  ; wait for keypress from user: ah = scancode
                     INT             16h
-                    CMP             AH, key_a                              ; left arrow
+                    CMP             AH, LEFT_ARROW                         ; left arrow
                     JE              ChooseCar1Left
-                    CMP             AH, key_d                              ; right arrow
+                    CMP             AH, RIGHT_ARROW                        ; right arrow
                     JE              ChooseCar1Right
                     CMP             AH, ENTER_KEY
                     JE              ChooseCar1Done
