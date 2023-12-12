@@ -193,3 +193,53 @@ DrawMarker PROC FAR
 
                RET 
 DrawMarker ENDP
+
+; ============================================================================================================================
+; Drar Btn Marker (arrow up)
+; Draws a marker to the screen at the correct position by index
+; actulay erase first then draw
+; INPUT PARAMETERS:
+;  * curBtn
+; ============================================================================================================================
+DrawBtnMarker PROC FAR
+               ;; Erase Prev Markers
+               SetDrawImageParams 150, 345, arr_up_width, arr_up_height, BG_COLOR, 0, 1
+               MOV                SI, offset img_arr_up
+               CALL              DrawImage
+               SetDrawImageParams 305, 345, arr_up_width, arr_up_height, BG_COLOR, 0, 1
+               MOV                SI, offset img_arr_up
+               CALL              DrawImage
+               SetDrawImageParams 465, 345, arr_up_width, arr_up_height, BG_COLOR, 0, 1
+               MOV                SI, offset img_arr_up
+               CALL              DrawImage
+
+               CMP curBtn, 0
+               JZ  DrawBtnMarker1
+               CMP curBtn, 1
+               JZ  DrawBtnMarker2
+               CMP curBtn, 2
+               JZ  DrawBtnMarker3
+               JMP DBM_DONE
+
+               DrawBtnMarker1:
+                    SetDrawImageParams 150, 345, arr_up_width, arr_up_height, 0, 0, 0
+                    MOV                SI, offset img_arr_up
+                    CALL              DrawImage
+
+               JMP DBM_DONE
+
+               DrawBtnMarker2:
+                    SetDrawImageParams 305, 345, arr_up_width, arr_up_height, 0, 0, 0
+                    MOV                SI, offset img_arr_up
+                    CALL              DrawImage
+               JMP DBM_DONE
+
+               DrawBtnMarker3:
+                    SetDrawImageParams 465 , 345, arr_up_width, arr_up_height, 0, 0, 0
+                    MOV                SI, offset img_arr_up
+                    CALL              DrawImage
+               JMP DBM_DONE
+
+     DBM_DONE:    
+               RET
+DrawBtnMarker ENDP

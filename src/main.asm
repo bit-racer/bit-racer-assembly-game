@@ -110,6 +110,10 @@ DATA SEGMENT USE16
 
     usrCar2             db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
 
+    ; Main Menu Buttons variables
+    curBtn              db              1                                     ; 0: chat, 1: play, 2: exit
+
+
     
 DATA ENDS
 ;=================================================================================
@@ -118,166 +122,211 @@ DATA ENDS
 ; CODE SEGMENT
 
 CODE SEGMENT USE16
-                    ASSUME          CS:CODE, DS:DATA, ES:EXTRA
+                      ASSUME          CS:CODE, DS:DATA, ES:EXTRA
 
     ;=================================================================================
     ; PROCEDURES INCLUDE
-                    include         procs.inc
-                    include         drawP.inc
+                      include         procs.inc
+                      include         drawP.inc
     ;=================================================================================
 
-    BEG:            
-                    mov             ax, DATA
-                    mov             ds, ax
-                    mov             AX, EXTRA
-                    mov             ES, AX
+    BEG:              
+                      mov             ax, DATA
+                      mov             ds, ax
+                      mov             AX, EXTRA
+                      mov             ES, AX
     
     ;=================================================================================
     ; Code Starts Here
     
-                    SetVideoMode
-                    ColorScreen     BG_COLOR
+                      SetVideoMode
+                      ColorScreen     BG_COLOR
 
     ; DRAW PAGE 0
-                    DrawPage0
+                      DrawPage0
     
-                    WaitForKeyPress
+                      WaitForKeyPress
 
-                    mov             currentColumn, 30
-                    mov             currentRow, 16
-                    call            moveCursor
+                      mov             currentColumn, 30
+                      mov             currentRow, 16
+                      call            moveCursor
     
     ; Read username1
-                    readData        str_enter_usrname1, usernameBuffer1
+                      readData        str_enter_usrname1, usernameBuffer1
     
     ; Read points1
-                    readData        str_initial_points1, pointsBuffer1
+                      readData        str_initial_points1, pointsBuffer1
     
     ; Read usr car by moving by the arrow keys <- and -> to choose press enter
-                    MOV             curCar, 0
-                    CALL            DrawMarker
-    ChooseCar1:     
-                    MOV             AH, 0                                  ; wait for keypress from user: ah = scancode
-                    INT             16h
-                    CMP             AH, LEFT_ARROW                         ; left arrow
-                    JE              ChooseCar1Left
-                    CMP             AH, RIGHT_ARROW                        ; right arrow
-                    JE              ChooseCar1Right
-                    CMP             AH, ENTER_KEY
-                    JE              ChooseCar1Done
-                    JMP             ChooseCar1
-    ChooseCar1Left: 
-                    CMP             curCar, 0
-                    JE              ChooseCar1
-                    DEC             curCar
-                    CALL            DrawMarker
-                    JMP             ChooseCar1
-    ChooseCar1Right:
-                    CMP             curCar, 3
-                    JE              ChooseCar1
-                    INC             curCar
-                    CALL            DrawMarker
-                    JMP             ChooseCar1
-    ChooseCar1Done: 
-                    MOV             AL, curCar
-                    MOV             usrCar1, AL
+                      MOV             curCar, 0
+                      CALL            DrawMarker
+    ChooseCar1:       
+                      MOV             AH, 0                                  ; wait for keypress from user: ah = scancode
+                      INT             16h
+                      CMP             AH, LEFT_ARROW                         ; left arrow
+                      JE              ChooseCar1Left
+                      CMP             AH, RIGHT_ARROW                        ; right arrow
+                      JE              ChooseCar1Right
+                      CMP             AH, ENTER_KEY
+                      JE              ChooseCar1Done
+                      JMP             ChooseCar1
+    ChooseCar1Left:   
+                      CMP             curCar, 0
+                      JE              ChooseCar1
+                      DEC             curCar
+                      CALL            DrawMarker
+                      JMP             ChooseCar1
+    ChooseCar1Right:  
+                      CMP             curCar, 3
+                      JE              ChooseCar1
+                      INC             curCar
+                      CALL            DrawMarker
+                      JMP             ChooseCar1
+    ChooseCar1Done:   
+                      MOV             AL, curCar
+                      MOV             usrCar1, AL
                 
 
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; promt and wait for enter key
-                    mov             dx, offset str_press_enter_key
-                    call            printmsg
+                      mov             dx, offset str_press_enter_key
+                      call            printmsg
 
-    waiting:        
-                    mov             ah, 0
-                    int             16h                                    ; wait for keypress from user: ah = scancode
-                    cmp             ah, ENTER_KEY
-                    je              nextScreen
-                    jmp             waiting
+    waiting:          
+                      mov             ah, 0
+                      int             16h                                    ; wait for keypress from user: ah = scancode
+                      cmp             ah, ENTER_KEY
+                      je              nextScreen
+                      jmp             waiting
 
 
-    nextScreen:     
+    nextScreen:       
     ;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                    ColorScreen     BG_COLOR
-                    DrawPage0
-                    mov             currentColumn, 30
-                    mov             currentRow, 16
-                    call            moveCursor
+                      ColorScreen     BG_COLOR
+                      DrawPage0
+                      mov             currentColumn, 30
+                      mov             currentRow, 16
+                      call            moveCursor
 
     ; Read username2
-                    readData        str_enter_usrname2, usernameBuffer2
+                      readData        str_enter_usrname2, usernameBuffer2
 
     ; Read points1
-                    readData        str_initial_points2, pointsBuffer2
+                      readData        str_initial_points2, pointsBuffer2
     
     ; Read usr car by moving by the arrow keys <- and -> to choose press enter
-                    MOV             curCar, 0
-                    CALL            DrawMarker
-    ChooseCar2:     
-                    MOV             AH, 0                                  ; wait for keypress from user: ah = scancode
-                    INT             16h
-                    CMP             AH, LEFT_ARROW                         ; left arrow
-                    JE              ChooseCar2Left
-                    CMP             AH, RIGHT_ARROW                        ; right arrow
-                    JE              ChooseCar2Right
-                    CMP             AH, ENTER_KEY
-                    JE              ChooseCar2Done
-                    JMP             ChooseCar2
-    ChooseCar2Left: 
-                    CMP             curCar, 0
-                    JE              ChooseCar2
-                    DEC             curCar
-                    CALL            DrawMarker
-                    JMP             ChooseCar2
-    ChooseCar2Right:
-                    CMP             curCar, 3
-                    JE              ChooseCar2
-                    INC             curCar
-                    CALL            DrawMarker
-                    JMP             ChooseCar2
-    ChooseCar2Done: 
-                    MOV             AL, curCar
-                    MOV             usrCar2, AL
+                      MOV             curCar, 0
+                      CALL            DrawMarker
+    ChooseCar2:       
+                      MOV             AH, 0                                  ; wait for keypress from user: ah = scancode
+                      INT             16h
+                      CMP             AH, LEFT_ARROW                         ; left arrow
+                      JE              ChooseCar2Left
+                      CMP             AH, RIGHT_ARROW                        ; right arrow
+                      JE              ChooseCar2Right
+                      CMP             AH, ENTER_KEY
+                      JE              ChooseCar2Done
+                      JMP             ChooseCar2
+    ChooseCar2Left:   
+                      CMP             curCar, 0
+                      JE              ChooseCar2
+                      DEC             curCar
+                      CALL            DrawMarker
+                      JMP             ChooseCar2
+    ChooseCar2Right:  
+                      CMP             curCar, 3
+                      JE              ChooseCar2
+                      INC             curCar
+                      CALL            DrawMarker
+                      JMP             ChooseCar2
+    ChooseCar2Done:   
+                      MOV             AL, curCar
+                      MOV             usrCar2, AL
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; promt and wait for enter key
-                    mov             dx, offset str_press_enter_key
-                    call            printmsg
+                      mov             dx, offset str_press_enter_key
+                      call            printmsg
 
-    waiting2:       
-                    mov             ah, 0
-                    int             16h                                    ; wait for keypress from user: ah = scancode
-                    cmp             ah, ENTER_KEY
-                    je              nextScreen2
-                    jmp             waiting2
+    waiting2:         
+                      mov             ah, 0
+                      int             16h                                    ; wait for keypress from user: ah = scancode
+                      cmp             ah, ENTER_KEY
+                      je              nextScreen2
+                      jmp             waiting2
 
 
-    nextScreen2:    
+    nextScreen2:      
     ;?;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCREEN SEPARATOR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                    ColorScreen     BG_COLOR
-                    DrawPage0
-                    mov             currentColumn, 30
-                    mov             currentRow, 16
-                    call            moveCursor
+                      ColorScreen     BG_COLOR
+                      DrawPage0
+                      mov             currentColumn, 30
+                      mov             currentRow, 16
+                      call            moveCursor
 
     ; print both data to make sure
-                    printData       username1, pointsString1
-                    printData       username2, pointsString2
+                      printData       username1, pointsString1
+                      printData       username2, pointsString2
 
-                    WaitForKeyPress
+                      WaitForKeyPress
     
     ;=================================================================================
     ; Start of Program loop
     ;=================================================================================
-    PROGRAM_LOOP:   
+    PROGRAM_LOOP:     
     ;---------------------------------------------------------------------------------------------------------------------------------
     ; Page 1
-                    ColorScreen     BG_COLOR
-                    DrawPage1
+                      ColorScreen     BG_COLOR
+                      DrawPage1
+    ; Get user action
+                      MOV             curBtn, 1
+                      CALL            DrawBtnMarker
+    ChooseAction:     
+                      MOV             AH, 0                                  ; wait for keypress from user: ah = scancode
+                      INT             16h
+                      CMP             AH, LEFT_ARROW                         ; left arrow
+                      JE              ChooseActionLeft
+                      CMP             AH, RIGHT_ARROW                        ; right arrow
+                      JE              ChooseActionRight
+                      CMP             AH, ENTER_KEY
+                      JE              ChooseActionDone
+                      JMP             ChooseAction
+    ChooseActionLeft: 
+                      CMP             curBtn, 0
+                      JE              ChooseAction
+                      DEC             curBtn
+                      CALL            DrawBtnMarker
+                      JMP             ChooseAction
+    ChooseActionRight:
+                      CMP             curBtn, 2
+                      JE              ChooseAction
+                      INC             curBtn
+                      CALL            DrawBtnMarker
+                      JMP             ChooseAction
+    ChooseActionDone: 
+                      CMP             curBtn, 0
+                      JE              Chat
+                      CMP             curBtn, 1
+                      JE              Play
+                      CMP             curBtn, 2
+                      JE              Exit
+                      JMP             ChooseAction
+    
+    Chat:             
+                      ColorScreen     1
+                      WaitForKeyPress
+                      JMP             PROGRAM_LOOP
+    Play:             
+                      ColorScreen     2
+                      WaitForKeyPress
+                      JMP             PROGRAM_LOOP
+
+
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; End
-    EXIT:           
-                    mov             ax ,4c00h
-                    int             21h
+    EXIT:             
+                      ClearScreen
+                      mov             ax ,4c00h
+                      int             21h
 
 CODE ENDS
 ;=================================================================================
