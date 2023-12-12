@@ -100,34 +100,34 @@ DrawPage0 MACRO
   ; DRAW LOGO
             SetDrawImageParams 126, 66, logo_width, logo_height, 0, 0, 0
             MOV                SI, offset img_logo
-            CALL               DrawImage
+            CALL               DrawImageE
     
   ; Draw Name Prompt
             SetDrawImageParams 151, 240, name_prompt_width, name_prompt_height, 0, 0, 0
             MOV                SI, offset img_name_prompt
-            CALL               DrawImage
+            CALL               DrawImageE
 
   ; Draw cars
             SetDrawImageParams 211, 351, red_car_large_width, red_car_large_height, 0, 0, 0
             MOV                SI, offset img_red_car_large
-            CALL               DrawImage
+            CALL               DrawImageE
 
             SetDrawImageParams 273, 351, green_car_large_width, green_car_large_height, 0, 0, 0
             MOV                SI, offset img_green_car_large
-            CALL               DrawImage
+            CALL               DrawImageE
 
             SetDrawImageParams 335, 351, reed_car_large_width, reed_car_large_height, 0, 0, 0
             MOV                SI, offset img_reed_car_large
-            CALL               DrawImage
+            CALL               DrawImageE
 
             SetDrawImageParams 397, 351, pink_car_large_width, pink_car_large_height, 0, 0, 0
             MOV                SI, offset img_pink_car_large
-            CALL               DrawImage
+            CALL               DrawImageE
 
   ; Draw Thank
             SetDrawImageParams 150, 459, thank_width, thank_height, 0, 0, 0
             MOV                SI, offset img_thank
-            CALL               DrawImage
+            CALL               DrawImageE
 ENDM
 
 ; =================================================================================
@@ -138,11 +138,11 @@ DrawPage1 MACRO
   ; Draw logo
             SetDrawImageParams 126, 66, logo_width, logo_height, 0, 0, 0
             MOV                SI, offset img_logo
-            CALL               DrawImage
+            CALL               DrawImageE
 
 
   ; Draw Thank
             SetDrawImageParams 150, 459, thank_width, thank_height, 0, 0, 0
             MOV                SI, offset img_thank
-            CALL               DrawImage
+            CALL               DrawImageE
 ENDM
