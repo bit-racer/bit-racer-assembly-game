@@ -139,6 +139,21 @@ DrawPage1 MACRO
             SetDrawImageParams 126, 66, logo_width, logo_height, 0, 0, 0
             MOV                SI, offset img_logo
             CALL               DrawImageE
+    
+  ; Draw Chat btn
+            SetDrawImageParams 105, 280, chat_btn_width, chat_btn_height, 0, 0, 0
+            MOV                SI, offset img_chat_btn
+            CALL               DrawImageE
+  
+  ; Draw Play btn
+            SetDrawImageParams 263, 280, play_btn_width, play_btn_height, 0, 0, 0
+            MOV                SI, offset img_play_btn
+            CALL               DrawImageE
+    
+  ; Draw Exit btn
+            SetDrawImageParams 421, 280, exit_btn_width, exit_btn_height, 0, 0, 0
+            MOV                SI, offset img_exit_btn
+            CALL               DrawImageE
 
 
   ; Draw Thank
