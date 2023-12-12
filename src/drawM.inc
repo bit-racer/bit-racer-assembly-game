@@ -130,3 +130,19 @@ DrawPage0 MACRO
             CALL               DrawImage
 ENDM
 
+; =================================================================================
+; Draw Page 1 images
+; Draws all images in the image that are on page 1
+; =================================================================================
+DrawPage1 MACRO
+  ; Draw logo
+            SetDrawImageParams 126, 66, logo_width, logo_height, 0, 0, 0
+            MOV                SI, offset img_logo
+            CALL               DrawImage
+
+
+  ; Draw Thank
+            SetDrawImageParams 150, 459, thank_width, thank_height, 0, 0, 0
+            MOV                SI, offset img_thank
+            CALL               DrawImage
+ENDM
