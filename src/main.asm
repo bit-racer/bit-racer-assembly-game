@@ -20,9 +20,10 @@
 ;=================================================================================
 ; MACROS INCLUDE
 
-include     macros.inc ; general macros
-include     drawM.inc  ; drawing macros
-include     moveM.inc      ; car movement macros 
+include     macros.inc      ; general macros
+include     drawM.inc       ; drawing macros
+include     moveM.inc       ; car movement macros 
+include     chatM.inc       ; chat macros
 ;=================================================================================
 
 
@@ -121,6 +122,16 @@ DATA SEGMENT USE16
     Where               db              0
     Prev_img            dw              0
 
+    ; Chat Variables
+
+    ; User 1 cursor position
+    sender_row          db              0
+    sender_col          db              0
+
+    ; User 2 cursor position
+    rec_row             db              0
+    rec_col             db              40
+
 
     
 DATA ENDS
@@ -137,6 +148,7 @@ CODE SEGMENT USE16
                       include         procs.inc
                       include         drawP.inc
                       include         moveP.inc
+                      include         chatP.inc
     ;=================================================================================
 
     BEG:              
@@ -321,8 +333,7 @@ CODE SEGMENT USE16
                       JMP             ChooseAction
     
     Chat:             
-                      ColorScreen     1
-                      WaitForKeyPress
+                      CALL            StartChat
                       JMP             PROGRAM_LOOP
     Play:             
                       CALL            PutCars
