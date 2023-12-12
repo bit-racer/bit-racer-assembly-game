@@ -160,3 +160,43 @@ DrawPage1 MACRO
             MOV                SI, offset img_thank
             CALL               DrawImageE
 ENDM
+
+; =================================================================================
+; Draw car macro
+; Author: Peter
+; =================================================================================
+DrawCar macro curr_car_x, curr_car_y ,width,height
+LOCAL star,Drawit,a1,Start,ENDING ,noErase                     
+    star:      
+               mov    ah , 0
+               MOV    CX, width                                
+               MOV    DX, height                               
+               jmp    Start                                    ;Avoid drawing before the calculations
+  Drawit:      
+
+               add    cx, curr_car_x
+               add    dx , curr_car_y
+               MOV    AH,0Ch                                   ;set the configuration to writing a pixel
+               mov    al, [DI]                                 ;color of the current coordinates
+               cmp Erase,1
+               jne noErase
+               xor    al , al
+               noErase:
+               MOV    BH,00h                                   ;set the page number
+               INT    10h                                      ;execute the configuration
+  a1:          
+               sub    cx , curr_car_x
+               sub    dx , curr_car_y
+  Start:       
+               inc    DI
+               DEC    Cx                                       ;  loop iteration in x direction
+               JNZ    Drawit                                   ;  check if we can draw c urrent x and y and excape the y iteration
+               mov    Cx, width                                ;  if loop iteration in y direction, then x should start over so that we sweep the grid
+               DEC    DX                                       ;  loop iteration in y direction
+               JZ     ENDING                                   ;  both x and y reached 00 so end program
+               Jmp    Drawit
+
+  ENDING:      
+endm DrawCar
+
+
