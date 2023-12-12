@@ -75,7 +75,7 @@ def process_single_image(file_path):
 
 if __name__ == "__main__":
     # Update this path to the folder containing your PNG files
-    folder_path = "./../assets/imgs/"
+    folder_path = "./"
     
     # Add your palette definition here
     palette = {

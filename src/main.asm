@@ -52,6 +52,7 @@ DATA SEGMENT USE16
                         include         consts.inc
     ; Images
                         include         exit_img.inc                          ; exit btn image
+                        include         arr_up.inc                            ; arrow up image
 
     ;=================================================================================
 
