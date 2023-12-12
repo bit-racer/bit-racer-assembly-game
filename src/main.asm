@@ -20,8 +20,9 @@
 ;=================================================================================
 ; MACROS INCLUDE
 
-include     macros.inc
-include     drawM.inc
+include     macros.inc ; general macros
+include     drawM.inc  ; drawing macros
+include     moveM.inc      ; car movement macros 
 ;=================================================================================
 
 
@@ -53,6 +54,8 @@ DATA SEGMENT USE16
     ; Images
                         include         exit_img.inc                          ; exit btn image
                         include         arr_up.inc                            ; arrow up image
+                        include         car1s.inc                             ; red car small
+                        include         car2s.inc                             ; green car small
 
     ;=================================================================================
 
@@ -113,6 +116,11 @@ DATA SEGMENT USE16
     ; Main Menu Buttons variables
     curBtn              db              1                                     ; 0: chat, 1: play, 2: exit
 
+    ; Car Movement Variables and keyboard input handling
+    KeyList             db              128 dup (0)
+    Where               db              0
+    Prev_img            dw              0
+
 
     
 DATA ENDS
@@ -128,6 +136,7 @@ CODE SEGMENT USE16
     ; PROCEDURES INCLUDE
                       include         procs.inc
                       include         drawP.inc
+                      include         moveP.inc
     ;=================================================================================
 
     BEG:              
@@ -316,8 +325,7 @@ CODE SEGMENT USE16
                       WaitForKeyPress
                       JMP             PROGRAM_LOOP
     Play:             
-                      ColorScreen     2
-                      WaitForKeyPress
+                      CALL            PutCars
                       JMP             PROGRAM_LOOP
 
 
