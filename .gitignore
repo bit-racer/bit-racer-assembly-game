@@ -5,3 +5,4 @@
 *.MAP
 *.CRF
 development/draw_proc/TDCONFIG.TD
+src/TDCONFIG.TD
