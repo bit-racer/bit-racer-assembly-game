@@ -47,18 +47,9 @@ img1L DB 0, 0, 0, 17, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
  DB 17, 17, 17, 17, 17, 17, 0, 0, 0, 0, 0, 17, 153, 17, 0, 0, 0, 0, 0, 0, 0, 0, 17, 226, 0, 0, 0, 0, 0, 0, 0
 
 
-
-  car1V_Width  equ  SEGMENT_SIZE
-  car1V_Height  equ  SEGMENT_SIZE
-
-  car1H_Width equ  SEGMENT_SIZE
-  car1H_Height equ  SEGMENT_SIZE
-
   
   car1_width_prev dw  SEGMENT_SIZE
   car1_height_prev dw  SEGMENT_SIZE
-
-
   car1_speed dw SEGMENT_SIZE
 
 

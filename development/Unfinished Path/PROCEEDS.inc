@@ -34,19 +34,19 @@ moveUp proc
              jmp borderUp
              contup:  
              MOV DIR,0
-             DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height
+             DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
              cmp cx,1
              jne passUP 
              jmp up_end
              passUP:
              mov Where,1
-             Move img1F,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],car1V_Width,car1V_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
+             Move img1F,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
              jmp up_end
              borderUp:
             ;  DrawCar [car1_X_Offset], [car1_Y_Offset],[car1_width_prev],[car1_height_prev]
             ;  mov Erase,0
             ;  mov [car1_Y_Offset],0
-            ;  DrawAtBorder img1F,[car1_X_Offset],[car1_Y_Offset],car1V_Width,car1V_Height,[car1_width_prev],[car1_height_prev]
+            ;  DrawAtBorder img1F,[car1_X_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_width_prev],[car1_height_prev]
   up_end:    
              ret
              endp
@@ -57,27 +57,27 @@ moveDown PROC
             ; jmp D_end
             D:
             mov      cx,[car1_Y_Offset]
-            add      cx, car1V_Height
+            add      cx, SEGMENT_SIZE
             add      cx, [car1_speed]
             cmp      cx,SCREEN_HEIGHT
             jb       Dcont
             jmp      borderD
             Dcont:
              MOV DIR,1
-            DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height
+            DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
             cmp cx,1
             jne passD
             jmp D_end
             passD:
             mov Where,0
-            Move img1D,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],car1V_Width,car1V_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
+            Move img1D,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
             jmp D_end
             borderD:
    
             ; DrawCar [car1_X_Offset], [car1_Y_Offset],[car1_width_prev],[car1_height_prev]
             ; mov Erase,0
-            ; mov [car1_Y_Offset],SCREEN_HEIGHT-car1V_Height
-            ; DrawAtBorder img1D,[car1_X_Offset],[car1_Y_Offset],car1V_Width,car1V_Height,[car1_width_prev],[car1_height_prev]
+            ; mov [car1_Y_Offset],SCREEN_HEIGHT-SEGMENT_SIZE
+            ; DrawAtBorder img1D,[car1_X_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_width_prev],[car1_height_prev]
               
   D_end:     
              ret
@@ -95,20 +95,20 @@ moveLeft PROC
             jmp borderL
             Lcont:
              MOV DIR,2
-            DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height
+            DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
             cmp cx,1
             jne passL1
             jmp L_end
             passL1:
             mov Where,1
-            Move img1L,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],car1H_Width,car1H_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
+            Move img1L,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
             jmp L_end
             borderL:
 
             ; DrawCar [car1_X_Offset], [car1_Y_Offset],[car1_width_prev],[car1_height_prev]
             ; mov Erase,0
             ; mov [car1_X_Offset],0
-            ; DrawAtborder   img1L,[car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height,[car1_width_prev],[car1_height_prev]
+            ; DrawAtborder   img1L,[car1_X_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_width_prev],[car1_height_prev]
             L_end:     
             ret
             endp
@@ -122,27 +122,27 @@ moveRight PROC
              R:
              mov      cx,[car1_X_Offset]
              add      cx,[car1_speed]
-             add      cx,car1H_Width
+             add      cx,SEGMENT_SIZE
              cmp      cx,SCREEN_WIDTH
              jb       Rcont
              jmp borderR
              jmp R_end
              Rcont:
               MOV DIR,3
-             DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height
+             DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
              cmp cx,1
              jne passR1 
              jmp R_end
              passR1:
              mov Where,0
-             Move img1R,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],car1H_Width,car1H_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
+             Move img1R,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
              jmp R_end
              borderR:
 
             ;  DrawCar [car1_X_Offset], [car1_Y_Offset] ,[car1_width_prev],[car1_height_prev]
             ;  mov Erase,0
-            ;  mov [car1_X_Offset],SCREEN_WIDTH-car1H_Width-5
-            ;  DrawAtborder   img1R,[car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height,[car1_width_prev],[car1_height_prev]
+            ;  mov [car1_X_Offset],SCREEN_WIDTH-SEGMENT_SIZE-5
+            ;  DrawAtborder   img1R,[car1_X_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_width_prev],[car1_height_prev]
   R_end:     
              ret
              endp
