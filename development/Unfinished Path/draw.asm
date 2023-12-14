@@ -32,8 +32,8 @@ DATA SEGMENT USE16
 
      SCREEN_WIDTH    EQU     640
      SCREEN_HEIGHT   EQU     480
-     DIR_SIZE        EQU     10
-  
+     DIR_SIZE        EQU    200
+     DIR DB 0
      ; --------------------------------------------------------------------------------------------------------------------------------
      ; DRAW PARAMETERS
      IMAGE_OFFSET_X  dw      0
@@ -43,12 +43,14 @@ DATA SEGMENT USE16
      REVERSE         DB      0
      ERASE           DB      0
      RECOLOR         DB      0
+     COUNT DB 0
      ;---------------------------------------------------------------------------------------------------------------------------------
      KeyList         db      128 dup (0)
      Where           db      0
      Prev_img        dw      0
-     DIRECTIONS_DEMO DB      DIR_SIZE DUP(?)
-     ;    DIRECTIONS_DEMO DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3
+  DIRECTIONS_DEMO DB  DIR_SIZE (?)
+
+     ; DIRECTIONS_DEMO DB      3,3,1,2
      spare           db      20
      DELAY           DW      10000
   
@@ -86,9 +88,11 @@ CODE SEGMENT USE16
      ; DrawCar      [car1_X_Offset],[car1_Y_Offset],car1V_Width,car1V_Height
      ; mov          di,offset img2F
      ; DrawCar      [car2_X_Offset],[car2_Y_Offset],car2V_Width,car2V_Height
+     MAINLOOP2:
+     MOV COUNT,0
+     ClearScreen
                 CALL         GENERATE_NEW_COMBINATION
-                MOV          BX,OFFSET DIRECTIONS_DEMO
-                          
+                MOV          BX,OFFSET DIRECTIONS_DEMO             
                 MOV          SI,0000H
      DRAW_TRACK:
                 INC          SI
@@ -125,7 +129,8 @@ CODE SEGMENT USE16
                 INC          BX
                 CMP          SI,DIR_SIZE
                 JNZ          DRAW_TRACK
-
+CMP COUNT,15
+JB MAINLOOP2
      ;get                the address of the existing int09h handler
      ;      mov          ax, 3509h                                                    ; Get Interrupt Vector
      ;      int          21h                                                          ; -> ES:BX
@@ -150,9 +155,9 @@ CODE SEGMENT USE16
      ;      pop          dx ds
      ;      mov          ax, 2509h
      ;      int          21h
-     ; exit:
-     ;      MOV          AH,4CH
-     ;      INT          21H
+     exit:
+          MOV          AH,4CH
+          INT          21H
 
 CODE ENDS
 END BEG
