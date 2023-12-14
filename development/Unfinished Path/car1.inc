@@ -46,18 +46,20 @@ img1L DB 0, 0, 0, 17, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
  DB 226, 153, 25, 226, 153, 17, 153, 17, 17, 9, 9, 9, 9, 9, 9, 9, 226, 226, 226, 226, 153, 153, 153, 42, 0, 226, 17, 17, 17, 25, 17, 17, 17, 17, 17, 17, 17, 17, 17, 153
  DB 17, 17, 17, 17, 17, 17, 0, 0, 0, 0, 0, 17, 153, 17, 0, 0, 0, 0, 0, 0, 0, 0, 17, 226, 0, 0, 0, 0, 0, 0, 0
 
-  car1V_Width  equ  69
-  car1V_Height  equ  69
 
-  car1H_Width equ  69
-  car1H_Height equ  69
+
+  car1V_Width  equ  SEGMENT_SIZE
+  car1V_Height  equ  SEGMENT_SIZE
+
+  car1H_Width equ  SEGMENT_SIZE
+  car1H_Height equ  SEGMENT_SIZE
 
   
-  car1_width_prev dw  69
-  car1_height_prev dw  69
+  car1_width_prev dw  SEGMENT_SIZE
+  car1_height_prev dw  SEGMENT_SIZE
 
 
-  car1_speed dw 69
+  car1_speed dw SEGMENT_SIZE
 
 
  
