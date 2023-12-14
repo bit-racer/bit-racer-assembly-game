@@ -33,7 +33,8 @@ moveUp proc
              jb  contup
              jmp borderUp
              contup:  
-             MoveUpConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width
+             MOV DIR,0
+             DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height
              cmp cx,1
              jne passUP 
              jmp up_end
@@ -62,7 +63,8 @@ moveDown PROC
             jb       Dcont
             jmp      borderD
             Dcont:
-            MoveDownConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height
+             MOV DIR,1
+            DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height
             cmp cx,1
             jne passD
             jmp D_end
@@ -92,7 +94,8 @@ moveLeft PROC
             jb  Lcont
             jmp borderL
             Lcont:
-            MoveLeftConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height
+             MOV DIR,2
+            DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height
             cmp cx,1
             jne passL1
             jmp L_end
@@ -125,7 +128,8 @@ moveRight PROC
              jmp borderR
              jmp R_end
              Rcont:
-             MoveRightConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height
+              MOV DIR,3
+             DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height
              cmp cx,1
              jne passR1 
              jmp R_end
