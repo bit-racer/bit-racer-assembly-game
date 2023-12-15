@@ -25,20 +25,6 @@ INC COUNT
 endm Move
 
 
-;Draw car at border if the next movement will cross the border
-
-; DrawAtBorder Macro img,car_x, car_y,width,height,w_p,h_p    
-;              mov      di,offset img
-;              DrawTrack  car_x,car_y,width,height
-;              mov cx,width
-;              mov w_p,cx
-;              mov cx,height
-;              mov h_p,cx
-; endm  DrawAtBorder
-
-;Collision handling while moving up
-
-
 DRAW_TRACK_CONSTRAINT MACRO car_x,car_y,car_speed,car_width,car_height
 LOCAL END,CONTINUE,UP,DOWN,LEFT,RIGHT,cmp_UP1,cmp_UP2,CMP_LEFT1,CMP_LEFT2,cmp_D2,cmp_D1,CMP_R1,CMP_R2
 CMP DIR,0
