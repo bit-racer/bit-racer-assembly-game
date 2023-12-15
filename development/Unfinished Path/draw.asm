@@ -21,48 +21,48 @@ DATA SEGMENT USE16
   ;---------------------------------------------------------------------------------------------------------------------------
   ; Images and their meta data
 
-  SEGMENT_SIZE    EQU     51
-                  include car1.inc
+                  SEGMENT_SIZE EQU     51
+                  include      track.inc
   ;---------------------------------------------------------------------------------------------------------------------------
 
   
   ; SCREEN INFO
-  VIDEO_MODE      EQU     4F02h         ; SVGA MODE
-  VIDEO_MODE_BX   EQU     0101h         ; SCREEN SIZES
+  VIDEO_MODE      EQU          4F02h         ; SVGA MODE
+  VIDEO_MODE_BX   EQU          0101h         ; SCREEN SIZES
 
-  SCREEN_WIDTH    EQU     640
-  SCREEN_HEIGHT   EQU     480
-  SEGMENT_COUNT   EQU     40
-  DIR_SIZE        EQU     200
-  DIR             DB      0
+  SCREEN_WIDTH    EQU          640
+  SCREEN_HEIGHT   EQU          480
+  SEGMENT_COUNT   EQU          40
+  DIR_SIZE        EQU          200
+  DIR             DB           0
 
   ; DIRECTIONS
-  D_UP            EQU     0
-  D_DOWN          EQU     1
-  D_LEFT          EQU     2
-  D_RIGHT         EQU     3
+  D_UP            EQU          0
+  D_DOWN          EQU          1
+  D_LEFT          EQU          2
+  D_RIGHT         EQU          3
   ; --------------------------------------------------------------------------------------------------------------------------------
   ; DRAW PARAMETERS
-  IMAGE_OFFSET_X  dw      0
-  IMAGE_OFFSET_Y  dw      0
-  IMAGE_SIZE_X    dw      0
-  IMAGE_SIZE_Y    dw      0
-  REVERSE         DB      0
-  ERASE           DB      0
-  RECOLOR         DB      0
-  COUNT           DB      0
+  IMAGE_OFFSET_X  dw           0
+  IMAGE_OFFSET_Y  dw           0
+  IMAGE_SIZE_X    dw           0
+  IMAGE_SIZE_Y    dw           0
+  REVERSE         DB           0
+  ERASE           DB           0
+  RECOLOR         DB           0
+  COUNT           DB           0
   ;---------------------------------------------------------------------------------------------------------------------------------
-  KeyList         db      128 dup (0)
-  Where           db      0
-  Prev_img        dw      0
-  DIRECTIONS_DEMO DB      DIR_SIZE (?)
+  KeyList         db           128 dup (0)
+  Where           db           0
+  Prev_img        dw           0
+  DIRECTIONS_DEMO DB           DIR_SIZE (?)
 
   ; DIRECTIONS_DEMO DB      3,3,1,2
-  spare           db      20
-  DELAY           DW      10000
+  spare           db           20
+  DELAY           DW           10000
   
-  DIRECTION       DB      ?
-  SEED            DB      ?
+  DIRECTION       DB           ?
+  SEED            DB           ?
 
 DATA ENDS
 CODE SEGMENT USE16
@@ -171,6 +171,9 @@ CODE SEGMENT USE16
   ;      mov          ax, 2509h
   ;      int          21h
              WaitForKeyPress
+             ;if escape pressed exit
+              CMP             AL,1Bh
+              JE              exit
              JMP             MAINLOOP2
   exit:      
              MOV             AH,4CH
