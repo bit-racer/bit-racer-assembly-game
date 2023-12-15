@@ -61,7 +61,7 @@ WaitForKeyPress MACRO
 ENDM
 ; ============================================================================================================================
  
-DrawTrack macro curr_car_x, curr_car_y ,width,height
+DrawTrack macro curr_track_x, curr_track_y ,width,height
 LOCAL star,Drawit,a1,Start,ENDING ,noErase                     
     star:      
                mov    ah , 0
@@ -70,8 +70,8 @@ LOCAL star,Drawit,a1,Start,ENDING ,noErase
                jmp    Start                                    ;Avoid drawing before the calculations
   Drawit:      
 
-               add    cx, curr_car_x
-               add    dx , curr_car_y
+               add    cx, curr_track_x
+               add    dx , curr_track_y
                MOV    AH,0Ch                                   ;set the configuration to writing a pixel
                ;mov    al, [DI]                                ;color of the current coordinates
                MOV AL, 21d
@@ -82,8 +82,8 @@ LOCAL star,Drawit,a1,Start,ENDING ,noErase
                MOV    BH,00h                                   ;set the page number
                INT    10h                                      ;execute the configuration
   a1:          
-               sub    cx , curr_car_x
-               sub    dx , curr_car_y
+               sub    cx , curr_track_x
+               sub    dx , curr_track_y
   Start:       
                inc    DI
                DEC    Cx                                       ;  loop iteration in x direction
