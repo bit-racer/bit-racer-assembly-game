@@ -136,13 +136,13 @@
 
 
   
-  car1_width_prev dw  SEGMENT_SIZE
-  car1_height_prev dw  SEGMENT_SIZE
-  car1_speed dw SEGMENT_SIZE
+  track_width_prev dw  SEGMENT_SIZE
+  track_height_prev dw  SEGMENT_SIZE
+  track_speed dw SEGMENT_SIZE
 
 
  
 
-  car1_Y_Offset DW  200
-  car1_X_Offset DW  200
+  track_Y_Offset DW  200
+  track_X_Offset DW  200
 
