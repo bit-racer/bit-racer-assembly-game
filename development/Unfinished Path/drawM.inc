@@ -61,7 +61,7 @@ WaitForKeyPress MACRO
 ENDM
 ; ============================================================================================================================
  
-DrawCar macro curr_car_x, curr_car_y ,width,height
+DrawTrack macro curr_car_x, curr_car_y ,width,height
 LOCAL star,Drawit,a1,Start,ENDING ,noErase                     
     star:      
                mov    ah , 0
@@ -94,5 +94,5 @@ LOCAL star,Drawit,a1,Start,ENDING ,noErase
                Jmp    Drawit
 
   ENDING:      
-endm DrawCar
+endm DrawTrack
 

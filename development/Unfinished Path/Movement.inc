@@ -15,7 +15,7 @@ INC COUNT
              sub      direction,cx
              continueMoving:
              mov      di,offset img
-             DrawCar  car_x,car_y,width,height
+             DrawTrack  car_x,car_y,width,height
              mov cx,width
              mov w_p,cx
              mov cx,height
@@ -29,7 +29,7 @@ endm Move
 
 ; DrawAtBorder Macro img,car_x, car_y,width,height,w_p,h_p    
 ;              mov      di,offset img
-;              DrawCar  car_x,car_y,width,height
+;              DrawTrack  car_x,car_y,width,height
 ;              mov cx,width
 ;              mov w_p,cx
 ;              mov cx,height
