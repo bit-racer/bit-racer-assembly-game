@@ -33,7 +33,7 @@ DATA SEGMENT USE16
   SCREEN_WIDTH    EQU     640
   SCREEN_HEIGHT   EQU     480
   SEGMENT_COUNT   EQU     40
-  DIR_SIZE        EQU     6
+  DIR_SIZE        EQU     5
   DIR             DB      0
 
   ; DIRECTIONS
@@ -58,7 +58,7 @@ DATA SEGMENT USE16
   DIRECTIONS_DEMO DB      DIR_SIZE (?)
   track_image     Dw      0
 
-;   DIRECTIONS_DEMO DB     3,3,3,1,1,2
+  ;  DIRECTIONS_DEMO DB     1,3
   spare           db      20
   DELAY           DW      10000
   
@@ -175,6 +175,8 @@ CODE SEGMENT USE16
               JE              LEFT_DOWN
               CMP             BYTE PTR [BX+1],D_LEFT
               JE              LEFT_LEFT
+              CMP             BYTE PTR [BX+1],D_RIGHT
+              JE              LEFT_RIGHT
               JMP             LEFT_LEFT
   LEFT_UP:    MOV             track_image, offset img_ts_c4tr
               JMP             LEFT_MOVE
@@ -182,6 +184,7 @@ CODE SEGMENT USE16
               JMP             LEFT_MOVE
   LEFT_LEFT:  MOV             track_image, offset img_ts_lr
               JMP             LEFT_MOVE
+   LEFT_RIGHT:   JMP CHECKING
   LEFT_MOVE:  
               call            moveLeft
               POP             BX
@@ -195,13 +198,16 @@ CODE SEGMENT USE16
               JE              RIGHT_DOWN
               CMP             BYTE PTR [BX+1],D_RIGHT
               JE              RIGHT_RIGHT
+              CMP             BYTE PTR [BX+1],D_LEFT
+              JE              RIGHT_LEFT
               JMP             RIGHT_RIGHT
   RIGHT_UP:   MOV             track_image, offset img_ts_c3tl
               JMP             RIGHT_MOVE
-  RIGHT_DOWN: MOV             track_image, offset img_ts_c1br
+  RIGHT_DOWN: MOV             track_image, offset img_ts_c2bl
               JMP             RIGHT_MOVE
   RIGHT_RIGHT:MOV             track_image, offset img_ts_lr
               JMP             RIGHT_MOVE
+              RIGHT_LEFT:JMP CHECKING
   RIGHT_MOVE: 
               call            moveRight
               POP             BX
