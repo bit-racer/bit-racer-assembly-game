@@ -1,7 +1,7 @@
 ;Delete car last position and draw car in new position
 
 Move Macro img,car_x, car_y,direction,width,height,car_speed,w_p,h_p
-LOCAL up_endM,forward,backward,continueMoving
+LOCAL up_endM,forward,backward,continueMoving, other_dir1, DRAW_C, UP_DOWN_T, LEFT_RIGHT_T
 INC COUNT
              cmp Where,1
              jne backward
@@ -14,7 +14,24 @@ INC COUNT
              mov      cx,car_speed  
              sub      direction,cx
              continueMoving:
-             mov      di,offset img
+
+              ; CMP direction,D_UP
+              ; JZ UP_DOWN_T
+              ; CMP direction,D_DOWN
+              ; JZ UP_DOWN_T
+              ; CMP direction,D_LEFT
+              ; JZ LEFT_RIGHT_T
+              ; CMP direction,D_RIGHT
+              ; JZ LEFT_RIGHT_T
+
+              ; UP_DOWN_T:
+              ; mov DI,offset img_ts_ud
+              ; JMP DRAW_C
+              ; LEFT_RIGHT_T:
+              ; mov DI, offset img_ts_lr
+
+              ;DRAW_C:
+              MOV DI, img 
              DrawCar  car_x,car_y,width,height
              mov cx,width
              mov w_p,cx

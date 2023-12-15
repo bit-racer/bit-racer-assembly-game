@@ -40,7 +40,26 @@ moveUp proc
              jmp up_end
              passUP:
              mov Where,1
-             Move img1F,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+
+            ; CMP Prev_img, D_UP
+            ; JZ DRAW_UP
+            ; CMP Prev_img, D_LEFT
+            ; JZ DRAW_LEFT_UP
+            ; CMP Prev_img, D_RIGHT
+            ; JZ DRAW_RIGHT_UP
+
+            ; DRAW_UP:
+            ; Move img_ts_ud,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+            ; jmp END_UP
+            ; DRAW_LEFT_UP:
+            ; Move img_ts_c2bl,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+            ; jmp END_UP
+            ; DRAW_RIGHT_UP:
+            ; Move img_ts_c1br,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]            jmp END_UP
+            Move [track_image],[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev] 
+
+END_UP:
+             mov Prev_img, D_UP
              jmp up_end
              borderUp:
             ;  DrawCar [car1_X_Offset], [car1_Y_Offset],[car1_width_prev],[car1_height_prev]
@@ -70,7 +89,29 @@ moveDown PROC
             jmp D_end
             passD:
             mov Where,0
-            Move img1D,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+
+            ; CMP Prev_img, D_DOWN
+            ; JZ DRAW_DOWN
+            ; CMP Prev_img, D_LEFT
+            ; JZ DRAW_LEFT_DOWN
+            ; CMP Prev_img, D_RIGHT
+            ; JZ DRAW_RIGHT_DOWN
+            
+            ; DRAW_DOWN:
+            ; Move img_ts_ud,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+            ; jmp END_DOWN
+            ; DRAW_LEFT_DOWN:
+            ; Move img_ts_c3tl,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+            ; jmp END_DOWN
+            ; DRAW_RIGHT_DOWN:
+            ; Move img_ts_c4tr,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+            ; jmp END_DOWN
+
+            Move [track_image],[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+
+
+END_DOWN:
+            MOV Prev_img, D_DOWN
             jmp D_end
             borderD:
    
@@ -101,7 +142,28 @@ moveLeft PROC
             jmp L_end
             passL1:
             mov Where,1
-            Move img1L,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+
+            ; CMP Prev_img, D_LEFT
+            ; JZ DRAW_LEFT
+            ; CMP Prev_img, D_UP
+            ; JZ DRAW_UP_LEFT
+            ; CMP Prev_img, D_DOWN
+            ; JZ DRAW_DOWN_LEFT
+
+            ; DRAW_LEFT:
+            ; Move img_ts_lr,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+            ; jmp LEFT_END
+            ; DRAW_UP_LEFT:
+            ; Move img_ts_c3tl,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+            ; jmp LEFT_END
+            ; DRAW_DOWN_LEFT:
+            ; Move img_ts_c2bl,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+            ; jmp LEFT_END
+
+            Move [track_image],[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+
+LEFT_END:
+            MOV Prev_img, D_LEFT
             jmp L_end
             borderL:
 
@@ -135,7 +197,30 @@ moveRight PROC
              jmp R_end
              passR1:
              mov Where,0
-             Move img1R,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+
+              ; CMP Prev_img, D_RIGHT
+              ; JZ DRAW_RIGHT
+              ; CMP Prev_img, D_UP
+              ; JZ DRAW_UP_RIGHT
+              ; CMP Prev_img, D_DOWN
+              ; JZ DRAW_DOWN_RIGHT
+
+              ; DRAW_RIGHT:
+              ; Move img_ts_lr,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+              ; jmp RIGHT_END
+              ; DRAW_UP_RIGHT:
+              ; Move img_ts_c3tl,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+              ; jmp RIGHT_END
+              ; DRAW_DOWN_RIGHT:
+              ; Move img_ts_c2bl,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+              ; jmp RIGHT_END
+
+              Move [track_image],[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+
+
+
+RIGHT_END:
+              MOV Prev_img, D_RIGHT
              jmp R_end
              borderR:
 

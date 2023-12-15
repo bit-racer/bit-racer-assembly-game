@@ -73,10 +73,12 @@ LOCAL star,Drawit,a1,Start,ENDING ,noErase
                add    cx, curr_car_x
                add    dx , curr_car_y
                MOV    AH,0Ch                                   ;set the configuration to writing a pixel
-               mov    al, [DI]                                ;color of the current coordinates
+                mov    al, [DI]                                ;color of the current coordinates
+              ;MOV AL, 13h
                cmp Erase,1
                jne noErase
                xor    al , al
+               MOV AL, 0Ah
                noErase:
                MOV    BH,00h                                   ;set the page number
                INT    10h                                      ;execute the configuration
