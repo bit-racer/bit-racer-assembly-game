@@ -55,10 +55,10 @@ DATA SEGMENT USE16
   KeyList         db      128 dup (0)
   Where           db      0
   Prev_img        dw      0
-;   DIRECTIONS_DEMO DB      DIR_SIZE (?)
+  DIRECTIONS_DEMO DB      DIR_SIZE (?)
   track_image     Dw      0
 
-  DIRECTIONS_DEMO DB     3,3,3,1,1,2
+;   DIRECTIONS_DEMO DB     3,3,3,1,1,2
   spare           db      20
   DELAY           DW      10000
   
@@ -109,7 +109,7 @@ CODE SEGMENT USE16
   ;MOV             SEED,0
               MOV             DELAY,10000
 
-            ;   CALL            GENERATE_NEW_COMBINATION
+              CALL            GENERATE_NEW_COMBINATION
               MOV             BX,OFFSET DIRECTIONS_DEMO
               MOV             SI,0000H
 
@@ -210,8 +210,8 @@ CODE SEGMENT USE16
               INC             BX
               CMP             SI,DIR_SIZE
               JNZ             DRAW_TRACK
-            ;   CMP             COUNT,DIR_SIZE
-            ;   JB              MAINLOOP2
+              CMP             COUNT,DIR_SIZE
+              JB              MAINLOOP2
   ;get                the address of the existing int09h handler
   ;      mov          ax, 3509h                                                    ; Get Interrupt Vector
   ;      int          21h                                                          ; -> ES:BX
