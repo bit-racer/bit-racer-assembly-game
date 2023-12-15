@@ -2,6 +2,7 @@
 
 MoveTrack Macro img,car_x, car_y,direction,width,height,car_speed,w_p,h_p
 LOCAL up_endM,forward,backward,continueMoving
+
 INC COUNT
              cmp Where,1
              jne backward

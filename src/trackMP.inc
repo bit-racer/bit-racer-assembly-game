@@ -95,3 +95,62 @@ moveTrackRight PROC
   mtr_R_end:     
              ret
              endp
+
+
+
+; GenerateTrack 
+GenerateTrack PROC
+             MOV             COUNT,0
+  MAINLOOP2: 
+            ClearScreen
+            ColorScreen 0
+  ; reset
+             MOV             DIRECTION,0
+             MOV             SEED,0
+             MOV             DELAY,10000
+              CALL WAIT_FOR_DELAY
+             CALL            GENERATE_NEW_COMBINATION
+             MOV             BX,OFFSET DIRECTIONS_DEMO
+             MOV             SI,0000H
+
+  DRAW_TRACK:
+             INC             SI
+             CMP             BYTE PTR [BX],0
+             JE              ADDTOUP
+             CMP             BYTE PTR    [BX],1
+             JE              ADDTODOWN
+             CMP             BYTE PTR [BX],2
+             JE              ADDTOLEFT
+             CMP             BYTE PTR    [BX],3
+             JE              ADDTORIGHT
+                             
+  ADDTOUP:   
+             PUSH            BX
+             call            moveTrackUp
+             POP             BX
+             JMP             CHECKING
+  ADDTODOWN: 
+             PUSH            BX
+             call            moveTrackDown
+             POP             BX
+             JMP             CHECKING
+  ADDTOLEFT: 
+             PUSH            BX
+             call            moveTrackLeft
+             POP             BX
+             JMP             CHECKING
+  ADDTORIGHT:
+             PUSH            BX
+             call            moveTrackRight
+             POP             BX
+             JMP             CHECKING
+  CHECKING:  
+             INC             BX
+             CMP             SI,DIR_SIZE
+             JNZ             DRAW_TRACK
+             CMP             COUNT,SEGMENT_COUNT
+             JB              MAINLOOP2
+
+ 
+             ret
+GenerateTrack ENDP

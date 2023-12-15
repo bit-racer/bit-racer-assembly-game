@@ -13,7 +13,7 @@
 ; Module Definition
 
 .386
-.MODEL HUGE
+.MODEL COMPACT
 .STACK 4084
 ;=================================================================================
 
@@ -176,7 +176,7 @@ CODE SEGMENT USE16
     
                       SetVideoMode
                       ColorScreen     BG_COLOR
-
+ 
     ; DRAW PAGE 0
                       DrawPage0
     
@@ -350,6 +350,11 @@ CODE SEGMENT USE16
                       CALL            StartChat
                       JMP             PROGRAM_LOOP
     Play:             
+                      MOV             COUNT, 0
+                      CALL            GenerateTrack
+                      WaitForKeyPress
+                      CMP             AH, ENTER_KEY
+                      JNE             Play
                       CALL            PutCars
                       JMP             PROGRAM_LOOP
 
