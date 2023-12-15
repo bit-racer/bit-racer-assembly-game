@@ -40,7 +40,7 @@ moveUp proc
              jmp up_end
              passUP:
              mov Where,1
-             Move TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+             MoveTrack TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
              jmp up_end
              borderUp:
            up_end:    
@@ -64,7 +64,7 @@ moveDown PROC
             jmp D_end
             passD:
             mov Where,0
-            Move TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+            MoveTrack TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
             jmp D_end
             borderD:
 
@@ -87,7 +87,7 @@ moveLeft PROC
             jmp L_end
             passL1:
             mov Where,1
-            Move TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+            MoveTrack TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
             jmp L_end
             borderL:
 
@@ -114,7 +114,7 @@ moveRight PROC
              jmp R_end
              passR1:
              mov Where,0
-             Move TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
+             MoveTrack TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
              jmp R_end
              borderR:
   R_end:     

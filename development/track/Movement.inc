@@ -1,6 +1,6 @@
 ;Delete car last position and draw car in new position
 
-Move Macro img,car_x, car_y,direction,width,height,car_speed,w_p,h_p
+MoveTrack Macro img,car_x, car_y,direction,width,height,car_speed,w_p,h_p
 LOCAL up_endM,forward,backward,continueMoving
 INC COUNT
              cmp Where,1
@@ -22,7 +22,7 @@ INC COUNT
              mov h_p,cx
              jmp up_endM
              up_endM:
-endm Move
+endm MoveTrack
 
 
 DRAW_TRACK_CONSTRAINT MACRO car_x,car_y,car_speed,car_width,car_height
