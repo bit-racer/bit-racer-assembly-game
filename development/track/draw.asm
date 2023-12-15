@@ -125,22 +125,22 @@ CODE SEGMENT USE16
                              
   ADDTOUP:   
              PUSH            BX
-             call            moveUp
+             call            moveTrackUp
              POP             BX
              JMP             CHECKING
   ADDTODOWN: 
              PUSH            BX
-             call            moveDown
+             call            moveTrackDown
              POP             BX
              JMP             CHECKING
   ADDTOLEFT: 
              PUSH            BX
-             call            moveLeft
+             call            moveTrackLeft
              POP             BX
              JMP             CHECKING
   ADDTORIGHT:
              PUSH            BX
-             call            moveRight
+             call            moveTrackRight
              POP             BX
              JMP             CHECKING
   CHECKING:  

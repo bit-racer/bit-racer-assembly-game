@@ -21,12 +21,9 @@ sleepSomeTime     PROC
              ret
              endp
 
-moveUp proc 
-  ;* check top border
-            ;  cmp   [byte ptr KeyList + 48h], 1
-            ;  je    up
-            ;  jmp up_end
-             up:
+moveTrackUp proc 
+
+             mtu_up:
              mov cx,[car1_Y_Offset]
              sub cx,[car1_speed]
              cmp cx, [car1_Y_Offset]
@@ -46,9 +43,7 @@ moveUp proc
            up_end:    
              ret
              endp
-moveDown PROC
-  ;* check bottom border
-
+moveTrackDown PROC
             D:
             mov      cx,[car1_Y_Offset]
             add      cx, SEGMENT_SIZE
@@ -71,7 +66,7 @@ moveDown PROC
   D_end:     
              ret
              endp
-moveLeft PROC 
+moveTrackLeft PROC 
 
             L:
             mov cx,[car1_X_Offset]
@@ -96,7 +91,7 @@ moveLeft PROC
             endp
             
 
-moveRight PROC
+moveTrackRight PROC
 
              R:
              mov      cx,[car1_X_Offset]
@@ -126,22 +121,17 @@ main PROC
   
   mainLoop:  
                call     sleepSomeTime
-               call     moveUp
-               call     moveDown
-               call     moveLeft
-               call     moveRight
-              ;  call     moveUp2
-              ;  call     moveDown2
-              ;  call     moveLeft2
-              ;  call     moveRight2
-  ; if Esc is not pressed, jump back to mainLoop                                                                  ; -> AH=1 Pressed, AH=0 Released
+               call     moveTrackUp
+               call     moveTrackDown
+               call     moveTrackLeft
+               call     moveTrackRight
              cmp     [byte ptr KeyList+01h], 1
              jne     mainLoop
     
              ret
-             endP
+endP
              
-             SRAND_SYSTEM_TIME PROC
+SRAND_SYSTEM_TIME PROC
                              PUSH                DX
                              PUSH                CX
                              PUSH                AX
