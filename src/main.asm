@@ -134,6 +134,16 @@ DATA SEGMENT USE16
     rec_row             db              0
     rec_col             db              40
 
+    ; Track Params
+    DIR                 DB              0
+    COUNT               DB              0
+    DIRECTIONS_DEMO     DB              DIR_SIZE (?)
+    spare               db              20
+    DELAY               DW              10000
+  
+    DIRECTION           DB              ?
+    SEED                DB              ?
+
 
     
 DATA ENDS
@@ -151,7 +161,8 @@ CODE SEGMENT USE16
                       include         drawP.inc
                       include         moveP.inc
                       include         chatP.inc
-    ;include         trackMP.inc ; Move track random walker functions
+                      include         randomP.inc                            ; random walker functions (randomization)
+                      include         trackMP.inc                            ; Move track random walker functions
     ;=================================================================================
 
     BEG:              
