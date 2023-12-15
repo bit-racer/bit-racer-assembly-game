@@ -120,20 +120,7 @@ moveTrackRight PROC
              endp
 
 
-main PROC 
-  
-  mainLoop:  
-               call     sleepSomeTime
-               call     moveTrackUp
-               call     moveTrackDown
-               call     moveTrackLeft
-               call     moveTrackRight
-             cmp     [byte ptr KeyList+01h], 1
-             jne     mainLoop
     
-             ret
-endP
-             
 SRAND_SYSTEM_TIME PROC
                              PUSH                DX
                              PUSH                CX
