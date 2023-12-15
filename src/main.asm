@@ -58,6 +58,7 @@ DATA SEGMENT USE16
                         include         arr_up.inc                            ; arrow up image
                         include         car1s.inc                             ; red car small
                         include         car2s.inc                             ; green car small
+                        include         track.inc                             ; track
 
     ;=================================================================================
 
@@ -150,6 +151,7 @@ CODE SEGMENT USE16
                       include         drawP.inc
                       include         moveP.inc
                       include         chatP.inc
+    ;include         trackMP.inc ; Move track random walker functions
     ;=================================================================================
 
     BEG:              
