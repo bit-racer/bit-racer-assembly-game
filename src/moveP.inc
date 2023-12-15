@@ -293,19 +293,77 @@ PutCars PROC
         mov Prev_img, 0
 
         ; reset car offsets
-        ;mov [car1_X_Offset], 0
-        ;mov [car1_Y_Offset], 0
-        ;mov [car2_X_Offset], 0
-        ;mov [car2_Y_Offset], 0
-        ; TODO: Make car offsets var and use them here
+      
+         mov [car1_X_Offset], 200
+         mov [car1_Y_Offset], 180
+         mov [car2_X_Offset], 200
+         mov [car2_Y_Offset], 150
+          mov          di,offset img1R
+          DrawCar      [car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height
+          mov          di,offset img2R
+          DrawCar      [car2_X_Offset],[car2_Y_Offset],car2H_Width,car2H_Height
+    ; MOV DX,INITIAL_TRACK_X  
+ 
+    ; MOV CX,     INITIAL_TRACK_Y
+    ; MOV  [car1_X_Offset]      ,            CX
+    ; MOV [car1_Y_Offset]       ,             DX
+    ;  MOV  [car2_X_Offset]      ,            CX
+    ; MOV [car2_Y_Offset]       ,             DX
+    ;      CMP BYTE PTR[INITIAL_TRACK_DIRECTION],0
+    ;      JE FACE_UP
+    ;      CMP BYTE PTR[INITIAL_TRACK_DIRECTION],1
+    ;      JE FACE_DOWN
+    ;      CMP BYTE PTR[INITIAL_TRACK_DIRECTION],2
+    ;      JE FACE_LEFT
+    ;      CMP BYTE PTR[INITIAL_TRACK_DIRECTION],3
+    ;      JE FACE_RIGHT
 
+; FACE_UP:
+;         ;  ADD [car1_X_Offset],5
+;         ;  SUB [car1_Y_Offset],car1V_Height
+;         ;  ADD [car2_X_Offset],35
+;         ;  SUB [car2_Y_Offset],car2V_Height
    
-          mov          di,offset img1F
-          DrawCar      [car1_X_Offset],[car1_Y_Offset],car1V_Width,car1V_Height
-          mov          di,offset img2F
-          DrawCar      [car2_X_Offset],[car2_Y_Offset],car2V_Width,car2V_Height
+;           mov          di,offset img1F
+;           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1V_Width,car1V_Height
+;           mov          di,offset img2F
+;           DrawCar      [car2_X_Offset],[car2_Y_Offset],car2V_Width,car2V_Height
+;           JMP DRIVE
+; FACE_DOWN:
+;         ;  ADD [car1_X_Offset],5
+;         ;  SUB [car1_Y_Offset],SEGMENT_SIZE
+;         ;  ADD [car2_X_Offset],35
+;         ;  SUB [car2_Y_Offset],SEGMENT_SIZE
+;           mov          di,offset img1D
+;           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1V_Width,car1V_Height
+;           mov          di,offset img2D
+;           DrawCar      [car2_X_Offset],[car2_Y_Offset],car2V_Width,car2V_Height
+;           JMP DRIVE
+; FACE_LEFT:
 
+;         ;  SUB [car1_X_Offset],SEGMENT_SIZE+car1H_Width
+;         ;  ADD [car1_Y_Offset],5
+;         ;  SUB [car2_X_Offset],SEGMENT_SIZE+car2H_Width
+;         ;  ADD [car2_Y_Offset],35
+;           mov          di,offset img1L
+;           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height
+;           mov          di,offset img2L
+;           DrawCar      [car2_X_Offset],[car2_Y_Offset],car2H_Width,car2H_Height
+;           JMP DRIVE
+       
+; FACE_RIGHT:
+;         ;  ADD [car1_X_Offset],SEGMENT_SIZE
+;         ;  ADD [car1_Y_Offset],5
+;         ;  ADD [car2_X_Offset],SEGMENT_SIZE
+;         ;  ADD [car2_Y_Offset],35
 
+;           mov          di,offset img1R
+;           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height
+;           mov          di,offset img2R
+;           DrawCar      [car2_X_Offset],[car2_Y_Offset],car2H_Width,car2H_Height
+;           JMP DRIVE
+
+DRIVE:
      ; get                the address of the existing int09h handler
           mov          ax, 3509h                                                    ; Get Interrupt Vector
           int          21h                                                          ; -> ES:BX
