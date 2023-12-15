@@ -1,0 +1,4 @@
+
+DEL DRAW.EXE
+DEL *.MAP
+DEL *.OBJ
