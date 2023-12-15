@@ -23,6 +23,7 @@
 include     macros.inc      ; general macros
 include     drawM.inc       ; drawing macros
 include     moveM.inc       ; car movement macros 
+include     trackMM.inc     ; Move track random walker function
 include     chatM.inc       ; chat macros
 ;=================================================================================
 
