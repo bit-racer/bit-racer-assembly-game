@@ -14,7 +14,7 @@ moveTrackUp proc
              jmp mtu_up_end
              mtu_passUP:
              mov Where,1
-             MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed],[track_width_prev],[track_height_prev]
+             MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed]
              jmp mtu_up_end
              mtu_borderUp:
            mtu_up_end:    
@@ -39,7 +39,7 @@ moveTrackDown PROC
             jmp mtd_D_end
             mtd_passD:
             mov Where,0
-            MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed],[track_width_prev],[track_height_prev]
+            MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed]
             jmp mtd_D_end
             mtd_borderD:
 
@@ -62,7 +62,7 @@ moveTrackLeft PROC
             jmp mtl_L_end
             mtl_passL1:
             mov Where,1
-            MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed],[track_width_prev],[track_height_prev]
+            MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed]
             jmp mtl_L_end
             mtl_borderL:
 
@@ -89,7 +89,7 @@ moveTrackRight PROC
              jmp mtr_R_end
              mtr_passR1:
              mov Where,0
-             MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed],[track_width_prev],[track_height_prev]
+             MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed]
              jmp mtr_R_end
              mtr_borderR:
   mtr_R_end:     
@@ -108,22 +108,34 @@ GenerateTrack PROC
              MOV             DIRECTION,0
              MOV             SEED,0
              MOV             DELAY,10000
-              CALL WAIT_FOR_DELAY
+             CALL WAIT_FOR_DELAY
              CALL            GENERATE_NEW_COMBINATION
              MOV             BX,OFFSET DIRECTIONS_DEMO
              MOV             SI,0000H
 
-  DRAW_TRACK:
+            
+            
+  MOV track_Y_Offset ,200
+  MOV track_X_Offset , 200
+   MOV BYTE PTR[BX],3
+    ; MOV CX,track_Y_Offset
+    ; MOV DX, track_X_Offset
+    ; MOV  INITIAL_TRACK_X        ,            DX
+    ; MOV INITIAL_TRACK_Y        ,             CX
+
+    ; MOV AL,BYTE PTR [BX-1]
+    ; MOV [INITIAL_TRACK_DIRECTION] ,AL
+  DRAW_TRACK: 
              INC             SI
-             CMP             BYTE PTR [BX],0
+             CMP             BYTE PTR [BX-1],0
              JE              ADDTOUP
-             CMP             BYTE PTR    [BX],1
+             CMP             BYTE PTR    [BX-1],1
              JE              ADDTODOWN
-             CMP             BYTE PTR [BX],2
+             CMP             BYTE PTR [BX-1],2
              JE              ADDTOLEFT
-             CMP             BYTE PTR    [BX],3
+             CMP             BYTE PTR    [BX-1],3
              JE              ADDTORIGHT
-                             
+       
   ADDTOUP:   
              PUSH            BX
              call            moveTrackUp
