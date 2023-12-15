@@ -27,92 +27,95 @@ moveTrackUp proc
              mov cx,[car1_Y_Offset]
              sub cx,[car1_speed]
              cmp cx, [car1_Y_Offset]
-             jb  contup
-             jmp borderUp
-             contup:  
+             jb  mtu_contup
+             jmp mtu_borderUp
+             mtu_contup:  
              MOV DIR,0
              DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
              cmp cx,1
-             jne passUP 
-             jmp up_end
-             passUP:
+             jne mtu_passUP 
+             jmp mtu_up_end
+             mtu_passUP:
              mov Where,1
              MoveTrack TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
-             jmp up_end
-             borderUp:
-           up_end:    
+             jmp mtu_up_end
+             mtu_borderUp:
+           mtu_up_end:    
              ret
-             endp
+endp
+
+
+  
 moveTrackDown PROC
-            D:
+            mtd_D:
             mov      cx,[car1_Y_Offset]
             add      cx, SEGMENT_SIZE
             add      cx, [car1_speed]
             cmp      cx,SCREEN_HEIGHT
-            jb       Dcont
-            jmp      borderD
-            Dcont:
+            jb       mtd_Dcont
+            jmp      mtd_borderD
+            mtd_Dcont:
              MOV DIR,1
             DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
             cmp cx,1
-            jne passD
-            jmp D_end
-            passD:
+            jne mtd_passD
+            jmp mtd_D_end
+            mtd_passD:
             mov Where,0
             MoveTrack TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
-            jmp D_end
-            borderD:
+            jmp mtd_D_end
+            mtd_borderD:
 
-  D_end:     
+  mtd_D_end:     
              ret
              endp
 moveTrackLeft PROC 
 
-            L:
+            mtl_L:
             mov cx,[car1_X_Offset]
             sub cx,[car1_speed]
             cmp cx,[car1_X_Offset]
-            jb  Lcont
-            jmp borderL
-            Lcont:
+            jb  mtl_Lcont
+            jmp mtl_borderL
+            mtl_Lcont:
              MOV DIR,2
             DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
             cmp cx,1
-            jne passL1
-            jmp L_end
-            passL1:
+            jne mtl_passL1
+            jmp mtl_L_end
+            mtl_passL1:
             mov Where,1
             MoveTrack TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
-            jmp L_end
-            borderL:
+            jmp mtl_L_end
+            mtl_borderL:
 
-            L_end:     
+            mtl_L_end:     
             ret
             endp
             
 
 moveTrackRight PROC
 
-             R:
+             mtr_R:
              mov      cx,[car1_X_Offset]
              add      cx,[car1_speed]
              add      cx,SEGMENT_SIZE
              cmp      cx,SCREEN_WIDTH
-             jb       Rcont
-             jmp borderR
-             jmp R_end
-             Rcont:
+             jb       mtr_Rcont
+             jmp mtr_borderR
+             jmp mtr_R_end
+             mtr_Rcont:
               MOV DIR,3
              DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
              cmp cx,1
-             jne passR1 
-             jmp R_end
-             passR1:
+             jne mtr_passR1 
+             jmp mtr_R_end
+             mtr_passR1:
              mov Where,0
              MoveTrack TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
-             jmp R_end
-             borderR:
-  R_end:     
+             jmp mtr_R_end
+             mtr_borderR:
+  mtr_R_end:     
              ret
              endp
 
