@@ -13,7 +13,7 @@
 ; Module Definition
 
 .386
-.MODEL HUGE
+.MODEL COMPACT
 .STACK 4084
 ;=================================================================================
 
@@ -23,6 +23,7 @@
 include     macros.inc      ; general macros
 include     drawM.inc       ; drawing macros
 include     moveM.inc       ; car movement macros 
+include     trackMM.inc     ; Move track random walker function
 include     chatM.inc       ; chat macros
 ;=================================================================================
 
@@ -57,6 +58,7 @@ DATA SEGMENT USE16
                         include         arr_up.inc                            ; arrow up image
                         include         car1s.inc                             ; red car small
                         include         car2s.inc                             ; green car small
+                        include         track.inc                             ; track
 
     ;=================================================================================
 
@@ -132,6 +134,16 @@ DATA SEGMENT USE16
     rec_row             db              0
     rec_col             db              40
 
+    ; Track Params
+    DIR                 DB              0
+    COUNT               DB              0
+    DIRECTIONS_DEMO     DB              DIR_SIZE (?)
+    spare               db              20
+    DELAY               DW              10000
+  
+    DIRECTION           DB              ?
+    SEED                DB              ?
+
 
     
 DATA ENDS
@@ -149,6 +161,8 @@ CODE SEGMENT USE16
                       include         drawP.inc
                       include         moveP.inc
                       include         chatP.inc
+                      include         randomP.inc                            ; random walker functions (randomization)
+                      include         trackMP.inc                            ; Move track random walker functions
     ;=================================================================================
 
     BEG:              
@@ -162,7 +176,7 @@ CODE SEGMENT USE16
     
                       SetVideoMode
                       ColorScreen     BG_COLOR
-
+ 
     ; DRAW PAGE 0
                       DrawPage0
     
@@ -336,6 +350,11 @@ CODE SEGMENT USE16
                       CALL            StartChat
                       JMP             PROGRAM_LOOP
     Play:             
+                      MOV             COUNT, 0
+                      CALL            GenerateTrack
+                      WaitForKeyPress
+                      CMP             AH, ENTER_KEY
+                      JNE             Play
                       CALL            PutCars
                       JMP             PROGRAM_LOOP
 

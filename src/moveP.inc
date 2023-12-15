@@ -287,9 +287,6 @@ main PROC
 
 
 PutCars PROC
-       ; Color The Screen
-          ColorScreen  0
-        
         ; Reset key map
         mov [byte ptr KeyList+01h],0 ; reset esc
         mov where, 0

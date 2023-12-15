@@ -21,127 +21,107 @@ sleepSomeTime     PROC
              ret
              endp
 
-moveUp proc 
-  ;* check top border
-            ;  cmp   [byte ptr KeyList + 48h], 1
-            ;  je    up
-            ;  jmp up_end
-             up:
-             mov cx,[car1_Y_Offset]
-             sub cx,[car1_speed]
-             cmp cx, [car1_Y_Offset]
-             jb  contup
-             jmp borderUp
-             contup:  
+moveTrackUp proc 
+
+             mtu_up:
+             mov cx,[track_Y_Offset]
+             sub cx,[track_speed]
+             cmp cx, [track_Y_Offset]
+             jb  mtu_contup
+             jmp mtu_borderUp
+             mtu_contup:  
              MOV DIR,0
-             DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
+             DRAW_TRACK_CONSTRAINT [track_X_Offset],[track_Y_Offset],[track_speed],SEGMENT_SIZE,SEGMENT_SIZE
              cmp cx,1
-             jne passUP 
-             jmp up_end
-             passUP:
+             jne mtu_passUP 
+             jmp mtu_up_end
+             mtu_passUP:
              mov Where,1
-             Move TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
-             jmp up_end
-             borderUp:
-           up_end:    
+             MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed],[track_width_prev],[track_height_prev]
+             jmp mtu_up_end
+             mtu_borderUp:
+           mtu_up_end:    
              ret
-             endp
-moveDown PROC
-  ;* check bottom border
+endp
 
-            D:
-            mov      cx,[car1_Y_Offset]
+
+  
+moveTrackDown PROC
+            mtd_D:
+            mov      cx,[track_Y_Offset]
             add      cx, SEGMENT_SIZE
-            add      cx, [car1_speed]
+            add      cx, [track_speed]
             cmp      cx,SCREEN_HEIGHT
-            jb       Dcont
-            jmp      borderD
-            Dcont:
+            jb       mtd_Dcont
+            jmp      mtd_borderD
+            mtd_Dcont:
              MOV DIR,1
-            DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
+            DRAW_TRACK_CONSTRAINT [track_X_Offset],[track_Y_Offset],[track_speed],SEGMENT_SIZE,SEGMENT_SIZE
             cmp cx,1
-            jne passD
-            jmp D_end
-            passD:
+            jne mtd_passD
+            jmp mtd_D_end
+            mtd_passD:
             mov Where,0
-            Move TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
-            jmp D_end
-            borderD:
+            MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed],[track_width_prev],[track_height_prev]
+            jmp mtd_D_end
+            mtd_borderD:
 
-  D_end:     
+  mtd_D_end:     
              ret
              endp
-moveLeft PROC 
+moveTrackLeft PROC 
 
-            L:
-            mov cx,[car1_X_Offset]
-            sub cx,[car1_speed]
-            cmp cx,[car1_X_Offset]
-            jb  Lcont
-            jmp borderL
-            Lcont:
+            mtl_L:
+            mov cx,[track_X_Offset]
+            sub cx,[track_speed]
+            cmp cx,[track_X_Offset]
+            jb  mtl_Lcont
+            jmp mtl_borderL
+            mtl_Lcont:
              MOV DIR,2
-            DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
+            DRAW_TRACK_CONSTRAINT [track_X_Offset],[track_Y_Offset],[track_speed],SEGMENT_SIZE,SEGMENT_SIZE
             cmp cx,1
-            jne passL1
-            jmp L_end
-            passL1:
+            jne mtl_passL1
+            jmp mtl_L_end
+            mtl_passL1:
             mov Where,1
-            Move TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
-            jmp L_end
-            borderL:
+            MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed],[track_width_prev],[track_height_prev]
+            jmp mtl_L_end
+            mtl_borderL:
 
-            L_end:     
+            mtl_L_end:     
             ret
             endp
             
 
-moveRight PROC
+moveTrackRight PROC
 
-             R:
-             mov      cx,[car1_X_Offset]
-             add      cx,[car1_speed]
+             mtr_R:
+             mov      cx,[track_X_Offset]
+             add      cx,[track_speed]
              add      cx,SEGMENT_SIZE
              cmp      cx,SCREEN_WIDTH
-             jb       Rcont
-             jmp borderR
-             jmp R_end
-             Rcont:
+             jb       mtr_Rcont
+             jmp mtr_borderR
+             jmp mtr_R_end
+             mtr_Rcont:
               MOV DIR,3
-             DRAW_TRACK_CONSTRAINT [car1_X_Offset],[car1_Y_Offset],[car1_speed],SEGMENT_SIZE,SEGMENT_SIZE
+             DRAW_TRACK_CONSTRAINT [track_X_Offset],[track_Y_Offset],[track_speed],SEGMENT_SIZE,SEGMENT_SIZE
              cmp cx,1
-             jne passR1 
-             jmp R_end
-             passR1:
+             jne mtr_passR1 
+             jmp mtr_R_end
+             mtr_passR1:
              mov Where,0
-             Move TRACK_IMG,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[car1_speed],[car1_width_prev],[car1_height_prev]
-             jmp R_end
-             borderR:
-  R_end:     
+             MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_X_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed],[track_width_prev],[track_height_prev]
+             jmp mtr_R_end
+             mtr_borderR:
+  mtr_R_end:     
              ret
              endp
 
 
-main PROC 
-  
-  mainLoop:  
-               call     sleepSomeTime
-               call     moveUp
-               call     moveDown
-               call     moveLeft
-               call     moveRight
-              ;  call     moveUp2
-              ;  call     moveDown2
-              ;  call     moveLeft2
-              ;  call     moveRight2
-  ; if Esc is not pressed, jump back to mainLoop                                                                  ; -> AH=1 Pressed, AH=0 Released
-             cmp     [byte ptr KeyList+01h], 1
-             jne     mainLoop
     
-             ret
-             endP
-             
-             SRAND_SYSTEM_TIME PROC
+SRAND_SYSTEM_TIME PROC
                              PUSH                DX
                              PUSH                CX
                              PUSH                AX

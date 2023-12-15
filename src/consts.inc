@@ -13,6 +13,28 @@ SCREEN_COLS     equ 80
 SCREEN_ROWS     equ 25
 SCREEN_CHARS    equ SCREEN_COLS * SCREEN_ROWS
 
+; Track consts
+  SEGMENT_SIZE        EQU     51
+  SEGMENT_COUNT       EQU     40
+	DIR_SIZE            EQU     200
+ 
+  ; DIRECTIONS
+  D_UP                EQU     0
+  D_DOWN              EQU     1
+  D_LEFT              EQU     2
+  D_RIGHT             EQU     3 
+
+  ; OBSTACLE CONSTS
+  OBSTACLE_COLOR      EQU     2Ah
+  OBSTACLE_WIDTH      EQU     13
+  OBSTACLE_HEIGHT     EQU     13
+  OBSTACLE_1_OFFSET_X EQU     30
+  OBSTACLE_1_OFFSET_Y EQU     5
+  OBSTACLE_2_OFFSET_X EQU     17
+  OBSTACLE_2_OFFSET_Y EQU     17
+  ;NOTE: Cur obstacl percentage is 50% to increase
+  ; increase the cases in which it doesn't generate in DrawTrack Macro
+	
 ; colors
 BLACK           equ 0
 BLUE            equ 1

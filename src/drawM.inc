@@ -199,4 +199,107 @@ LOCAL star,Drawit,a1,Start,ENDING ,noErase
   ENDING:      
 endm DrawCar
 
+ 
+; ============================================================================================================================
+; Draw a rectangle for the track 
+; could use and image after some modifications
+; ============================================================================================================================
+DrawTrack macro curr_track_x, curr_track_y ,width,height
+LOCAL star,Drawit,a1,Start,ENDING ,noErase, FINAL, DRAW_O1, DRAW_O2        
+    star:      
+               mov    ah , 0
+               MOV    CX, width                                
+               MOV    DX, height                               
+               jmp    Start                                    ;Avoid drawing before the calculations
+  Drawit:      
+
+               add    cx, curr_track_x
+               add    dx , curr_track_y
+               MOV    AH,0Ch                                   ;set the configuration to writing a pixel
+               ;mov    al, [DI]                                ;color of the current coordinates
+               MOV AL, 21d
+               cmp Erase,1
+               jne noErase
+               xor    al , al
+               noErase:
+               MOV    BH,00h                                   ;set the page number
+               INT    10h                                      ;execute the configuration
+  a1:          
+               sub    cx , curr_track_x
+               sub    dx , curr_track_y
+  Start:       
+               inc    DI
+               DEC    Cx                                       ;  loop iteration in x direction
+               JNZ    Drawit                                   ;  check if we can draw c urrent x and y and excape the y iteration
+               mov    Cx, width                                ;  if loop iteration in y direction, then x should start over so that we sweep the grid
+               DEC    DX                                       ;  loop iteration in y direction
+               JZ     ENDING                                   ;  both x and y reached 00 so end program
+               Jmp    Drawit
+
+  ENDING:
+  ; Generate the obstacles randomly
+  CALL WAIT_FOR_DELAY
+  CALL RAND_FROM_0_TO_3
+  CALL UPDATE_SEED
+
+  CMP DIRECTION, 0
+  JE FINAL
+  CMP DIRECTION, 1
+  JE DRAW_O1
+  CMP DIRECTION, 2
+  JE DRAW_O2
+  CMP DIRECTION, 3
+  JE FINAL
+
+DRAW_O1:
+  DrawObstacle curr_track_x, curr_track_y , OBSTACLE_WIDTH, OBSTACLE_HEIGHT
+  JMP FINAL
+DRAW_O2:
+  ADD curr_track_x, OBSTACLE_2_OFFSET_X
+  ADD curr_track_y, OBSTACLE_2_OFFSET_Y
+  DrawObstacle curr_track_x, curr_track_y , OBSTACLE_WIDTH, OBSTACLE_HEIGHT
+  SUB curr_track_x, OBSTACLE_2_OFFSET_X
+  SUB curr_track_y, OBSTACLE_2_OFFSET_Y
+  FINAL:
+endm DrawTrack
+
+
+; ============================================================================================================================
+; Draw Obstacle
+; ============================================================================================================================
+DrawObstacle macro curr_track_x, curr_track_y ,width, height
+LOCAL star,Drawit,a1,Start,ENDING ,noErase                     
+    star:      
+               mov    ah , 0
+               MOV    CX, width                                
+               MOV    DX, height                               
+               jmp    Start                                    ;Avoid drawing before the calculations
+  Drawit:      
+
+               add    cx, curr_track_x
+               add    dx , curr_track_y
+               MOV    AH,0Ch                                   ;set the configuration to writing a pixel
+               ;mov    al, [DI]                                ;color of the current coordinates
+               MOV AL, OBSTACLE_COLOR
+               cmp Erase,1
+               jne noErase
+               xor    al , al
+               noErase:
+               MOV    BH,00h                                   ;set the page number
+               INT    10h                                      ;execute the configuration
+  a1:          
+               sub    cx , curr_track_x
+               sub    dx , curr_track_y
+  Start:       
+               inc    DI
+               DEC    Cx                                       ;  loop iteration in x direction
+               JNZ    Drawit                                   ;  check if we can draw c urrent x and y and excape the y iteration
+               mov    Cx, width                                ;  if loop iteration in y direction, then x should start over so that we sweep the grid
+               DEC    DX                                       ;  loop iteration in y direction
+               JZ     ENDING                                   ;  both x and y reached 00 so end program
+               Jmp    Drawit
+
+  ENDING:      
+endm DrawTrack
+
 
