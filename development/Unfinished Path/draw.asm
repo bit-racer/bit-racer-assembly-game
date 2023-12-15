@@ -33,7 +33,7 @@ DATA SEGMENT USE16
   SCREEN_WIDTH    EQU     640
   SCREEN_HEIGHT   EQU     480
   SEGMENT_COUNT   EQU     40
-  DIR_SIZE        EQU     200
+  DIR_SIZE        EQU     6
   DIR             DB      0
 
   ; DIRECTIONS
@@ -55,10 +55,10 @@ DATA SEGMENT USE16
   KeyList         db      128 dup (0)
   Where           db      0
   Prev_img        dw      0
-  DIRECTIONS_DEMO DB      DIR_SIZE (?)
+;   DIRECTIONS_DEMO DB      DIR_SIZE (?)
   track_image     Dw      0
 
-  ; DIRECTIONS_DEMO DB      3,3,1,2
+  DIRECTIONS_DEMO DB     3,3,3,1,1,2
   spare           db      20
   DELAY           DW      10000
   
@@ -104,12 +104,12 @@ CODE SEGMENT USE16
               MOV             COUNT,0
               MOV             DIRECTION,0
   ; NOTE: remove following 2 lines if you want random start
-              MOV             car1_X_Offset,0
-              MOV             car1_Y_Offset,0
+            ;   MOV             car1_X_Offset,0
+            ;   MOV             car1_Y_Offset,0
   ;MOV             SEED,0
               MOV             DELAY,10000
 
-              CALL            GENERATE_NEW_COMBINATION
+            ;   CALL            GENERATE_NEW_COMBINATION
               MOV             BX,OFFSET DIRECTIONS_DEMO
               MOV             SI,0000H
 
@@ -176,9 +176,9 @@ CODE SEGMENT USE16
               CMP             BYTE PTR [BX+1],D_LEFT
               JE              LEFT_LEFT
               JMP             LEFT_LEFT
-  LEFT_UP:    MOV             track_image, offset img_ts_c3tl
+  LEFT_UP:    MOV             track_image, offset img_ts_c4tr
               JMP             LEFT_MOVE
-  LEFT_DOWN:  MOV             track_image, offset img_ts_c2bl
+  LEFT_DOWN:  MOV             track_image, offset img_ts_c1br
               JMP             LEFT_MOVE
   LEFT_LEFT:  MOV             track_image, offset img_ts_lr
               JMP             LEFT_MOVE
@@ -210,8 +210,8 @@ CODE SEGMENT USE16
               INC             BX
               CMP             SI,DIR_SIZE
               JNZ             DRAW_TRACK
-              CMP             COUNT,SEGMENT_COUNT
-              JB              MAINLOOP2
+            ;   CMP             COUNT,DIR_SIZE
+            ;   JB              MAINLOOP2
   ;get                the address of the existing int09h handler
   ;      mov          ax, 3509h                                                    ; Get Interrupt Vector
   ;      int          21h                                                          ; -> ES:BX
