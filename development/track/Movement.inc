@@ -15,7 +15,7 @@ INC COUNT
              sub      direction,cx
              continueMoving:
              mov      di,offset img
-             DrawCar  car_x,car_y,width,height
+             DrawTrack  car_x,car_y,width,height
              mov cx,width
              mov w_p,cx
              mov cx,height
@@ -23,20 +23,6 @@ INC COUNT
              jmp up_endM
              up_endM:
 endm Move
-
-
-;Draw car at border if the next movement will cross the border
-
-; DrawAtBorder Macro img,car_x, car_y,width,height,w_p,h_p    
-;              mov      di,offset img
-;              DrawCar  car_x,car_y,width,height
-;              mov cx,width
-;              mov w_p,cx
-;              mov cx,height
-;              mov h_p,cx
-; endm  DrawAtBorder
-
-;Collision handling while moving up
 
 
 DRAW_TRACK_CONSTRAINT MACRO car_x,car_y,car_speed,car_width,car_height
