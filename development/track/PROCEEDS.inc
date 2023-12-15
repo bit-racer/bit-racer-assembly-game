@@ -262,3 +262,24 @@ GENERATE_NEW_COMBINATION ENDP
     ; if prv <- and cur -> or prv -> and cur <-
     ; or prv ^ and cur v or prv v and cur ^
     ; then generate new value
+
+
+; Generate random number between 0 and 1
+RAND_FROM_0_TO_1 PROC
+                             PUSH                DX
+                             PUSH                BX
+                             PUSH                AX
+
+                             XOR                 DX,DX                             ; Compute randval(DX) mod 10 to get num
+                             MOV                 BX,2                              ;     between 0 and 1
+                             MOV                 AL,SEED
+                             MOV                 AH,0
+                             DIV                 BX                                ; DX = modulo from division
+                             MOV                 DIRECTION , DL
+                             POP                 AX
+                             POP                 BX
+                             POP                 DX
+        
+
+                             RET
+RAND_FROM_0_TO_1 ENDP
