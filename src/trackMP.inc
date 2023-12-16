@@ -100,40 +100,42 @@ moveTrackRight PROC
 
 ; GenerateTrack 
 GenerateTrack PROC
-             MOV             COUNT,0
+          
   MAINLOOP2: 
             ClearScreen
             ColorScreen 0
+               MOV             COUNT,0
   ; reset
              MOV             DIRECTION,0
              MOV             SEED,0
              MOV             DELAY,10000
              CALL WAIT_FOR_DELAY
              CALL            GENERATE_NEW_COMBINATION
+             MOV track_Y_Offset ,200
+              MOV track_X_Offset , 200
              MOV             BX,OFFSET DIRECTIONS_DEMO
              MOV             SI,0000H
 
+            MOV START_TRACK,0
             
-            
-  MOV track_Y_Offset ,200
-  MOV track_X_Offset , 200
-   MOV BYTE PTR[BX],3
+  ; MOV track_Y_Offset ,200
+  ; MOV track_X_Offset , 200
+  ;  MOV BYTE PTR[BX],3
     ; MOV CX,track_Y_Offset
     ; MOV DX, track_X_Offset
     ; MOV  INITIAL_TRACK_X        ,            DX
     ; MOV INITIAL_TRACK_Y        ,             CX
 
-    ; MOV AL,BYTE PTR [BX-1]
-    ; MOV [INITIAL_TRACK_DIRECTION] ,AL
+   
   DRAW_TRACK: 
              INC             SI
-             CMP             BYTE PTR [BX-1],0
+             CMP             BYTE PTR [BX],0
              JE              ADDTOUP
-             CMP             BYTE PTR    [BX-1],1
+             CMP             BYTE PTR    [BX],1
              JE              ADDTODOWN
-             CMP             BYTE PTR [BX-1],2
+             CMP             BYTE PTR [BX],2
              JE              ADDTOLEFT
-             CMP             BYTE PTR    [BX-1],3
+             CMP             BYTE PTR    [BX],3
              JE              ADDTORIGHT
        
   ADDTOUP:   
@@ -157,10 +159,11 @@ GenerateTrack PROC
              POP             BX
              JMP             CHECKING
   CHECKING:  
+MOV START_TRACK,1
              INC             BX
              CMP             SI,DIR_SIZE
              JNZ             DRAW_TRACK
-             CMP             COUNT,SEGMENT_COUNT
+             CMP             COUNT,5
              JB              MAINLOOP2
 
  
