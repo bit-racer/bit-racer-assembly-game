@@ -161,6 +161,8 @@ DATA SEGMENT USE16
     WINNER              DB              0                                     ; 0: idle, 1: user1, 2: user2, 3: tie
     START_TRACK         DB              0
     
+    CAR2_POWER_UP       DB              0
+    CAR1_POWER_UP       DB              0
 DATA ENDS
 ;=================================================================================
 
