@@ -137,6 +137,7 @@ DATA SEGMENT USE16
     ; Track Params
     DIR                     DB              0
     COUNT                   DB              0
+    label INITIAL_TRACK_DIRECTION
     DIRECTIONS_DEMO         DB              DIR_SIZE (?)
     spare                   db              20
     DELAY                   DW              10000
@@ -146,12 +147,12 @@ DATA SEGMENT USE16
 
 
 
-    ;INITIAL_TRACK_X         DW              ?
-    ;INITIAL_TRACK_Y         DW              ?
-    ;FINAL_TRACK_X           DW              ?
-    ;FINAL_TRACK_Y           DW              ?
-   ; INITIAL_TRACK_DIRECTION DB              ?
-
+    INITIAL_TRACK_X         DW              0
+    INITIAL_TRACK_Y         DW              0
+    ; FINAL_TRACK_X           DW              0
+    ; FINAL_TRACK_Y           DW              0
+    ; INITIAL_TRACK_DIRECTION DW              0
+START_TRACK DB 0
     
 DATA ENDS
 ;=================================================================================
