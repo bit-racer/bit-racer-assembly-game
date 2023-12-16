@@ -267,7 +267,6 @@ moveRight2 PROC
              endp
 
 main PROC 
-  
   mainLoop:  
                call     sleepSomeTime
                call     moveUp
@@ -278,17 +277,41 @@ main PROC
                call     moveDown2
                call     moveLeft2
                call     moveRight2
-  ; if Esc is not pressed, jump back to mainLoop                                                                  ; -> AH=1 Pressed, AH=0 Released
+               CMP WINNER, 0
+               JNE WIN
+  ; if Esc is not pressed, jump back to mainLoop
+                                                                           ; -> AH=1 Pressed, AH=0 Released
              cmp     [byte ptr KeyList+01h], 1
              jne     mainLoop
-    
+            
+    WIN:
              ret
              endP
 
 
 PutCars PROC
+        ; reset winner
+        mov WINNER, 0
+
         ; Reset key map
         mov [byte ptr KeyList+01h],0 ; reset esc
+
+        ; reset all keys
+        mov [byte ptr KeyList+48h],0 ; reset up
+        mov [byte ptr KeyList+50h],0 ; reset down
+        mov [byte ptr KeyList+4bh],0 ; reset left
+        mov [byte ptr KeyList+4dh],0 ; reset right
+        mov [byte ptr KeyList+11h],0 ; reset up2
+        mov [byte ptr KeyList+1fh],0 ; reset down2
+        mov [byte ptr KeyList+30h],0 ; reset left2
+        mov [byte ptr KeyList+32h],0 ; reset right2
+
+        ; reset speeds
+        mov [car1_speed], 10
+        mov [car2_speed], 10
+
+        
+
         mov where, 0
         mov Prev_img, 0
 
@@ -383,7 +406,6 @@ DRIVE:
           ;mov          ah, 0
           ;mov          al, 2
           ;int          10h
-          SetVideoMode
 
      ; restore the original int09h handler
           pop          dx ds

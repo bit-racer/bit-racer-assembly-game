@@ -57,4 +57,4 @@ img2L DB 0, 0, 0, 17, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
   car2_speed dw 10
 
   car2_Y_Offset DW  457
-  car2_X_Offset DW  300
+  car2_X_Offset DW  310

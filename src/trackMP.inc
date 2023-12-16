@@ -163,11 +163,13 @@ GenerateTrack PROC
              INC             BX
              CMP             SI,DIR_SIZE
              JNZ             DRAW_TRACK
-             CMP             COUNT,5
+             CMP             COUNT,20
              JB              MAINLOOP2
 
  
- DrawRectangle 200,200-SEGMENT_SIZE,5,SEGMENT_SIZE,START_COLOR
+
+ DrawRectangle 200,200-SEGMENT_SIZE,SEGMENT_SIZE,SEGMENT_SIZE,TRACK_COLOR
+ DrawRectangle 200,200-SEGMENT_SIZE,2,SEGMENT_SIZE,START_COLOR
  DrawRectangle track_X_Offset,track_Y_Offset,SEGMENT_SIZE,SEGMENT_SIZE,FINISH_COLOR
              ret
 GenerateTrack ENDP

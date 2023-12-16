@@ -74,30 +74,30 @@ GENERATE_NEW_COMBINATION PROC
                              CALL                WAIT_FOR_DELAY
                              CALL                UPDATE_SEED
 
-                            ;   ; if prev is ^ and cur is v generate new
-                            ;   CMP [BX], D_UP
-                            ;   JNZ P_next
-                            ;   CMP DIRECTION, D_DOWN
-                            ;   JZ GENERATE_ARRAY
-                            ;   P_next:
-                            ;   ; if prev is v and cur is ^ generate new
-                            ;   CMP [BX], D_DOWN
-                            ;   JNZ P_next2
-                            ;   CMP DIRECTION, D_UP
-                            ;   JZ GENERATE_ARRAY
-                            ;   P_next2:
-                            ;   ;if prev is -> and cur is <- generate new
-                            ;   CMP [BX], D_RIGHT
-                            ;   JNZ P_next3
-                            ;   CMP DIRECTION, D_LEFT
-                            ;   JZ GENERATE_ARRAY
-                            ;   P_next3:
-                            ;   ;if prev is <- and cur is -> generate new
-                            ;   CMP [BX], D_LEFT
-                            ;   JNZ P_next4
-                            ;   CMP DIRECTION, D_RIGHT
-                            ;   JZ GENERATE_ARRAY
-                            ;   P_next4:
+                              ; if prev is ^ and cur is v generate new
+                              CMP [BX], D_UP
+                              JNZ P_next
+                              CMP DIRECTION, D_DOWN
+                              JZ GENERATE_ARRAY
+                              P_next:
+                              ; if prev is v and cur is ^ generate new
+                              CMP [BX], D_DOWN
+                              JNZ P_next2
+                              CMP DIRECTION, D_UP
+                              JZ GENERATE_ARRAY
+                              P_next2:
+                              ;if prev is -> and cur is <- generate new
+                              CMP [BX], D_RIGHT
+                              JNZ P_next3
+                              CMP DIRECTION, D_LEFT
+                              JZ GENERATE_ARRAY
+                              P_next3:
+                              ;if prev is <- and cur is -> generate new
+                              CMP [BX], D_LEFT
+                              JNZ P_next4
+                              CMP DIRECTION, D_RIGHT
+                              JZ GENERATE_ARRAY
+                              P_next4:
                             
 
 
