@@ -3,6 +3,7 @@
 Move Macro img,car_x, car_y,direction,width,height,car_speed,w_p,h_p
 LOCAL up_endM,forward,backward,continueMoving
              mov Erase,1
+             MOV RECOLOR, TRACK_COLOR 
              DrawCar car_x,car_y,w_p,h_p
              mov Erase,0
              cmp Where,1
@@ -47,13 +48,13 @@ LOCAL End,cmp_,continue
               mov dx,car_y 
               sub dx,car_speed
               int 10H ; AL = COLOR
-              cmp al, 00h
+              cmp al, TRACK_COLOR
               je cmp_
               jmp End
               cmp_:
               add cx,car_width-2
               int 10H ; AL = COLOR
-              cmp al, 00h
+              cmp al, TRACK_COLOR
               je continue
               jmp End
               End:
@@ -72,13 +73,13 @@ LOCAL End,cmp_,continue
               add dx,car_speed
               add dx,car_height
               int 10H ; AL = COLOR
-              cmp al, 00h
+              cmp al, TRACK_COLOR
               je cmp_
               jmp End
               cmp_:
               add cx,car_width-2
               int 10H ; AL = COLOR
-              cmp al, 00h
+              cmp al, TRACK_COLOR
               je continue
               jmp End
               End:
@@ -96,13 +97,13 @@ LOCAL End,cmp_,continue
               add cx,car_speed
               add cx,car_width
               int 10H ; AL = COLOR
-              cmp al, 00h
+              cmp al, TRACK_COLOR
               je cmp_
               jmp End
               cmp_:
               add dx,car_height-2
               int 10H ; AL = COLOR
-              cmp al, 00h
+              cmp al, TRACK_COLOR
               je continue
               jmp End
 End:
@@ -119,14 +120,14 @@ LOCAL End,cmp_,continue
               mov dx,car_y
               sub cx,car_speed
               int 10H ; AL = COLOR
-              cmp al, 00h
+              cmp al,TRACK_COLOR
               je cmp_
               jmp End
               cmp_:
               mov ah,0Dh
               add dx,car_height-2
               int 10H ; AL = COLOR
-              cmp al, 00h
+              cmp al, TRACK_COLOR
               je continue
               jmp End
             End:

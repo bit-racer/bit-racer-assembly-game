@@ -178,10 +178,18 @@ LOCAL star,Drawit,a1,Start,ENDING ,noErase
                add    dx , curr_car_y
                MOV    AH,0Ch                                   ;set the configuration to writing a pixel
                mov    al, [DI]                                 ;color of the current coordinates
+
                cmp Erase,1
                jne noErase
-               xor    al , al
+
+               MOV AL, RECOLOR
+               MOV BH, 00h
+                INT 10h
+                JMP a1
+
                noErase:
+               CMP AL, 0
+               JE a1
                MOV    BH,00h                                   ;set the page number
                INT    10h                                      ;execute the configuration
   a1:          
@@ -217,7 +225,7 @@ LOCAL star,Drawit,a1,Start,ENDING ,noErase, FINAL, DRAW_O1, DRAW_O2
                add    dx , curr_track_y
                MOV    AH,0Ch                                   ;set the configuration to writing a pixel
                ;mov    al, [DI]                                ;color of the current coordinates
-               MOV AL, 21d
+               MOV AL, TRACK_COLOR
                cmp Erase,1
                jne noErase
                xor    al , al
