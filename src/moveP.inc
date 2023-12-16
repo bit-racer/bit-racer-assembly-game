@@ -33,20 +33,26 @@ moveUp proc
              jb  contup
              jmp borderUp
              contup:  
-             MoveUpConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width
+             MoveUpConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,TRACK_COLOR
              cmp cx,1
-             jne passUP 
-             jmp up_end
+                      JE CHECK_P1U
+             JMP passUP                                                                                          ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
+             CHECK_P1U:
+            ;  MoveUpConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,P1_COLOR          ;P1 COLOR (POWER UP 1 COLOR)
+             CMP CX,1
+             JE CHECK_P2U
+             ;MOV CAR1_POWER_UP,0                                                                           ;MOVE THE POWER UP NUMBER TO THE BYTE THAT CARRIES CAR'S POWER UP NUMBER          
+              JMP passUP
+              CHECK_P2U :
+                ; MoveUpConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,P2_COLOR
+                CMP CX,1
+                JE up_end
+                ;MOV CAR1_POWER_UP,1  
              passUP:
              mov Where,1
              Move img1F,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],car1V_Width,car1V_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
              jmp up_end
              borderUp:
-             mov Erase,1
-             DrawCar [car1_X_Offset], [car1_Y_Offset],[car1_width_prev],[car1_height_prev]
-             mov Erase,0
-             mov [car1_Y_Offset],0
-             DrawAtBorder img1F,[car1_X_Offset],[car1_Y_Offset],car1V_Width,car1V_Height,[car1_width_prev],[car1_height_prev]
   up_end:    
              ret
              endp
@@ -63,20 +69,27 @@ moveDown PROC
             jb       Dcont
             jmp      borderD
             Dcont:
-            MoveDownConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height
+            MoveDownConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height,TRACK_COLOR
             cmp cx,1
-            jne passD
-            jmp D_end
+             JE CHECK_P1D
+             JMP D_end2                                                                                           ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
+             CHECK_P1D:
+            ;    MoveDownConstraint  [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height,P1_COLOR          ;P1 COLOR (POWER UP 1 COLOR)
+             CMP CX,1
+             JE CHECK_P2D
+             ;MOV CAR1_POWER_UP,0                                                                           ;MOVE THE POWER UP NUMBER TO THE BYTE THAT CARRIES CAR'S POWER UP NUMBER          
+              JMP passD
+              CHECK_P2D :
+                ;   MoveDownConstraint  [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height,P2_COLOR
+                CMP CX,1
+                JE D_end
+                ;MOV CAR1_POWER_UP,1  
+           
             passD:
             mov Where,0
             Move img1D,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],car1V_Width,car1V_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
             jmp D_end
             borderD:
-            mov Erase,1
-            DrawCar [car1_X_Offset], [car1_Y_Offset],[car1_width_prev],[car1_height_prev]
-            mov Erase,0
-            mov [car1_Y_Offset],SCREEN_HEIGHT-car1V_Height
-            DrawAtBorder img1D,[car1_X_Offset],[car1_Y_Offset],car1V_Width,car1V_Height,[car1_width_prev],[car1_height_prev]
               
   D_end:     
              ret
@@ -93,8 +106,21 @@ moveLeft PROC
             jb  Lcont
             jmp borderL
             Lcont:
-            MoveLeftConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height
+            MoveLeftConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height,TRACK_COLOR
             cmp cx,1
+                     JE CHECK_P1R
+             JMP passL1                                                                                        ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
+             CHECK_P1L:
+            ;     MoveLeftConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_HeightP1_COLOR          ;P1 COLOR (POWER UP 1 COLOR)
+             CMP CX,1
+             JE CHECK_P2L
+             ;MOV CAR1_POWER_UP,0                                                                           ;MOVE THE POWER UP NUMBER TO THE BYTE THAT CARRIES CAR'S POWER UP NUMBER          
+              JMP passL1
+              CHECK_P2L :
+                ;    MoveLeftConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height,P2_COLOR
+                CMP CX,1
+                JE L_end
+                ;MOV CAR1_POWER_UP,1  
             jne passL1
             jmp L_end
             passL1:
@@ -102,11 +128,7 @@ moveLeft PROC
             Move img1L,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],car1H_Width,car1H_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
             jmp L_end
             borderL:
-            mov Erase,1
-            DrawCar [car1_X_Offset], [car1_Y_Offset],[car1_width_prev],[car1_height_prev]
-            mov Erase,0
-            mov [car1_X_Offset],0
-            DrawAtborder   img1L,[car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height,[car1_width_prev],[car1_height_prev]
+
             L_end:     
             ret
             endp
@@ -126,8 +148,21 @@ moveRight PROC
              jmp borderR
              jmp R_end
              Rcont:
-             MoveRightConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height
+             MoveRightConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height,TRACK_COLOR
              cmp cx,1
+                      JE CHECK_P1R
+             JMP passR1                                                                                           ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
+             CHECK_P1R:
+            ;    MoveRightConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height,P1_COLOR          ;P1 COLOR (POWER UP 1 COLOR)
+             CMP CX,1
+             JE CHECK_P2R
+             ;MOV CAR1_POWER_UP,0                                                                           ;MOVE THE POWER UP NUMBER TO THE BYTE THAT CARRIES CAR'S POWER UP NUMBER          
+              JMP passR1
+              CHECK_P2R :
+                ;   MoveRightConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height,P2_COLOR
+                CMP CX,1
+                JE R_end
+                ;MOV CAR1_POWER_UP,1  
              jne passR1 
              jmp R_end
              passR1:
@@ -135,11 +170,7 @@ moveRight PROC
              Move img1R,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],car1H_Width,car1H_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
              jmp R_end
              borderR:
-             mov Erase,1
-             DrawCar [car1_X_Offset], [car1_Y_Offset] ,[car1_width_prev],[car1_height_prev]
-             mov Erase,0
-             mov [car1_X_Offset],SCREEN_WIDTH-car1H_Width
-             DrawAtborder   img1R,[car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height,[car1_width_prev],[car1_height_prev]
+  
   R_end:     
              ret
              endp
@@ -155,20 +186,28 @@ moveUp2 PROC
              jb  contup2
              jmp borderUp2
              contup2:  
-             MoveUpConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width
-             cmp cx,1
-             jne passUP2 
-             jmp up_end2
+             MoveUpConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,TRACK_COLOR
+             cmp cx,1                 ;CX IS 1 WHEN THERE IS A COLLISION
+             JE CHECK2_P1U
+             JMP passUP2                                                                                           ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
+             CHECK2_P1U:
+            ;  MoveUpConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,P1_COLOR          ;P1 COLOR (POWER UP 1 COLOR)
+             CMP CX,1
+             JE CHECK2_P2U
+             ;MOV CAR2_POWER_UP,0                                                                           ;MOVE THE POWER UP NUMBER TO THE BYTE THAT CARRIES CAR'S POWER UP NUMBER          
+              JMP passUP2
+              CHECK2_P2U :
+                ; MoveUpConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,P2_COLOR
+                CMP CX,1
+                JE up_end2
+                ;MOV CAR2_POWER_UP,1  
+            
              passUP2:
              mov Where,1
              Move img2F,[car2_X_Offset],[car2_Y_Offset],[car2_Y_Offset],car2V_Width,car2V_Height,[car2_speed],[car2_width_prev],[car2_height_prev]
              jmp up_end2
              borderUp2:
-             mov Erase,1
-             DrawCar [car2_X_Offset], [car2_Y_Offset],[car2_width_prev],[car2_height_prev]
-             mov Erase,0
-             mov [car2_Y_Offset],0
-             DrawAtBorder img2F,[car2_X_Offset],[car2_Y_Offset],car2V_Width,car2V_Height,[car2_width_prev],[car2_height_prev]
+            
   up_end2:    
              ret
              endp
@@ -186,20 +225,27 @@ moveDown2 PROC
              jb       Dcont2
              jmp      borderD2
              Dcont2:
-             MoveDownConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,car2V_Height
-             cmp cx,1
-             jne passD2
-             jmp D_end2
+             MoveDownConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,car2V_Height,TRACK_COLOR
+               cmp cx,1                 ;CX IS 1 WHEN THERE IS A COLLISION
+             JE CHECK2_P1D
+             JMP D_end2                                                                                           ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
+             CHECK2_P1D:
+            ;    MoveDownConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,car2V_Height,P1_COLOR          ;P1 COLOR (POWER UP 1 COLOR)
+             CMP CX,1
+             JE CHECK2_P2D
+             ;MOV CAR2_POWER_UP,0                                                                           ;MOVE THE POWER UP NUMBER TO THE BYTE THAT CARRIES CAR'S POWER UP NUMBER          
+              JMP passD2
+              CHECK2_P2D :
+                ;   MoveDownConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,car2V_Height,P2_COLOR
+                CMP CX,1
+                JE D_end2
+                ;MOV CAR2_POWER_UP,1  
              passD2:
              mov Where,0
              Move img2D,[car2_X_Offset],[car2_Y_Offset],[car2_Y_Offset],car2V_Width,car2V_Height,[car2_speed],[car2_width_prev],[car2_height_prev]
              jmp D_end2
              borderD2:
-             mov Erase,1
-             DrawCar [car2_X_Offset], [car2_Y_Offset],[car2_width_prev],[car2_height_prev]
-             mov Erase,0
-             mov [car2_Y_Offset],SCREEN_HEIGHT-car2V_Height
-             DrawAtBorder img2D,[car2_X_Offset],[car2_Y_Offset],car2V_Width,car2V_Height,[car2_width_prev],[car2_height_prev]
+
               
   D_end2:     
              ret
@@ -217,20 +263,27 @@ moveLeft2 PROC
             jb  Lcont2
             jmp borderL2
             Lcont2:
-            MoveLeftConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height
+            MoveLeftConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height,TRACK_COLOR
             cmp cx,1
-            jne passL2
-            jmp L_end2
+                     JE CHECK2_P1R
+             JMP passL2                                                                                           ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
+             CHECK2_P1L:
+            ;     MoveLeftConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_HeightP1_COLOR          ;P1 COLOR (POWER UP 1 COLOR)
+             CMP CX,1
+             JE CHECK2_P2L
+             ;MOV CAR2_POWER_UP,0                                                                           ;MOVE THE POWER UP NUMBER TO THE BYTE THAT CARRIES CAR'S POWER UP NUMBER          
+              JMP passL2
+              CHECK2_P2L :
+                ;    MoveLeftConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height,P2_COLOR
+                CMP CX,1
+                JE L_end2
+                ;MOV CAR2_POWER_UP,1  
             passL2:
             mov Where,1
             Move img2L,[car2_X_Offset],[car2_Y_Offset],[car2_X_Offset],car2H_Width,car2H_Height,[car2_speed],[car2_width_prev],[car2_height_prev]
             jmp L_end2
             borderL2:
-            mov Erase,1
-            DrawCar [car2_X_Offset], [car2_Y_Offset],[car2_width_prev],[car2_height_prev]
-            mov Erase,0
-            mov [car2_X_Offset],0
-            DrawAtborder   img2L,[car2_X_Offset],[car2_Y_Offset],car2H_Width,car2H_Height,[car2_width_prev],[car2_height_prev]
+     
             L_end2:     
             ret
             endp
@@ -248,20 +301,27 @@ moveRight2 PROC
              jmp borderR2
              jmp R_end2
              Rcont2:
-             MoveRightConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height
+             MoveRightConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height,TRACK_COLOR
              cmp cx,1
-             jne passR2 
-             jmp R_end2
+                      JE CHECK2_P1R
+             JMP passR2                                                                                           ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
+             CHECK2_P1R:
+            ;    MoveRightConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height,P1_COLOR          ;P1 COLOR (POWER UP 1 COLOR)
+             CMP CX,1
+             JE CHECK2_P2R
+             ;MOV CAR2_POWER_UP,0                                                                           ;MOVE THE POWER UP NUMBER TO THE BYTE THAT CARRIES CAR'S POWER UP NUMBER          
+              JMP passR2
+              CHECK2_P2R :
+                ;  MoveRightConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height,P2_COLOR
+                CMP CX,1
+                JE R_end2
+                ;MOV CAR2_POWER_UP,1  
              passR2:
              mov Where,0
              Move img2R,[car2_X_Offset],[car2_Y_Offset],[car2_X_Offset],car2H_Width,car2H_Height,[car2_speed],[car2_width_prev],[car2_height_prev]
              jmp R_end2
              borderR2:
-             mov Erase,1
-             DrawCar [car2_X_Offset], [car2_Y_Offset] ,[car2_width_prev],[car2_height_prev]
-             mov Erase,0
-             mov [car2_X_Offset],SCREEN_WIDTH-car2H_Width
-             DrawAtborder   img2R,[car2_X_Offset],[car2_Y_Offset],car2H_Width,car2H_Height,[car2_width_prev],[car2_height_prev]
+           
   R_end2:     
              ret
              endp
@@ -317,9 +377,9 @@ PutCars PROC
 
         ; reset car offsets
       
-         mov [car1_X_Offset], 200
+         mov [car1_X_Offset], 205
          mov [car1_Y_Offset], 180
-         mov [car2_X_Offset], 200
+         mov [car2_X_Offset], 205
          mov [car2_Y_Offset], 150
           mov          di,offset img1R
           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height
