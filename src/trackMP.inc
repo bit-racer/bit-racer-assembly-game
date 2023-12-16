@@ -167,5 +167,7 @@ GenerateTrack PROC
              JB              MAINLOOP2
 
  
+ DrawRectangle 200,200-SEGMENT_SIZE,5,SEGMENT_SIZE,START_COLOR
+ DrawRectangle track_X_Offset,track_Y_Offset,SEGMENT_SIZE,SEGMENT_SIZE,FINISH_COLOR
              ret
 GenerateTrack ENDP
