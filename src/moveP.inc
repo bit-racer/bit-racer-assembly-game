@@ -268,6 +268,25 @@ moveRight2 PROC
 
 main PROC 
   mainLoop:  
+               
+               CALL GET_TIME
+               CMP WINNER, 0
+               JNE WIN
+               
+               PUSH CX
+               MOV CL , CMINUTES
+               CMP CL , FMINUTES
+               JNE NOT_ANNOUNCE_TIE
+               MOV CL , CSECONDS
+               CMP CL , FSECONDS
+               JNE NOT_ANNOUNCE_TIE
+               ANNOUNCE_TIE:
+                  MOV WINNER , 3
+                  POP CX
+                  JMP WIN
+
+  ; if Esc is not pressed, jump back to mainLoop
+              NOT_ANNOUNCE_TIE:
                call     sleepSomeTime
                call     moveUp
                call     moveDown
@@ -277,12 +296,18 @@ main PROC
                call     moveDown2
                call     moveLeft2
                call     moveRight2
-               CMP WINNER, 0
-               JNE WIN
-  ; if Esc is not pressed, jump back to mainLoop
-                                                                           ; -> AH=1 Pressed, AH=0 Released
-             cmp     [byte ptr KeyList+01h], 1
-             jne     mainLoop
+               
+               
+
+            
+                  
+
+
+              CONT_MAIN_LOOP:  
+              POP CX
+                                           ; -> AH=1 Pressed, AH=0 Released
+              cmp     [byte ptr KeyList+01h], 1
+              jne     mainLoop
             
     WIN:
              ret
