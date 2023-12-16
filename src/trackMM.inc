@@ -16,15 +16,15 @@ INC COUNT
              sub      direction,cx
              continueMoving:
              mov      di,offset img
-             CMP START_TRACK,0
-             JE INIT
-             JMP DRAW_PIECE
-             INIT:
-             MOV CX,TRACK_x
-             MOV DX, TRACK_y
-             MOV  [INITIAL_TRACK_X]        ,            CX
-             MOV [INITIAL_TRACK_Y]        ,             DX
-             DRAW_PIECE:
+            ;  CMP START_TRACK,0
+            ;  JE INIT
+            ;  JMP DRAW_PIECE
+            ;  INIT:
+            ;  MOV CX,TRACK_x
+            ;  MOV DX, TRACK_y
+            ;  MOV  [INITIAL_TRACK_X]        ,            CX
+            ;  MOV [INITIAL_TRACK_Y]        ,             DX
+            ;  DRAW_PIECE:
              DrawTrack  TRACK_x,TRACK_y,width,height
 
              up_endM:
