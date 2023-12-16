@@ -116,11 +116,11 @@ GenerateTrack PROC
              MOV             BX,OFFSET DIRECTIONS_DEMO
              MOV             SI,0000H
 
-            MOV START_TRACK,0
+            ; MOV START_TRACK,0
             
-  ; MOV track_Y_Offset ,200
-  ; MOV track_X_Offset , 200
-  ;  MOV BYTE PTR[BX],3
+  MOV track_Y_Offset ,200
+  MOV track_X_Offset , 200
+   MOV BYTE PTR[BX],3
     ; MOV CX,track_Y_Offset
     ; MOV DX, track_X_Offset
     ; MOV  INITIAL_TRACK_X        ,            DX
@@ -129,13 +129,13 @@ GenerateTrack PROC
    
   DRAW_TRACK: 
              INC             SI
-             CMP             BYTE PTR [BX],0
+             CMP             BYTE PTR [BX-1],0
              JE              ADDTOUP
-             CMP             BYTE PTR    [BX],1
+             CMP             BYTE PTR    [BX-1],1
              JE              ADDTODOWN
-             CMP             BYTE PTR [BX],2
+             CMP             BYTE PTR [BX-1],2
              JE              ADDTOLEFT
-             CMP             BYTE PTR    [BX],3
+             CMP             BYTE PTR    [BX-1],3
              JE              ADDTORIGHT
        
   ADDTOUP:   
@@ -159,7 +159,7 @@ GenerateTrack PROC
              POP             BX
              JMP             CHECKING
   CHECKING:  
-MOV START_TRACK,1
+; MOV START_TRACK,1
              INC             BX
              CMP             SI,DIR_SIZE
              JNZ             DRAW_TRACK
