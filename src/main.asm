@@ -156,10 +156,13 @@ DATA SEGMENT USE16
     ; FINAL_TRACK_X           DW              0
     ; FINAL_TRACK_Y           DW              0
     ; INITIAL_TRACK_DIRECTION DW              0
+    START_TRACK         DB              0
 
     ; Winning Variables
     WINNER              DB              0                                     ; 0: idle, 1: user1, 2: user2, 3: tie
-    START_TRACK         DB              0
+    CUR_CHECKING_CAR    DB              0                                     ; 1: user1, 2: user2
+
+
     
 DATA ENDS
 ;=================================================================================
@@ -386,7 +389,7 @@ CODE SEGMENT USE16
                       call            moveCursor
                       MOV             DX, offset str_user1_won
                       call            printmsg
-                      CALL            WAIT_FOR_DELAY
+                      DelayM          00AFFh
                       WaitForKeyPress
                       JMP             PROGRAM_LOOP
     User2Wins:        
@@ -394,9 +397,9 @@ CODE SEGMENT USE16
                       mov             currentColumn, 30
                       mov             currentRow, 16
                       call            moveCursor
-                      MOV             DX, offset str_user1_won
+                      MOV             DX, offset str_user2_won
                       call            printmsg
-                      CALL            WAIT_FOR_DELAY
+                      DelayM          00AFFh
                       WaitForKeyPress
                       JMP             PROGRAM_LOOP
     Tie:              
@@ -406,7 +409,7 @@ CODE SEGMENT USE16
                       call            moveCursor
                       MOV             DX, offset str_user1_won
                       call            printmsg
-                      CALL            WAIT_FOR_DELAY
+                      DelayM          00AFFh
                       WaitForKeyPress
                       JMP             PROGRAM_LOOP
 

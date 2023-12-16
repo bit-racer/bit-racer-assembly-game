@@ -141,3 +141,17 @@ RAND_FROM_0_TO_1 PROC
 
                              RET
 RAND_FROM_0_TO_1 ENDP
+
+; Delay Function
+; Wait for DELAY microseconds
+; Input: CX = DELAY in microseconds
+DELAY_MS PROC
+    pusha
+
+    mov dx, 0
+    mov ah, 86h
+    int 15h
+    popa
+
+    ret
+DELAY_MS ENDP

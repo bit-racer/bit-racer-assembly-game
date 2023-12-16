@@ -20,3 +20,14 @@ printmsg PROC
     ret
 ENDP
 
+DelayM MACRO counter3
+           LOCAL DM_L1, DM_L2
+           mov   cx, counter3
+    DM_L1: 
+           mov   dx, 0FFFFh
+    DM_L2: 
+           dec   dx
+           jnz   DM_L2
+           loop  DM_L1
+ENDM
+

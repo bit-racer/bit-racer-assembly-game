@@ -50,7 +50,10 @@ LOCAL End,cmp_,continue, FINISH_LINE
               int 10H ; AL = COLOR
               cmp al, FINISH_COLOR
               JNE FINISH_LINE 
-              MOV WINNER,1   
+              push BX
+              MOV BL, CUR_CHECKING_CAR
+              MOV WINNER,BL
+              pop BX
               JMP CONTINUE
               FINISH_LINE:
               cmp al, TRACK_COLOR
@@ -86,7 +89,10 @@ LOCAL End,cmp_,continue, FINISH_LINE
               je cmp_
               cmp al, FINISH_COLOR
               JNE FINISH_LINE 
-              MOV WINNER,1   
+              push BX
+              MOV BL, CUR_CHECKING_CAR
+              MOV WINNER,BL
+              pop BX
               JMP CONTINUE
               FINISH_LINE:
               jmp End
@@ -115,7 +121,10 @@ LOCAL End,cmp_,continue, FINISH_LINE
               je cmp_
               cmp al, FINISH_COLOR
               JNE FINISH_LINE 
-              MOV WINNER,1   
+              push BX
+              MOV BL, CUR_CHECKING_CAR
+              MOV WINNER,BL
+              pop BX
               JMP CONTINUE
               FINISH_LINE:
               jmp End
@@ -145,7 +154,10 @@ LOCAL End,cmp_,continue, FINISH_LINE
 
               cmp al, FINISH_COLOR
               JNE FINISH_LINE 
-              MOV WINNER,1   
+              push BX
+              MOV BL, CUR_CHECKING_CAR
+              MOV WINNER,BL
+              pop BX
               JMP CONTINUE
               FINISH_LINE:
 
