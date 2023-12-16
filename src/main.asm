@@ -52,107 +52,114 @@ EXTRA ENDS
 DATA SEGMENT USE16
     ;=================================================================================
     ; includes
-                            include         consts.inc
+                        include         consts.inc
     ; Images
-                            include         exit_img.inc                          ; exit btn image
-                            include         arr_up.inc                            ; arrow up image
-                            include         car1s.inc                             ; red car small
-                            include         car2s.inc                             ; green car small
-                            include         track.inc                             ; track
+                        include         exit_img.inc                          ; exit btn image
+                        include         arr_up.inc                            ; arrow up image
+                        include         car1s.inc                             ; red car small
+                        include         car2s.inc                             ; green car small
+                        include         track.inc                             ; track
 
     ;=================================================================================
 
     ; --------------------------------------------------------------------------------------------------------------------------------
     ; DRAW PARAMETERS
-    IMAGE_OFFSET_X          dw              0
-    IMAGE_OFFSET_Y          dw              0
-    IMAGE_SIZE_X            dw              0
-    IMAGE_SIZE_Y            dw              0
-    REVERSE                 DB              0
-    ERASE                   DB              0
-    RECOLOR                 DB              0
+    IMAGE_OFFSET_X      dw              0
+    IMAGE_OFFSET_Y      dw              0
+    IMAGE_SIZE_X        dw              0
+    IMAGE_SIZE_Y        dw              0
+    REVERSE             DB              0
+    ERASE               DB              0
+    RECOLOR             DB              0
     ;---------------------------------------------------------------------------------------------------------------------------------
 
 
     ; strings to print
-    str_enter_usrname1      db              "User1's Name:", '$'
-    str_initial_points1     db              "User1's Initial Points: ", '$'
+    str_enter_usrname1  db              "User1's Name:", '$'
+    str_initial_points1 db              "User1's Initial Points: ", '$'
 
-    str_enter_usrname2      db              "User2's Name:", '$'
-    str_initial_points2     db              "User2's Initial Points: ", '$'
+    str_enter_usrname2  db              "User2's Name:", '$'
+    str_initial_points2 db              "User2's Initial Points: ", '$'
 
-    str_press_enter_key     db              "Press Enter Key To Continue", '$'
+    str_press_enter_key db              "Press Enter Key To Continue", '$'
+
+    str_user1_won       db              "User1 Won!", '$'
+    str_user2_won       db              "User2 Won!", '$'
+    str_tie             db              "Tie!", '$'
     
     ; variables
-    currentColumn           db              0
-    currentRow              db              0
-    currentColor            db              BLACK
-    curCar                  db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
+    currentColumn       db              0
+    currentRow          db              0
+    currentColor        db              BLACK
+    curCar              db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
 
     ; User 1 data
-                            usernameBuffer1 label byte
-    usrMaxSize1             db              16
-    usrActualSize1          db              ?
-    username1               db              17 DUP ('$')
+                        usernameBuffer1 label byte
+    usrMaxSize1         db              16
+    usrActualSize1      db              ?
+    username1           db              17 DUP ('$')
     
-                            pointsBuffer1   label byte
-    ptsMaxSize1             db              4
-    ptsActualSize1          db              ?
-    pointsString1           db              5 DUP ('$')
+                        pointsBuffer1   label byte
+    ptsMaxSize1         db              4
+    ptsActualSize1      db              ?
+    pointsString1       db              5 DUP ('$')
 
-    usrCar1                 db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
+    usrCar1             db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
 
 
     ; User 2 data
-                            usernameBuffer2 label byte
-    usrMaxSize2             db              16
-    usrActualSize2          db              ?
-    username2               db              17 DUP ('$')
+                        usernameBuffer2 label byte
+    usrMaxSize2         db              16
+    usrActualSize2      db              ?
+    username2           db              17 DUP ('$')
     
-                            pointsBuffer2   label byte
-    ptsMaxSize2             db              4
-    ptsActualSize2          db              ?
-    pointsString2           db              5 DUP ('$')
+                        pointsBuffer2   label byte
+    ptsMaxSize2         db              4
+    ptsActualSize2      db              ?
+    pointsString2       db              5 DUP ('$')
 
-    usrCar2                 db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
+    usrCar2             db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
 
     ; Main Menu Buttons variables
-    curBtn                  db              1                                     ; 0: chat, 1: play, 2: exit
+    curBtn              db              1                                     ; 0: chat, 1: play, 2: exit
 
     ; Car Movement Variables and keyboard input handling
-    KeyList                 db              128 dup (0)
-    Where                   db              0
-    Prev_img                dw              0
+    KeyList             db              128 dup (0)
+    Where               db              0
+    Prev_img            dw              0
 
     ; Chat Variables
 
     ; User 1 cursor position
-    sender_row              db              0
-    sender_col              db              0
+    sender_row          db              0
+    sender_col          db              0
 
     ; User 2 cursor position
-    rec_row                 db              0
-    rec_col                 db              40
+    rec_row             db              0
+    rec_col             db              40
 
     ; Track Params
-    DIR                     DB              0
-    COUNT                   DB              0
-    label INITIAL_TRACK_DIRECTION
-    DIRECTIONS_DEMO         DB              DIR_SIZE (?)
-    spare                   db              20
-    DELAY                   DW              10000
+    DIR                 DB              0
+    COUNT               DB              0
+                        label           INITIAL_TRACK_DIRECTION
+    DIRECTIONS_DEMO     DB              DIR_SIZE (?)
+    spare               db              20
+    DELAY               DW              10000
   
-    DIRECTION               DB              ?
-    SEED                    DB              ?
+    DIRECTION           DB              ?
+    SEED                DB              ?
 
 
 
-    INITIAL_TRACK_X         DW              0
-    INITIAL_TRACK_Y         DW              0
+    INITIAL_TRACK_X     DW              0
+    INITIAL_TRACK_Y     DW              0
     ; FINAL_TRACK_X           DW              0
     ; FINAL_TRACK_Y           DW              0
     ; INITIAL_TRACK_DIRECTION DW              0
-START_TRACK DB 0
+
+    ; Winning Variables
+    WINNER              DB              0                                     ; 0: idle, 1: user1, 2: user2, 3: tie
+    START_TRACK         DB              0
     
 DATA ENDS
 ;=================================================================================
@@ -364,6 +371,43 @@ CODE SEGMENT USE16
                       CMP             AH, ENTER_KEY
                       JNE             Play
                       CALL            PutCars
+                      CMP             WINNER, 1
+                      JE              User1Wins
+                      CMP             WINNER, 2
+                      JE              User2Wins
+                      CMP             WINNER, 3
+                      JE              Tie
+
+    User1Wins:        
+                      ColorScreen     1
+    ; Set curser to the middle of the screen
+                      mov             currentColumn, 30
+                      mov             currentRow, 16
+                      call            moveCursor
+                      MOV             DX, offset str_user1_won
+                      call            printmsg
+                      CALL            WAIT_FOR_DELAY
+                      WaitForKeyPress
+                      JMP             PROGRAM_LOOP
+    User2Wins:        
+                      ColorScreen     2
+                      mov             currentColumn, 30
+                      mov             currentRow, 16
+                      call            moveCursor
+                      MOV             DX, offset str_user1_won
+                      call            printmsg
+                      CALL            WAIT_FOR_DELAY
+                      WaitForKeyPress
+                      JMP             PROGRAM_LOOP
+    Tie:              
+                      ColorScreen     3
+                      mov             currentColumn, 30
+                      mov             currentRow, 16
+                      call            moveCursor
+                      MOV             DX, offset str_user1_won
+                      call            printmsg
+                      CALL            WAIT_FOR_DELAY
+                      WaitForKeyPress
                       JMP             PROGRAM_LOOP
 
 

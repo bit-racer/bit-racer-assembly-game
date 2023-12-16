@@ -14,7 +14,7 @@ SCREEN_ROWS     equ 25
 SCREEN_CHARS    equ SCREEN_COLS * SCREEN_ROWS
 
 ; Track consts
-  SEGMENT_SIZE        EQU     51
+  SEGMENT_SIZE        EQU     69
   SEGMENT_COUNT       EQU     40
 	DIR_SIZE            EQU     200
  
@@ -23,6 +23,10 @@ SCREEN_CHARS    equ SCREEN_COLS * SCREEN_ROWS
   D_DOWN              EQU     1
   D_LEFT              EQU     2
   D_RIGHT             EQU     3 
+
+  TRACK_COLOR EQU 21d
+  START_COLOR EQU 15d
+  FINISH_COLOR EQU RED
 
   ; OBSTACLE CONSTS
   OBSTACLE_COLOR      EQU     2Ah

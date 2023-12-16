@@ -63,5 +63,5 @@ img1L DB 0, 0, 0, 17, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
  
 
   car1_Y_Offset DW  457
-  car1_X_Offset DW  100
+  car1_X_Offset DW  110
 
