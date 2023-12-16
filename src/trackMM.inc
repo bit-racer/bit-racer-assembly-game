@@ -1,27 +1,32 @@
 ;Delete car last position and draw car in new position
 
-MoveTrack Macro img,car_x, car_y,direction,width,height,car_speed,w_p,h_p
-LOCAL up_endM,forward,backward,continueMoving
+MoveTrack Macro img,TRACK_x, TRACK_y,direction,width,height,TRACK_SIZE
+LOCAL up_endM,forward,backward,continueMoving,INIT,DRAW_PIECE
 
 INC COUNT
              cmp Where,1
              jne backward
              jmp forward
              backward:
-             mov      cx,car_speed  
+             mov      cx,TRACK_SIZE  
              add direction,cx
              jmp continueMoving
              forward:
-             mov      cx,car_speed  
+             mov      cx,TRACK_SIZE  
              sub      direction,cx
              continueMoving:
              mov      di,offset img
-             DrawTrack  car_x,car_y,width,height
-             mov cx,width
-             mov w_p,cx
-             mov cx,height
-             mov h_p,cx
-             jmp up_endM
+             CMP START_TRACK,0
+             JE INIT
+             JMP DRAW_PIECE
+             INIT:
+             MOV CX,TRACK_x
+             MOV DX, TRACK_y
+             MOV  [INITIAL_TRACK_X]        ,            CX
+             MOV [INITIAL_TRACK_Y]        ,             DX
+             DRAW_PIECE:
+             DrawTrack  TRACK_x,TRACK_y,width,height
+
              up_endM:
 endm MoveTrack
 
