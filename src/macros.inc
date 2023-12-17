@@ -59,3 +59,12 @@ GenerateRandomNumber MACRO END
 
                          popa
 ENDM
+
+GeneralDelayINT MACRO delay
+                    pusha
+                    mov   cx, delay
+                    mov   dx, 0
+                    mov   ah, 86h
+                    int   15h
+                    popa
+ENDM
