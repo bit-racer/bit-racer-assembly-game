@@ -65,8 +65,17 @@ CHECK_P3U:
 CHECK_P4U:
   POWERUP_UP [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,POWERUP4_COLOR
                 CMP COLLISION,1
-                JE up_end
+                JE U_SHIELD
               MOV CAR1_POWER_UP,3
+                JMP passUP
+
+
+U_SHIELD:
+            CMP CAR1_HAVE_SHIELD, 0
+            JE up_end
+            POWERUP_UP [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,OBSTACLE_COLOR
+            CMP COLLISION,1
+            JE up_end
     
              passUP:
              mov Where,1
@@ -121,9 +130,18 @@ CHECK_P3D:
 CHECK_P4D:
                 POWERUP_DOWN [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height,POWERUP4_COLOR
                 CMP COLLISION,1
-                JE D_end
+                JE D_SHIELD
                 MOV CAR1_POWER_UP,3
+                JMP passD
 
+
+
+D_SHIELD:
+            CMP CAR1_HAVE_SHIELD, 0
+            JE D_end
+            POWERUP_DOWN [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height,OBSTACLE_COLOR
+            CMP COLLISION,1
+            JE D_end
 
 
             passD:
@@ -179,8 +197,17 @@ moveLeft PROC
   CHECK_P4L:
                   POWERUP_LEFT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height,POWERUP4_COLOR
                 CMP COLLISION,1
-                JE L_end
+                JE L_SHIELD
                 MOV CAR1_POWER_UP,3
+                JMP passL1
+
+
+L_SHIELD:
+            CMP CAR1_HAVE_SHIELD, 0
+            JE L_end
+            POWERUP_LEFT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height,OBSTACLE_COLOR
+            CMP COLLISION,1
+            JE L_end
 
             passL1:
             mov Where,1
@@ -239,8 +266,17 @@ moveRight PROC
 CHECK_P4R:
                 POWERUP_RIGHT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height,POWERUP4_COLOR
                 CMP COLLISION,1
-                JE R_end
+                JE R_SHIELD
                 MOV CAR1_POWER_UP,3
+                JMP R_end
+
+
+R_SHIELD:
+            CMP CAR1_HAVE_SHIELD, 0
+            JE R_end
+            POWERUP_RIGHT [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1H_Width,car1H_Height,OBSTACLE_COLOR
+            CMP COLLISION,1
+            JE R_end
 
 
              passR1:
