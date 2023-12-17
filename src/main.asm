@@ -86,6 +86,9 @@ DATA SEGMENT USE16
     str_user1_won       db              "User1 Won!", '$'
     str_user2_won       db              "User2 Won!", '$'
     str_tie             db              "Tie!", '$'
+
+
+    TIMER_STR           DB              '00S', 0dh, 0ah, '$', 10 DUP('$')
     
     ; variables
     currentColumn       db              0
@@ -166,12 +169,11 @@ DATA SEGMENT USE16
     rand_value          dw              0
 
     ; TIMER Data
-    DURATION_SS         EQU             10011001B                             ; 20 seconds
+    DURATION_SS         EQU             00101001B  ; Write in BCD
     curdur              db              0
     CMINUTES            DB              ?
     CSECONDS            DB              ?
     PSECONDS            DB              ?
-    TIMER_STR           DB              '00S', 0dh, 0ah, '$', 10 DUP('$')
 
     
 DATA ENDS
@@ -420,7 +422,7 @@ CODE SEGMENT USE16
                       mov             currentColumn, 30
                       mov             currentRow, 16
                       call            moveCursor
-                      MOV             DX, offset str_user1_won
+                      MOV             DX, offset str_tie
                       call            printmsg
                       CALL            WAIT_FOR_DELAY
                       delayM          1000

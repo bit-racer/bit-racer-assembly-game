@@ -50,6 +50,15 @@ PrintTimer PROC
     MOV AL, curdur 
     CALL PutBCD2
 
+    pusha
+    MOV currentColumn, 0
+    MOV currentRow, 0
+    call moveCursor
+    MOV DX, offset TIMER_STR
+    MOV AH, 09h
+    INT 21h
+    popa
+
     popa
     RET
 PrintTimer ENDP

@@ -327,6 +327,7 @@ moveRight2 PROC
              endp
 
 main PROC 
+  MOV curdur, DURATION_SS
   mainLoop:  
                call     sleepSomeTime
                MOV CUR_CHECKING_CAR, 1
@@ -339,8 +340,32 @@ main PROC
                call     moveDown2
                call     moveLeft2
                call     moveRight2
+
+              ; Handle time
+              CALL GET_TIME
+              CALL PrintTimer
+
                CMP WINNER, 0
                JNE WIN
+
+              MOV Al, PSECONDS
+              CMP Al, CSECONDS
+              JE DINC_TIMER
+
+              MOV AL, curdur
+              SUB AL, 1
+              DAS
+              MOV curdur, AL
+
+              DINC_TIMER:
+              CMP curdur, 0
+              JNE CONT_MAIN
+              MOV WINNER, 3
+              JMP WIN
+              
+
+
+  CONT_MAIN:
   ; if Esc is not pressed, jump back to mainLoop
                                                                            ; -> AH=1 Pressed, AH=0 Released
              cmp     [byte ptr KeyList+01h], 1
