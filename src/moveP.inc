@@ -478,9 +478,9 @@ CHECK2_P4R:
  
 main PROC 
   MOV curdur, DURATION_SS
-  mainLoop:  
                mov CAR1_POWER_UP,4
                mov CAR2_POWER_UP,4
+  mainLoop:  
                call     sleepSomeTime
                MOV CUR_CHECKING_CAR, 1
                call     moveUp
@@ -492,6 +492,9 @@ main PROC
                call     moveDown2
                call     moveLeft2
                call     moveRight2
+
+               ; ACTIVATE POWER UP
+               ActivatePowerUp
 
               ; Handle time
               CALL GET_TIME
