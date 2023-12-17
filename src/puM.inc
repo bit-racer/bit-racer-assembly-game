@@ -20,18 +20,18 @@ ActivatePowerUp MACRO
                   cmp            [byte ptr KeyList+28d], 1
                   jne            CHECK_CAR_2
 
-                  PowerUpSwitch  CAR1_POWER_UP, car1_speed, car2_speed, car2_X_Offset, car2_Y_Offset
+                  PowerUpSwitch  CAR1_POWER_UP, car1_speed, car2_speed, car2_X_Offset, car2_Y_Offset, CAR1_HAVE_SHIELD
 
-                  MOV            CAR1_POWER_UP, 4                                                     ; no power up
+                  MOV            CAR1_POWER_UP, 4                                                                       ; no power up
 
 
   CHECK_CAR_2:    
                   cmp            [byte ptr KeyList+57d], 1
                   jne            END
 
-                  PowerUpSwitch  CAR2_POWER_UP, car2_speed, car1_speed, car1_X_Offset, car1_Y_Offset
+                  PowerUpSwitch  CAR2_POWER_UP, car2_speed, car1_speed, car1_X_Offset, car1_Y_Offset, CAR2_HAVE_SHIELD
 
-                  MOV            CAR2_POWER_UP, 4                                                     ; no power up
+                  MOV            CAR2_POWER_UP, 4                                                                       ; no power up
     
   END:            
   
@@ -96,12 +96,11 @@ ClearPowerUp MACRO
 ENDM
 
 ; PowerUp switch activator
-PowerUpSwitch MACRO CAR_POWER_UP, MY_CAR_SPEED, HIS_CAR_SPEED, HIS_X, HIS_Y
+PowerUpSwitch MACRO CAR_POWER_UP, MY_CAR_SPEED, HIS_CAR_SPEED, HIS_X, HIS_Y, MY_SHIELD
                 LOCAL        powerup1, powerup2, powerup3, powerup4, END
 
   ; reset shield powerup
-                ; MOV          CAR1_HAVE_SHIELD, 0
-                ; MOV          CAR2_HAVE_SHIELD, 0
+  ; MOV          MY_SHIELD, 0
 
                 CMP          CAR_POWER_UP, 0
                 JE           powerup1
@@ -138,9 +137,7 @@ PowerUpSwitch MACRO CAR_POWER_UP, MY_CAR_SPEED, HIS_CAR_SPEED, HIS_X, HIS_Y
 
   ; allow me to go throgh obstacles
   powerup4:     
-  ; temp give both cars shield
-                MOV          CAR1_HAVE_SHIELD, 1
-                MOV          CAR2_HAVE_SHIELD, 1
+                MOV          MY_SHIELD, 1
 
                 JMP          END
 
