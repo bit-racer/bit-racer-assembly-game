@@ -1,19 +1,33 @@
 ; Activiate Power Up
 ActivatePowerUp MACRO
+                  LOCAL          END, CHECK_CAR_2
 
                   ClearPowerUp
 
   ; Diaplay Power Up for car 1
-                  MOV            currentColumn, 0
+                  MOV            currentColumn, 68
                   MOV            currentRow, 29
                   CALL           moveCursor
                   DisplayPowerUp CAR1_POWER_UP
   
   ; Diaplay Power Up for car 2
-                  MOV            currentColumn, 68
+                  MOV            currentColumn, 0
                   MOV            currentRow, 29
                   CALL           moveCursor
                   DisplayPowerUp CAR2_POWER_UP
+
+  ; Check if car 1 presses enter to activate its powerup
+                  cmp            [byte ptr KeyList+28d], 1
+                  jne            CHECK_CAR_2
+                  MOV            CAR1_POWER_UP, 4           ; no power up
+
+
+  CHECK_CAR_2:    
+                  cmp            [byte ptr KeyList+57d], 1
+                  jne            END
+                  MOV            CAR2_POWER_UP, 4           ; no power up
+    
+  END:            
   
 ENDM
 
