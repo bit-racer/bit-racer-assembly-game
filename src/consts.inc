@@ -38,6 +38,14 @@ SCREEN_CHARS    equ SCREEN_COLS * SCREEN_ROWS
   OBSTACLE_2_OFFSET_Y EQU     17
   ;NOTE: Cur obstacl percentage is 50% to increase
   ; increase the cases in which it doesn't generate in DrawTrack Macro
+
+  ; POWERUPS CONSTS
+  POWERUP1_COLOR       EQU     0AH ; lime  green 
+  POWERUP2_COLOR       EQU     25H ; terquise
+  POWERUP3_COLOR       EQU     63h ; light blue
+  POWERUP4_COLOR       EQU     44h ; yellow
+
+  POWERUP_SIZE         EQU     17 ; TODO: change later
 	
 ; colors
 BLACK           equ 0
