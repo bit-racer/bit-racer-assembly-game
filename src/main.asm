@@ -171,6 +171,7 @@ DATA SEGMENT USE16
     CMINUTES            DB              ?
     CSECONDS            DB              ?
     PSECONDS            DB              ?
+    TIMER_STR           DB              '00S', 0dh, 0ah, '$', 10 DUP('$')
 
     
 DATA ENDS

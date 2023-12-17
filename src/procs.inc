@@ -39,3 +39,38 @@ GET_TIME PROC
     POP AX
     RET
 GET_TIME ENDP
+
+
+PrintTimer PROC
+    pusha
+    MOV AH, 02h
+    INT 1Ah
+
+    MOV BX, offset TIMER_STR
+    MOV AL, curdur 
+    CALL PutBCD2
+
+    popa
+    RET
+PrintTimer ENDP
+
+PutBCD2 PROC
+    PUSH ax
+    SHR AX, 4
+
+    AND AX, 0Fh
+    ADD AX, '0'
+    MOV [BX], AL
+
+    INC BX
+    POP AX
+
+    AND AX, 0Fh
+    ADD AX, '0'
+    MOV [BX], AL
+
+    INC BX
+
+    ret
+PutBCD2 ENDP
+
