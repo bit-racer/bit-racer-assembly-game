@@ -20,3 +20,66 @@ printmsg PROC
     ret
 ENDP
 
+
+GET_TIME PROC
+    PUSH AX
+    PUSH CX
+    PUSH DX
+
+    MOV AH, CSECONDS
+    MOV PSECONDS, AH
+
+    MOV AH , 02H
+    INT 1AH
+    MOV CMINUTES , CL
+    MOV CSECONDS , DH
+
+    POP DX
+    POP CX
+    POP AX
+    RET
+GET_TIME ENDP
+
+
+PrintTimer PROC
+    pusha
+    MOV AH, 02h
+    INT 1Ah
+
+    MOV BX, offset TIMER_STR
+    MOV AL, curdur 
+    CALL PutBCD2
+
+    pusha
+    MOV currentColumn, 0
+    MOV currentRow, 0
+    call moveCursor
+    MOV DX, offset TIMER_STR
+    MOV AH, 09h
+    INT 21h
+    popa
+
+    popa
+    RET
+PrintTimer ENDP
+
+PutBCD2 PROC
+    PUSH ax
+    SHR AX, 4
+
+    AND AX, 0Fh
+    ADD AX, '0'
+    MOV [BX], AL
+
+    INC BX
+    POP AX
+
+    AND AX, 0Fh
+    ADD AX, '0'
+    MOV [BX], AL
+
+    INC BX
+
+    ret
+PutBCD2 ENDP
+
