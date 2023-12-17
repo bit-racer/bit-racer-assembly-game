@@ -25,7 +25,8 @@ include     drawM.inc       ; drawing macros
 include     moveM.inc       ; car movement macros 
 include     trackMM.inc     ; Move track random walker function
 include     chatM.inc       ; chat macros
-include     DetectP.inc
+include     DetectP.inc     ; Detect Power Up
+include     puM.inc         ; power up macros
 ;=================================================================================
 
 
@@ -84,9 +85,18 @@ DATA SEGMENT USE16
 
     str_press_enter_key db              "Press Enter Key To Continue", '$'
 
+
+    str_clear           db              "            $$$$", '$'
+
     str_user1_won       db              "User1 Won!", '$'
     str_user2_won       db              "User2 Won!", '$'
     str_tie             db              "Tie!", '$'
+
+    str_no_pu           db              "No Power Up", '$'
+    str_pu1             db              "Speed up", '$'
+    str_pu2             db              "Slow down", '$'
+    str_pu3             db              "Obstacle", '$'
+    str_pu4             db              "Sheild", '$'
 
 
     TIMER_STR           DB              '00S', 0dh, 0ah, '$', 10 DUP('$')
@@ -170,14 +180,18 @@ DATA SEGMENT USE16
     rand_value          dw              0
 
     ; TIMER Data
-    DURATION_SS         EQU             00101001B                             ; Write in BCD
+    DURATION_SS         EQU             10011001B                             ; Write in BCD
     curdur              db              0
     CMINUTES            DB              ?
     CSECONDS            DB              ?
     PSECONDS            DB              ?
     COLLISION           DB              0
+
     CAR1_POWER_UP       db              4
     CAR2_POWER_UP       db              4
+
+    CAR1_HAVE_SHIELD    db              0
+    CAR2_HAVE_SHIELD    db              0
     
 DATA ENDS
 ;=================================================================================
