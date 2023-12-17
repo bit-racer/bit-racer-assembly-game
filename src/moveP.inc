@@ -268,7 +268,7 @@ CHECK_P4R:
                 CMP COLLISION,1
                 JE R_SHIELD
                 MOV CAR1_POWER_UP,3
-                JMP R_end
+                JMP passR1
 
 
 R_SHIELD:
