@@ -294,8 +294,17 @@ CHECK2_P3U:
 CHECK2_P4U:
                  POWERUP_UP [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,POWERUP4_COLOR
                 CMP COLLISION,1
-                JE up_end2
+                JE U2_SHIELD
                 MOV CAR2_POWER_UP,3
+                JMP passUP2
+
+
+U2_SHIELD:
+            CMP CAR2_HAVE_SHIELD, 0
+            JE up_end2
+            POWERUP_UP [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,OBSTACLE_COLOR
+            CMP COLLISION,1
+            JE up_end2
     
              passUP2:
              mov Where,1
@@ -351,8 +360,19 @@ CHECK2_P3D:
 CHECK2_P4D:
                 POWERUP_DOWN [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,car2V_Height,POWERUP4_COLOR
                 CMP COLLISION,1
-                JE D_end2
+                JE D2_SHIELD
                 MOV CAR2_POWER_UP,3
+                JMP passD2
+
+
+
+D2_SHIELD:
+            CMP CAR2_HAVE_SHIELD, 0
+            JE D_end2
+            POWERUP_DOWN [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,car2V_Height,OBSTACLE_COLOR
+            CMP COLLISION,1
+            JE D_end2
+
  
 
              passD2:
@@ -408,8 +428,19 @@ CHECK2_P3L:
 CHECK2_P4L:
                   POWERUP_LEFT [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height,POWERUP4_COLOR
                 CMP COLLISION,1
-                JE L_end2
+                JE L2_SHIELD
                 MOV CAR2_POWER_UP,3
+                JMP passL2
+
+
+
+L2_SHIELD:
+            CMP CAR2_HAVE_SHIELD, 0
+            JE L_end2
+            POWERUP_LEFT [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height,OBSTACLE_COLOR
+            CMP COLLISION,1
+            JE L_end2
+
 
             passL2:
             mov Where,1
@@ -464,8 +495,17 @@ CHECK2_P3R:
 CHECK2_P4R:
                 POWERUP_RIGHT [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height,POWERUP4_COLOR
                 CMP COLLISION,1
-                JE R_end2
+                JE SHIELD
                 MOV CAR2_POWER_UP,3
+                JMP passR2
+
+SHIELD:
+            CMP CAR2_HAVE_SHIELD, 0
+            JE R_end2
+            POWERUP_RIGHT [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height,OBSTACLE_COLOR
+            CMP COLLISION,1
+            JE R_end2
+
              passR2:
              mov Where,0
              Move img2R,[car2_X_Offset],[car2_Y_Offset],[car2_X_Offset],car2H_Width,car2H_Height,[car2_speed],[car2_width_prev],[car2_height_prev]
@@ -480,6 +520,8 @@ main PROC
   MOV curdur, DURATION_SS
                mov CAR1_POWER_UP,4
                mov CAR2_POWER_UP,4
+               MOV CAR1_HAVE_SHIELD, 0
+               MOV CAR2_HAVE_SHIELD, 0
   mainLoop:  
                call     sleepSomeTime
                MOV CUR_CHECKING_CAR, 1

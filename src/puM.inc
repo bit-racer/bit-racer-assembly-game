@@ -99,6 +99,10 @@ ENDM
 PowerUpSwitch MACRO CAR_POWER_UP, MY_CAR_SPEED, HIS_CAR_SPEED, HIS_X, HIS_Y
                 LOCAL        powerup1, powerup2, powerup3, powerup4, END
 
+  ; reset shield powerup
+                ; MOV          CAR1_HAVE_SHIELD, 0
+                ; MOV          CAR2_HAVE_SHIELD, 0
+
                 CMP          CAR_POWER_UP, 0
                 JE           powerup1
                 CMP          CAR_POWER_UP, 1
@@ -134,6 +138,10 @@ PowerUpSwitch MACRO CAR_POWER_UP, MY_CAR_SPEED, HIS_CAR_SPEED, HIS_X, HIS_Y
 
   ; allow me to go throgh obstacles
   powerup4:     
+  ; temp give both cars shield
+                MOV          CAR1_HAVE_SHIELD, 1
+                MOV          CAR2_HAVE_SHIELD, 1
+
                 JMP          END
 
   END:          
