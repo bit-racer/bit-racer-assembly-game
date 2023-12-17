@@ -158,6 +158,7 @@ DATA SEGMENT USE16
     ; INITIAL_TRACK_DIRECTION DW              0
 
     ; Winning Variables
+    CUR_CHECKING_CAR    DB              0                                     ; 0: none, 1: user1, 2: user2
     WINNER              DB              0                                     ; 0: idle, 1: user1, 2: user2, 3: tie
     START_TRACK         DB              0
     
@@ -377,6 +378,7 @@ CODE SEGMENT USE16
                       JE              User2Wins
                       CMP             WINNER, 3
                       JE              Tie
+                      JMP             PROGRAM_LOOP
 
     User1Wins:        
                       ColorScreen     1
@@ -394,7 +396,7 @@ CODE SEGMENT USE16
                       mov             currentColumn, 30
                       mov             currentRow, 16
                       call            moveCursor
-                      MOV             DX, offset str_user1_won
+                      MOV             DX, offset str_user2_won
                       call            printmsg
                       CALL            WAIT_FOR_DELAY
                       WaitForKeyPress

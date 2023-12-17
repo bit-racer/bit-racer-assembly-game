@@ -40,7 +40,7 @@ LOCAL End,cmp_,continue, FINISH_LINE
               int 10H ; AL = COLOR
               cmp al, FINISH_COLOR
               JNE FINISH_LINE 
-              MOV WINNER,1   
+              SetWinner
               JMP CONTINUE
               FINISH_LINE:
               cmp al, NEXT_COLOR
@@ -76,7 +76,7 @@ LOCAL End,cmp_,continue, FINISH_LINE
               je cmp_
               cmp al, FINISH_COLOR
               JNE FINISH_LINE 
-              MOV WINNER,1   
+              SetWinner
               JMP CONTINUE
               FINISH_LINE:
               jmp End
@@ -105,7 +105,7 @@ LOCAL End,cmp_,continue, FINISH_LINE
               je cmp_
               cmp al, FINISH_COLOR
               JNE FINISH_LINE 
-              MOV WINNER,1   
+              SetWinner
               JMP CONTINUE
               FINISH_LINE:
               jmp End
@@ -135,7 +135,7 @@ LOCAL End,cmp_,continue, FINISH_LINE
 
               cmp al, FINISH_COLOR
               JNE FINISH_LINE 
-              MOV WINNER,1   
+              SetWinner
               JMP CONTINUE
               FINISH_LINE:
 
@@ -157,3 +157,11 @@ LOCAL End,cmp_,continue, FINISH_LINE
 mov cx,1
 continue:
 Endm MoveLeftConstraint
+
+
+SetWinner MACRO
+  PUSH BX 
+  MOV BL, CUR_CHECKING_CAR
+  MOV WINNER, BL
+  POP BX
+ENDM

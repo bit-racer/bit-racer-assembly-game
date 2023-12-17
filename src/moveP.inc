@@ -329,10 +329,12 @@ moveRight2 PROC
 main PROC 
   mainLoop:  
                call     sleepSomeTime
+               MOV CUR_CHECKING_CAR, 1
                call     moveUp
                call     moveDown
                call     moveLeft
                call     moveRight
+               MOV CUR_CHECKING_CAR, 2
                call     moveUp2
                call     moveDown2
                call     moveLeft2
