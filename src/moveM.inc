@@ -28,20 +28,10 @@ LOCAL up_endM,forward,backward,continueMoving
 endm Move
 
 
-;Draw car at border if the next movement will cross the border
-
-DrawAtBorder Macro img,car_x, car_y,width,height,w_p,h_p    
-             mov      di,offset img
-             DrawCar  car_x,car_y,width,height
-             mov cx,width
-             mov w_p,cx
-             mov cx,height
-             mov h_p,cx
-endm  DrawAtBorder
 
 ;Collision handling while moving up
 
-MoveUpConstraint Macro car_x,car_y,car_speed,car_width
+MoveUpConstraint Macro car_x,car_y,car_speed,car_width,NEXT_COLOR
 LOCAL End,cmp_,continue, FINISH_LINE
               mov ah,0Dh
               mov cx,car_x
@@ -53,7 +43,7 @@ LOCAL End,cmp_,continue, FINISH_LINE
               MOV WINNER,1   
               JMP CONTINUE
               FINISH_LINE:
-              cmp al, TRACK_COLOR
+              cmp al, NEXT_COLOR
               je cmp_
               jmp End
               cmp_:
@@ -63,7 +53,7 @@ LOCAL End,cmp_,continue, FINISH_LINE
 
               add cx,car_width-2
               int 10H ; AL = COLOR
-              cmp al, TRACK_COLOR
+              cmp al, NEXT_COLOR
               je continue
               jmp End
               End:
@@ -74,7 +64,7 @@ LOCAL End,cmp_,continue, FINISH_LINE
 
 ;Collision handling while moving down
 
-MoveDownConstraint Macro car_x,car_y,car_speed,car_width,car_height
+MoveDownConstraint Macro car_x,car_y,car_speed,car_width,car_height,NEXT_COLOR
 LOCAL End,cmp_,continue, FINISH_LINE
               mov ah,0Dh
               mov cx,car_x
@@ -103,7 +93,7 @@ Endm MoveDownConstraint
 
 ;Collision handling while moving right
 
-MoveRightConstraint Macro car_x,car_y,car_speed,car_width,car_height
+MoveRightConstraint Macro car_x,car_y,car_speed,car_width,car_height,NEXT_COLOR
 LOCAL End,cmp_,continue, FINISH_LINE
               mov ah,0Dh
               mov cx,car_x
@@ -132,7 +122,7 @@ Endm MoveRightConstraint
 
 ;Collision handling while moving left
 
-MoveLeftConstraint Macro car_x,car_y,car_speed,car_width,car_height
+MoveLeftConstraint Macro car_x,car_y,car_speed,car_width,car_height,NEXT_COLOR
 LOCAL End,cmp_,continue, FINISH_LINE
               mov ah,0Dh
               mov cx,car_x
@@ -140,7 +130,7 @@ LOCAL End,cmp_,continue, FINISH_LINE
               sub cx,car_speed
 
               int 10H ; AL = COLOR
-              cmp al,TRACK_COLOR
+              cmp al,NEXT_COLOR
               je cmp_
 
               cmp al, FINISH_COLOR
@@ -157,7 +147,7 @@ LOCAL End,cmp_,continue, FINISH_LINE
               int 10H ; AL = COLOR
 
 
-              cmp al, TRACK_COLOR
+              cmp al, NEXT_COLOR
               je continue
 
 
