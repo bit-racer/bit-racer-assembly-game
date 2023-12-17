@@ -1,0 +1,4 @@
+
+DEL MAIN.EXE
+DEL *.MAP
+DEL *.OBJ
