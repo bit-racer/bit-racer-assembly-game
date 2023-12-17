@@ -267,19 +267,37 @@ moveRight2 PROC
              endp
 
 main PROC 
+  CALL GET_STARTING_TIME
+  CALL CALC_FINISH
+  MOV curdur, DURATION_SS
   mainLoop:  
                
                CALL GET_TIME
+               CALL PrintTimer
                CMP WINNER, 0
                JNE WIN
                
                PUSH CX
-               MOV CL , CMINUTES
-               CMP CL , FMINUTES
-               JNE NOT_ANNOUNCE_TIE
-               MOV CL , CSECONDS
-               CMP CL , FSECONDS
-               JNE NOT_ANNOUNCE_TIE
+              ;  MOV CL , CMINUTES
+              ;  CMP CL , FMINUTES
+              ;  JNE NOT_ANNOUNCE_TIE
+              ;  MOV CL , CSECONDS
+              ;  CMP CL , FSECONDS
+              ;  JNE NOT_ANNOUNCE_TIE
+              ;CMP DURATION_S, 0
+              MOV Al, PSECONDS
+              CMP Al, CSECONDS
+              JE DINC_TIMER
+              MOV AL, curdur
+              SUB AL, 1
+              DAS
+              MOV curdur, AL
+
+              CMP curdur, 0
+              JE ANNOUNCE_TIE
+
+              DINC_TIMER:
+              JMP NOT_ANNOUNCE_TIE
                ANNOUNCE_TIE:
                   MOV WINNER , 3
                   POP CX

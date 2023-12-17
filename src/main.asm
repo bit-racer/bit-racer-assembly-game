@@ -54,11 +54,11 @@ DATA SEGMENT USE16
     ; includes
                               include         consts.inc
     ; Images
-                              include         exit_img.inc                          ; exit btn image
-                              include         arr_up.inc                            ; arrow up image
-                              include         car1s.inc                             ; red car small
-                              include         car2s.inc                             ; green car small
-                              include         track.inc                             ; track
+                              include         exit_img.inc                           ; exit btn image
+                              include         arr_up.inc                             ; arrow up image
+                              include         car1s.inc                              ; red car small
+                              include         car2s.inc                              ; green car small
+                              include         track.inc                              ; track
 
     ;=================================================================================
 
@@ -86,12 +86,14 @@ DATA SEGMENT USE16
     str_user1_won             db              "User1 Won!", '$'
     str_user2_won             db              "User2 Won!", '$'
     str_tie                   db              "Tie!", '$'
+
+    TIMER_STR                 DB              '00:00', 0dh, 0ah, '$', 10 DUP('$')
     
     ; variables
     currentColumn             db              0
     currentRow                db              0
     currentColor              db              BLACK
-    curCar                    db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
+    curCar                    db              0                                      ; 0: red, 1: green, 2: reed, 3: pink
 
     ; User 1 data
                               usernameBuffer1 label byte
@@ -104,7 +106,7 @@ DATA SEGMENT USE16
     ptsActualSize1            db              ?
     pointsString1             db              5 DUP ('$')
 
-    usrCar1                   db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
+    usrCar1                   db              0                                      ; 0: red, 1: green, 2: reed, 3: pink
 
 
     ; User 2 data
@@ -118,10 +120,10 @@ DATA SEGMENT USE16
     ptsActualSize2            db              ?
     pointsString2             db              5 DUP ('$')
 
-    usrCar2                   db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
+    usrCar2                   db              0                                      ; 0: red, 1: green, 2: reed, 3: pink
 
     ; Main Menu Buttons variables
-    curBtn                    db              1                                     ; 0: chat, 1: play, 2: exit
+    curBtn                    db              1                                      ; 0: chat, 1: play, 2: exit
 
     ; Car Movement Variables and keyboard input handling
     KeyList                   db              128 dup (0)
@@ -158,14 +160,19 @@ DATA SEGMENT USE16
     ; INITIAL_TRACK_DIRECTION DW              0
 
     ; Winning Variables
-    WINNER                    DB              0                                     ; 0: idle, 1: user1, 2: user2, 3: tie
+    WINNER                    DB              0                                      ; 0: idle, 1: user1, 2: user2, 3: tie
     START_TRACK               DB              0
+    randomVar                 db              0, 0, 0
+    DURATION_SS     EQu              10011001B             ; 20 seconds
 
-    DURATION                  DB              5
+    curdur                    db              0
+
+    DURATION_M                DB              00000001B                              ; 1 minute
     FMINUTES                  DB              ?
     FSECONDS                  DB              ?
     CMINUTES                  DB              ?
     CSECONDS                  DB              ?
+    PSECONDS                  DB              ?
     SMINUTES                  DB              ?
     SSECONDS                  DB              ?
     CURRENT_MOMENT_IN_SECONDS DB              ?
@@ -415,7 +422,7 @@ CODE SEGMENT USE16
                       mov             currentColumn, 30
                       mov             currentRow, 16
                       call            moveCursor
-                      MOV             DX, offset str_user1_won
+                      MOV             DX, offset str_tie
                       call            printmsg
                       CALL            WAIT_FOR_DELAY
                       WaitForKeyPress
