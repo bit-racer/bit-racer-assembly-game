@@ -25,6 +25,7 @@ include     drawM.inc       ; drawing macros
 include     moveM.inc       ; car movement macros 
 include     trackMM.inc     ; Move track random walker function
 include     chatM.inc       ; chat macros
+include     DetectP.inc
 ;=================================================================================
 
 
@@ -169,12 +170,14 @@ DATA SEGMENT USE16
     rand_value          dw              0
 
     ; TIMER Data
-    DURATION_SS         EQU             00101001B  ; Write in BCD
+    DURATION_SS         EQU             00101001B                             ; Write in BCD
     curdur              db              0
     CMINUTES            DB              ?
     CSECONDS            DB              ?
     PSECONDS            DB              ?
-
+    COLLISION           DB              0
+    CAR1_POWER_UP       db              4
+    CAR2_POWER_UP       db              4
     
 DATA ENDS
 ;=================================================================================
