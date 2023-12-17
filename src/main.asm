@@ -389,6 +389,7 @@ CODE SEGMENT USE16
                       MOV             DX, offset str_user1_won
                       call            printmsg
                       CALL            WAIT_FOR_DELAY
+                      delayM          1000
                       WaitForKeyPress
                       JMP             PROGRAM_LOOP
     User2Wins:        
@@ -399,6 +400,7 @@ CODE SEGMENT USE16
                       MOV             DX, offset str_user2_won
                       call            printmsg
                       CALL            WAIT_FOR_DELAY
+                      delayM          1000
                       WaitForKeyPress
                       JMP             PROGRAM_LOOP
     Tie:              
@@ -409,6 +411,7 @@ CODE SEGMENT USE16
                       MOV             DX, offset str_user1_won
                       call            printmsg
                       CALL            WAIT_FOR_DELAY
+                      delayM          1000
                       WaitForKeyPress
                       JMP             PROGRAM_LOOP
 
@@ -416,7 +419,9 @@ CODE SEGMENT USE16
 
     ;;;;;;;;;;;;;;;;;;;;;;;;; End
     EXIT:             
-                      ClearScreen
+    ; return to text mode
+                      mov             ax, 0003h
+                      int             10h
                       mov             ax ,4c00h
                       int             21h
 
