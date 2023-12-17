@@ -19,13 +19,19 @@ ActivatePowerUp MACRO
   ; Check if car 1 presses enter to activate its powerup
                   cmp            [byte ptr KeyList+28d], 1
                   jne            CHECK_CAR_2
-                  MOV            CAR1_POWER_UP, 4           ; no power up
+
+                  PowerUpSwitch  CAR1_POWER_UP, car1_speed, car2_speed
+
+                  MOV            CAR1_POWER_UP, 4                       ; no power up
 
 
   CHECK_CAR_2:    
                   cmp            [byte ptr KeyList+57d], 1
                   jne            END
-                  MOV            CAR2_POWER_UP, 4           ; no power up
+
+                  PowerUpSwitch  CAR2_POWER_UP, car2_speed, car1_speed
+
+                  MOV            CAR2_POWER_UP, 4                       ; no power up
     
   END:            
   
@@ -87,4 +93,35 @@ ClearPowerUp MACRO
                CALL moveCursor
                MOV  DX, offset str_clear
                CALL printmsg
+ENDM
+
+; PowerUp switch activator
+PowerUpSwitch MACRO CAR_POWER_UP, MY_CAR_SPEED, HIS_CAR_SPEED
+                LOCAL powerup1, powerup2, powerup3, powerup4, END
+
+                CMP   CAR_POWER_UP, 0
+                JE    powerup1
+                CMP   CAR_POWER_UP, 1
+                JE    powerup2
+                CMP   CAR_POWER_UP, 2
+                JE    powerup3
+                CMP   CAR_POWER_UP, 3
+                JE    powerup4
+                JMP   END
+
+  powerup1:     
+                MOV   MY_CAR_SPEED, 15
+                JMP   END
+
+  powerup2:     
+                MOV   HIS_CAR_SPEED, 5
+                JMP   END
+
+  powerup3:     
+                JMP   END
+
+  powerup4:     
+                JMP   END
+
+  END:          
 ENDM
