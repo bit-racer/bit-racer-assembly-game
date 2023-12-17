@@ -164,6 +164,14 @@ DATA SEGMENT USE16
 
     ; rand
     rand_value          dw              0
+
+    ; TIMER Data
+    DURATION_SS         EQU             10011001B                             ; 20 seconds
+    curdur              db              0
+    CMINUTES            DB              ?
+    CSECONDS            DB              ?
+    PSECONDS            DB              ?
+
     
 DATA ENDS
 ;=================================================================================
