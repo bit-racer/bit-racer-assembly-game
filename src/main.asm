@@ -161,6 +161,9 @@ DATA SEGMENT USE16
     CUR_CHECKING_CAR    DB              0                                     ; 0: none, 1: user1, 2: user2
     WINNER              DB              0                                     ; 0: idle, 1: user1, 2: user2, 3: tie
     START_TRACK         DB              0
+
+    ; rand
+    rand_value          dw              0
     
 DATA ENDS
 ;=================================================================================

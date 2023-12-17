@@ -44,3 +44,27 @@ delayM MACRO delay
               loop  delayM_L1
               popa
 ENDM
+
+; Random number generator
+; Generates a random number between 0 and END -1 
+GenerateRandomNumber MACRO END
+                         pusha
+                         MOV   AH, 00h
+                         INT   1Ah
+                         MOV   AX, DX
+                         XOR   DX, DX
+                         MOV   CX, END
+                         DIV   CX
+                         MOV   rand_value, DX
+
+                         popa
+ENDM
+
+GeneralDelayINT MACRO delay
+                    pusha
+                    mov   cx, 0
+                    mov   dx, delay
+                    mov   ah, 86h
+                    int   15h
+                    popa
+ENDM

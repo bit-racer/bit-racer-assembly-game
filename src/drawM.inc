@@ -245,6 +245,8 @@ LOCAL star,Drawit,a1,Start,ENDING ,noErase, FINAL, DRAW_O1, DRAW_O2
                Jmp    Drawit
 
   ENDING:
+  ; Generate the PowerUps randomly
+  SpawnPowerUps curr_track_x, curr_track_y
   ; Generate the obstacles randomly
   CALL WAIT_FOR_DELAY
   CALL RAND_FROM_0_TO_3
@@ -270,6 +272,66 @@ DRAW_O2:
   SUB curr_track_y, OBSTACLE_2_OFFSET_Y
   FINAL:
 endm DrawTrack
+
+; ============================================================================================================================
+; Spawn obstacles
+; ============================================================================================================================
+SpawnPowerUps macro curr_track_x, curr_track_y
+        LOCAL CONFIG_1, CONFIG_2, CONFIG_3, CONFIG_4, END
+pusha
+        ; Get random number between 0, 9
+        GenerateRandomNumber 10
+        GeneralDelayINT 50000 ; adjusting delay affects the randomness
+        ; TODO: move to random function that requires lower delay
+
+
+        ;DrawRectangle curr_track_x, curr_track_y, POWERUP_SIZE, POWERUP_SIZE, POWERUP1_COLOR
+
+        CMP rand_value, 0
+        JE CONFIG_1
+        CMP rand_value, 1
+        JE CONFIG_2
+        CMP rand_value, 2
+        JE CONFIG_3
+        CMP rand_value, 3
+        JE CONFIG_4
+        JMP END
+
+        CONFIG_1:
+        ADD curr_track_x, POWERUP1_OFFSET_X
+        ADD curr_track_y, POWERUP1_OFFSET_Y
+        DrawRectangle curr_track_x, curr_track_y, POWERUP_SIZE, POWERUP_SIZE, POWERUP1_COLOR
+        SUB curr_track_x, POWERUP1_OFFSET_X
+        SUB curr_track_y, POWERUP1_OFFSET_Y
+        JMP END
+
+        CONFIG_2:
+        ADD curr_track_x, POWERUP2_OFFSET_X
+        ADD curr_track_y, POWERUP2_OFFSET_Y
+        DrawRectangle curr_track_x, curr_track_y, POWERUP_SIZE, POWERUP_SIZE, POWERUP2_COLOR
+        SUB curr_track_x, POWERUP2_OFFSET_X
+        SUB curr_track_y, POWERUP2_OFFSET_Y
+        JMP END
+
+        CONFIG_3:
+        ADD curr_track_x, POWERUP3_OFFSET_X
+        ADD curr_track_y, POWERUP3_OFFSET_Y
+        DrawRectangle curr_track_x, curr_track_y, POWERUP_SIZE, POWERUP_SIZE, POWERUP3_COLOR
+        SUB curr_track_x, POWERUP3_OFFSET_X
+        SUB curr_track_y, POWERUP3_OFFSET_Y
+        JMP END
+
+        CONFIG_4:
+        ADD curr_track_x, POWERUP4_OFFSET_X
+        ADD curr_track_y, POWERUP4_OFFSET_Y
+        DrawRectangle curr_track_x, curr_track_y, POWERUP_SIZE, POWERUP_SIZE, POWERUP4_COLOR
+        SUB curr_track_x, POWERUP4_OFFSET_X
+        SUB curr_track_y, POWERUP4_OFFSET_Y
+        JMP END
+
+      END:
+popa
+endm SpawnPowerUps
 
 
 ; ============================================================================================================================
