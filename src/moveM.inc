@@ -2,6 +2,7 @@
 
 Move Macro img,car_x, car_y,direction,width,height,car_speed,w_p,h_p
 LOCAL up_endM,forward,backward,continueMoving
+MOV COLLISION,0
              mov Erase,1
              MOV RECOLOR, TRACK_COLOR 
              DrawCar car_x,car_y,w_p,h_p
@@ -31,41 +32,48 @@ endm Move
 
 ;Collision handling while moving up
 
-MoveUpConstraint Macro car_x,car_y,car_speed,car_width,NEXT_COLOR
-LOCAL End,cmp_,continue, FINISH_LINE
+MoveUpConstraint Macro car_x,car_y,car_speed,car_width
+LOCAL End,cmp_,continue, FINISH_LINE,cmp_2
+MOV COLLISION,0
+
               mov ah,0Dh
               mov cx,car_x
               mov dx,car_y
               sub dx,car_speed
               int 10H ; AL = COLOR
-              cmp al, FINISH_COLOR
-              JNE FINISH_LINE 
+              cmp al, TRACK_COLOR
+              JE cmp_
+               cmp al, FINISH_COLOR
+               JNE FINISH_LINE
               SetWinner
               JMP CONTINUE
               FINISH_LINE:
-              cmp al, NEXT_COLOR
+              cmp al, TRACK_COLOR
               je cmp_
               jmp End
               cmp_:
-
-
-
-
-              add cx,car_width-2
+              add cx,car_width
               int 10H ; AL = COLOR
-              cmp al, NEXT_COLOR
+              cmp al, TRACK_COLOR
+              je cmp_2
+              jmp end
+              cmp_2:
+              sub cx,8
+              int 10H ; AL = COLOR
+              cmp al, TRACK_COLOR
               je continue
-              jmp End
               End:
-              mov cx,1
+              mov COLLISION,1
               continue:
               endm MoveUpConstraint
 
 
 ;Collision handling while moving down
 
-MoveDownConstraint Macro car_x,car_y,car_speed,car_width,car_height,NEXT_COLOR
-LOCAL End,cmp_,continue, FINISH_LINE
+MoveDownConstraint Macro car_x,car_y,car_speed,car_width,car_height
+LOCAL End,cmp_,continue, FINISH_LINE,cmp_2
+MOV COLLISION,0
+
               mov ah,0Dh
               mov cx,car_x
               mov dx,car_y 
@@ -81,20 +89,27 @@ LOCAL End,cmp_,continue, FINISH_LINE
               FINISH_LINE:
               jmp End
               cmp_:
-              add cx,car_width-2
+              add cx,car_width
+              int 10H ; AL = COLOR
+              cmp al, TRACK_COLOR
+               je cmp_2
+              jmp end
+              cmp_2:
+              sub cx,8
               int 10H ; AL = COLOR
               cmp al, TRACK_COLOR
               je continue
-              jmp End
               End:
-mov cx,1
+mov COLLISION,1
 continue:
 Endm MoveDownConstraint
 
 ;Collision handling while moving right
 
-MoveRightConstraint Macro car_x,car_y,car_speed,car_width,car_height,NEXT_COLOR
-LOCAL End,cmp_,continue, FINISH_LINE
+MoveRightConstraint Macro car_x,car_y,car_speed,car_width,car_height
+LOCAL End,cmp_,continue, FINISH_LINE,cmp_2
+MOV COLLISION,0
+
               mov ah,0Dh
               mov cx,car_x
               mov dx,car_y
@@ -110,27 +125,35 @@ LOCAL End,cmp_,continue, FINISH_LINE
               FINISH_LINE:
               jmp End
               cmp_:
-              add dx,car_height-2
+              add dx,car_height
+              int 10H ; AL = COLOR
+              cmp al, TRACK_COLOR
+              je cmp_2
+              jmp end
+              cmp_2:
+              sub dx,8
               int 10H ; AL = COLOR
               cmp al, TRACK_COLOR
               je continue
               jmp End
 End:
-mov cx,1
+mov COLLISION,1
 continue:
 Endm MoveRightConstraint
 
 ;Collision handling while moving left
 
-MoveLeftConstraint Macro car_x,car_y,car_speed,car_width,car_height,NEXT_COLOR
-LOCAL End,cmp_,continue, FINISH_LINE
+MoveLeftConstraint Macro car_x,car_y,car_speed,car_width,car_height
+LOCAL End,cmp_,continue, FINISH_LINE,cmp_2
+MOV COLLISION,0
+
               mov ah,0Dh
               mov cx,car_x
               mov dx,car_y
               sub cx,car_speed
 
               int 10H ; AL = COLOR
-              cmp al,NEXT_COLOR
+              cmp al,TRACK_COLOR
               je cmp_
 
               cmp al, FINISH_COLOR
@@ -143,18 +166,21 @@ LOCAL End,cmp_,continue, FINISH_LINE
 
               cmp_:
               mov ah,0Dh
-              add dx,car_height-2
+              add dx,car_height
               int 10H ; AL = COLOR
 
 
-              cmp al, NEXT_COLOR
+              cmp al, TRACK_COLOR
+              je cmp_2
+              jmp end
+              cmp_2:
+              sub dx,8
+              int 10H ; AL = COLOR
+              cmp al, TRACK_COLOR
               je continue
-
-
-
               jmp End
             End:
-mov cx,1
+mov COLLISION,1
 continue:
 Endm MoveLeftConstraint
 
