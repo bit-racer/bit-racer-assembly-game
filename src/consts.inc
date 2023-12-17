@@ -47,7 +47,7 @@ SCREEN_CHARS    equ SCREEN_COLS * SCREEN_ROWS
   POWERUP3_COLOR       EQU     63h ; light blue
   POWERUP4_COLOR       EQU     44h ; yellow
 
-  POWERUP_SIZE         EQU     17 ; TODO: change later
+  POWERUP_SIZE         EQU     10 ; TODO: change later
 
   POWERUP1_OFFSET_X    EQU     10
   POWERUP1_OFFSET_Y    EQU     5 + POWERUP_SIZE

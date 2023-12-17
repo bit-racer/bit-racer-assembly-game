@@ -163,7 +163,7 @@ DATA SEGMENT USE16
     START_TRACK         DB              0
 
     ; rand
-    rand_value          db              0
+    rand_value          dw              0
     
 DATA ENDS
 ;=================================================================================

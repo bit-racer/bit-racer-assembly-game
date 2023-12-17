@@ -62,8 +62,8 @@ ENDM
 
 GeneralDelayINT MACRO delay
                     pusha
-                    mov   cx, delay
-                    mov   dx, 0
+                    mov   cx, 0
+                    mov   dx, delay
                     mov   ah, 86h
                     int   15h
                     popa
