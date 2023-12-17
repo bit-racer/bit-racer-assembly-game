@@ -61,6 +61,7 @@ DATA SEGMENT USE16
                         include         car1s.inc                             ; red car small
                         include         car2s.inc                             ; green car small
                         include         track.inc                             ; track
+                        include         bgt_img.inc
 
     ;=================================================================================
 
@@ -414,6 +415,7 @@ CODE SEGMENT USE16
 
     User1Wins:        
                       ColorScreen        1
+                      DrawBGTile
     ; Set curser to the middle of the screen
                       mov                currentColumn, 30
                       mov                currentRow, 16
@@ -429,11 +431,12 @@ CODE SEGMENT USE16
                       MOV                SI, offset img_green_car_large
                       CALL               DrawImageE
                       CALL               WAIT_FOR_DELAY
-                      delayM             1000
+                      GeneralDelayINT 50000
                       WaitForKeyPress
                       JMP                PROGRAM_LOOP
     User2Wins:        
                       ColorScreen        2
+                      DrawBGTile
                       mov                currentColumn, 30
                       mov                currentRow, 16
                       call               moveCursor
@@ -447,6 +450,7 @@ CODE SEGMENT USE16
                       SetDrawImageParams 273, 351, pink_car_large_width, pink_car_large_height, 0, 0, 0
                       MOV                SI, offset img_pink_car_large
                       CALL               DrawImageE
+                      GeneralDelayINT 50000
                       CALL               WAIT_FOR_DELAY
                       delayM             1000
                       WaitForKeyPress
@@ -459,6 +463,7 @@ CODE SEGMENT USE16
                       MOV                DX, offset str_tie
                       call               printmsg
                       CALL               WAIT_FOR_DELAY
+                      GeneralDelayINT 50000
                       delayM             1000
                       WaitForKeyPress
                       JMP                PROGRAM_LOOP

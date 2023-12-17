@@ -410,3 +410,37 @@ DrawRectangle MACRO X, Y, WIDTH, HEIGHT, COLOR
   ENDING:
                 popa
 ENDM
+
+
+; ============================================================================================================================
+; Draw BG tile macro
+; ============================================================================================================================
+DrawBGTile MACRO
+  LOCAL ROW
+  pusha
+
+      MOV CX, 0
+      MOV DX, 0
+
+      ROW:
+
+      SetDrawImageParams CX, DX, bg_tile_width, bg_tile_height, 0, 0, 0
+      MOV SI, offset img_bg_tile
+      pusha
+      CALL DrawImage
+      popa
+
+      ADD CX, bg_tile_width
+      CMP CX, 640
+      JL ROW
+
+      MOV CX, 0
+      ADD DX, bg_tile_height
+      CMP DX, 480
+      JL ROW
+
+
+
+
+  popa
+ENDM 
