@@ -72,7 +72,7 @@ moveDown PROC
             MoveDownConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height,TRACK_COLOR
             cmp cx,1
              JE CHECK_P1D
-             JMP D_end2                                                                                           ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
+             JMP passD
              CHECK_P1D:
             ;    MoveDownConstraint  [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height,P1_COLOR          ;P1 COLOR (POWER UP 1 COLOR)
              CMP CX,1
@@ -228,7 +228,7 @@ moveDown2 PROC
              MoveDownConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,car2V_Height,TRACK_COLOR
                cmp cx,1                 ;CX IS 1 WHEN THERE IS A COLLISION
              JE CHECK2_P1D
-             JMP D_end2                                                                                           ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
+             JMP passD2                                                                                           ; THE LOGIC IS TO DETECTED IS TRACK? ELSE IS P1? ELSE IS P2? 
              CHECK2_P1D:
             ;    MoveDownConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,car2V_Height,P1_COLOR          ;P1 COLOR (POWER UP 1 COLOR)
              CMP CX,1
