@@ -78,12 +78,13 @@ DATA SEGMENT USE16
 
 
     ; strings to print
-    str_enter_usrname1  db              "User1's Name:", '$'
-    str_initial_points1 db              "User1's Initial Points: ", '$'
+    str_enter_usrname1  db              "User1's Name: ", '$'
+    str_player1         db              "Player 1: ", '$'
 
-    str_enter_usrname2  db              "User2's Name:", '$'
-    str_initial_points2 db              "User2's Initial Points: ", '$'
+    str_enter_usrname2  db              "User2's Name: ", '$'
+    str_player2         db              "Player 2: ", '$' 
 
+    str_choose_car      db              "Choose your car using < >", '$'
     str_press_enter_key db              "Press Enter Key To Continue", '$'
 
 
@@ -238,8 +239,8 @@ CODE SEGMENT USE16
     ; Read username1
                       readData           str_enter_usrname1, usernameBuffer1
     
-    ; Read points1
-                      readData           str_initial_points1, pointsBuffer1
+                      printData          str_choose_car
+
     
     ; Read usr car by moving by the arrow keys <- and -> to choose press enter
                       MOV                curCar, 0
@@ -295,8 +296,7 @@ CODE SEGMENT USE16
     ; Read username2
                       readData           str_enter_usrname2, usernameBuffer2
 
-    ; Read points1
-                      readData           str_initial_points2, pointsBuffer2
+                      printData          str_choose_car
     
     ; Read usr car by moving by the arrow keys <- and -> to choose press enter
                       MOV                curCar, 0
@@ -347,9 +347,8 @@ CODE SEGMENT USE16
                       mov                currentRow, 16
                       call               moveCursor
 
-    ; print both data to make sure
-                      printData          username1, pointsString1
-                      printData          username2, pointsString2
+    ; print players' data 
+                      call printSummary
 
                       WaitForKeyPress
     

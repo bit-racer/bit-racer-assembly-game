@@ -599,9 +599,9 @@ main PROC
 
 
   CONT_MAIN:
-  ; if Esc is not pressed, jump back to mainLoop
+  ; if F4 is not pressed, jump back to mainLoop
                                                                            ; -> AH=1 Pressed, AH=0 Released
-             cmp     [byte ptr KeyList+01h], 1
+             cmp     [byte ptr KeyList+3eh], 1
              jne     mainLoop
             
     WIN:
@@ -615,6 +615,7 @@ PutCars PROC
 
         ; Reset key map
         mov [byte ptr KeyList+01h],0 ; reset esc
+        mov [byte ptr KeyList+3eh],0 ; reset F4
 
         ; reset all keys
         mov [byte ptr KeyList+48h],0 ; reset up

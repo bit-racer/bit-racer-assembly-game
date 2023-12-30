@@ -16,18 +16,13 @@ readData MACRO promt, buffer
              call moveCursor
 ENDM
 
-printData MACRO usrname, ptsString
+printData MACRO usrname
               mov  dx, offset usrname
               call printmsg
 
               inc  currentRow
               call moveCursor
 
-              mov  dx, offset ptsString
-              call printmsg
-
-              inc  currentRow
-              call moveCursor
 ENDM
 
 ; Delay macro with counter
