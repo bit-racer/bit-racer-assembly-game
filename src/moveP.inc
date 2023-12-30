@@ -727,7 +727,18 @@ DRIVE:
           ;mov          ah, 0
           ;mov          al, 2
           ;int          10h
+          
+          ;! sleep for 5 sec TEST if there is no winner
+          ;TODO: REMOVE THIS 
+          
+          CMP WINNER, 0
+          JNE DNOTDELAY
+          mov dx, offset str_exiting_5sec
+          call printmsg 
+          
+          call delay5s
 
+          DNOTDELAY:
      ; restore the original int09h handler
           pop          dx ds
           mov          ax, 2509h

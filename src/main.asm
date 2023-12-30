@@ -104,6 +104,8 @@ DATA SEGMENT USE16
 
     TIMER_STR           DB              '00S', 0dh, 0ah, '$', 10 DUP('$')
     
+    str_exiting_5sec    db              "Exiting in < 5 sec", '$'
+
     ; variables
     currentColumn       db              0
     currentRow          db              0
@@ -431,7 +433,8 @@ CODE SEGMENT USE16
                       CALL               DrawImageE
                       CALL               WAIT_FOR_DELAY
                       GeneralDelayINT 50000
-                      WaitForKeyPress
+                      
+                      call delay5s
                       JMP                PROGRAM_LOOP
     User2Wins:        
                       ColorScreen        2
@@ -452,7 +455,8 @@ CODE SEGMENT USE16
                       GeneralDelayINT 50000
                       CALL               WAIT_FOR_DELAY
                       delayM             1000
-                      WaitForKeyPress
+                      
+                      call delay5s
                       JMP                PROGRAM_LOOP
     Tie:              
                       ColorScreen        3
@@ -464,7 +468,8 @@ CODE SEGMENT USE16
                       CALL               WAIT_FOR_DELAY
                       GeneralDelayINT 50000
                       delayM             1000
-                      WaitForKeyPress
+                      
+                      call delay5s
                       JMP                PROGRAM_LOOP
 
 

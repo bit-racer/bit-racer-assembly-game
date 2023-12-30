@@ -102,3 +102,15 @@ PutBCD2 PROC
     ret
 PutBCD2 ENDP
 
+;description
+delay5s PROC
+    mov cx, 0ffffh
+    lbl:
+        mov ax, 0b00h
+        lbl1:
+            dec ax
+        jnz lbl1
+    loop lbl
+
+    ret
+delay5s ENDP
