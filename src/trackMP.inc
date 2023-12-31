@@ -175,7 +175,7 @@ MOV COUNT_DRAWN_AXIS,0
              INC             BX
              CMP             SI,DIR_SIZE
              JNZ             DRAW_TRACK
-             CMP             COUNT,10
+             CMP             COUNT,15
              JB              MAINLOOP2
 
  

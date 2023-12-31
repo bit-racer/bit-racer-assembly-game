@@ -10,6 +10,7 @@ JE ENDL
               MOV PU_X,point_x
               MOV PU_Y,point_y
               ErasePowerup PU_X,PU_Y,color
+              ; MOV COLLISION,1
 ENDL:
 popa
 ENDM CheckColisionForPowerup
