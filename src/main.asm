@@ -194,6 +194,12 @@ DATA SEGMENT USE16
 
     CAR1_HAVE_SHIELD    db              0
     CAR2_HAVE_SHIELD    db              0
+
+    TRACK_AXIS          DW              50 DUP(?)
+    COUNT_DRAWN_AXIS    DW              0
+    
+    LAST_DIR_HORIZ      DB              0
+    LAST_DIR_VERT       DB              0
     
 DATA ENDS
 ;=================================================================================

@@ -3,7 +3,17 @@
 MoveTrack Macro img,TRACK_x, TRACK_y,direction,width,height,TRACK_SIZE
 LOCAL up_endM,forward,backward,continueMoving,INIT,DRAW_PIECE
 
-INC COUNT
+             INC COUNT
+             MOV CX,0000H
+             mov CX,TRACK_x
+             mov bx,offset TRACK_AXIS
+             ADD BX , COUNT_DRAWN_AXIS
+             MOV word ptr [BX],CX
+             MOV CX,0000H
+             MOV CX,TRACK_y
+             ADD BX,2
+             MOV word ptr [BX],CX
+             ADD COUNT_DRAWN_AXIS,4
              cmp Where,1
              jne backward
              jmp forward
@@ -15,16 +25,7 @@ INC COUNT
              mov      cx,TRACK_SIZE  
              sub      direction,cx
              continueMoving:
-             mov      di,offset img
-            ;  CMP START_TRACK,0
-            ;  JE INIT
-            ;  JMP DRAW_PIECE
-            ;  INIT:
-            ;  MOV CX,TRACK_x
-            ;  MOV DX, TRACK_y
-            ;  MOV  [INITIAL_TRACK_X]        ,            CX
-            ;  MOV [INITIAL_TRACK_Y]        ,             DX
-            ;  DRAW_PIECE:
+             mov   di,offset img             
              DrawTrack  TRACK_x,TRACK_y,width,height
 
              up_endM:
