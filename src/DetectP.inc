@@ -3,14 +3,58 @@
 ; Check if the car is colliding with the powerup
 ; ====================================================================================================
 CheckColisionForPowerup MACRO point_x, point_y, color 
-LOCAL ENDL
+LOCAL ENDL, POWERUP1, POWERUP2, POWERUP3, POWERUP4, PU1C2, PU2C2, PU3C2, PU4C2
 pusha
 CMP COLLISION,1
 JE ENDL 
               MOV PU_X,point_x
               MOV PU_Y,point_y
               ErasePowerup PU_X,PU_Y,color
-              ; MOV COLLISION,1
+              MOV COLLISION,1
+
+              ; Give powerup
+              MOV AX, color
+              CMP AX, POWERUP1_COLOR
+              JE POWERUP1
+              CMP AX, POWERUP2_COLOR
+              JE POWERUP2
+              CMP AX, POWERUP3_COLOR
+              JE POWERUP3
+              CMP AX, POWERUP4_COLOR
+              JE POWERUP4
+
+POWERUP1:
+        CMP CUR_CHECKING_CAR, 2
+        JNE PU1C2
+        MOV CAR1_POWER_UP,0
+        JMP ENDL
+PU1C2:
+        MOV CAR2_POWER_UP,0
+        JMP ENDL
+POWERUP2:
+        CMP CUR_CHECKING_CAR, 2
+        JNE PU2C2
+        MOV CAR1_POWER_UP,1
+        JMP ENDL
+PU2C2:
+        MOV CAR2_POWER_UP,1
+        JMP ENDL
+POWERUP3:
+        CMP CUR_CHECKING_CAR, 2
+        JNE PU3C2
+        MOV CAR1_POWER_UP,2
+        JMP ENDL
+PU3C2:
+        MOV CAR2_POWER_UP,2
+        JMP ENDL
+POWERUP4:
+        CMP CUR_CHECKING_CAR, 2
+        JNE PU4C2
+        MOV CAR1_POWER_UP,3
+        JMP ENDL
+PU4C2:
+        MOV CAR2_POWER_UP,3
+        JMP ENDL
 ENDL:
 popa
 ENDM CheckColisionForPowerup

@@ -194,6 +194,7 @@ DATA SEGMENT USE16
 
     CAR1_POWER_UP       db              4
     CAR2_POWER_UP       db              4
+    CUR_POWER_UP        db              4
 
     CAR1_HAVE_SHIELD    db              0
     CAR2_HAVE_SHIELD    db              0
