@@ -116,6 +116,9 @@ StartChat ENDP
 
 StartGameChat PROC
        initPort
+       DrawRectangle 0,0,SCREEN_WIDTH,32,05h
+       MOV rec_row, 1
+       MOV sender_row, 1
       
 
       ;  mov ax, 0003h
@@ -142,7 +145,7 @@ GC_MAIN_LOOP:
           cmp rec_col, 78
             jz GC_NEWLINE_C
 GBACK1:
-          cmp rec_row, 25
+          cmp rec_row, 2
             jz GC_SCROLL_C
 
           jmp GC_SEND
@@ -153,15 +156,8 @@ GC_NEWLINE_C:
           JMP GBACK1
 GC_SCROLL_C:
           
-          mov ah, 06h
-          mov al, 1
-          mov bh, 0
-          mov ch, 0
-          mov cl, 40
-          mov dh, 24
-          mov dl, 79
-          mov bh, 07h
-          int 10h
+       DrawRectangle 0,0,SCREEN_WIDTH,32,05h
+
 
           dec rec_row
 GC_SEND:
@@ -192,7 +188,7 @@ GC_SEND:
             cmp sender_col, 38
             jz GC_NEWLINE
 GC_BACK2:
-            cmp sender_row, 25
+            cmp sender_row, 2
             jz GC_SCROLL        
          
           JMP GC_MAIN_LOOP
@@ -203,23 +199,18 @@ GC_NEWLINE:
           JMP GC_BACK2
 
 GC_SCROLL:
-          ;ScrollDown 0, 0, 24, 39
+          
 
-          ; Color the screen red
-          mov ah, 06h
-          mov al, 1
-          mov bh, 0
-          mov ch, 0
-          mov cl, 0
-          mov dh, 24
-          mov dl, 39
-          mov bh, 07h
-          int 10h
+       DrawRectangle 0,0,SCREEN_WIDTH,32,05h
+
+          
+          
           dec sender_row
           JMP GC_MAIN_LOOP
 GC_EXIT:
   ; SetVideoMode
 
+       DrawRectangle 0,0,SCREEN_WIDTH,32,0
 
 ret 
 StartGameChat ENDP
