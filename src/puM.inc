@@ -20,7 +20,7 @@ ActivatePowerUp MACRO
                   cmp            [byte ptr KeyList+28d], 1
                   jne            CHECK_CAR_2
 
-                  PowerUpSwitch  CAR1_POWER_UP, car1_speed, car2_speed, car2_X_Offset, car2_Y_Offset, CAR1_HAVE_SHIELD
+                  PowerUpSwitch  CAR1_POWER_UP, car1_speed, car2_speed, car1_X_Offset, car1_Y_Offset, CAR1_HAVE_SHIELD
 
                   MOV            CAR1_POWER_UP, 4                                                                       ; no power up
 
@@ -29,7 +29,7 @@ ActivatePowerUp MACRO
                   cmp            [byte ptr KeyList+57d], 1
                   jne            END
 
-                  PowerUpSwitch  CAR2_POWER_UP, car2_speed, car1_speed, car1_X_Offset, car1_Y_Offset, CAR2_HAVE_SHIELD
+                  PowerUpSwitch  CAR2_POWER_UP, car2_speed, car1_speed, car2_X_Offset, car2_Y_Offset, CAR2_HAVE_SHIELD
 
                   MOV            CAR2_POWER_UP, 4                                                                       ; no power up
     
@@ -124,15 +124,10 @@ PowerUpSwitch MACRO CAR_POWER_UP, MY_CAR_SPEED, HIS_CAR_SPEED, HIS_X, HIS_Y, MY_
 
   ; Spawn obstacle at my opponent
   powerup3:     
-                ADD          HIS_X, car1H_Width
-                ADD          HIS_X, 10
-                ADD          HIS_Y, car1H_Height
-                ADD          HIS_Y, 10
+                
+                SUB          HIS_X, 20
                 DrawObstacle HIS_X, HIS_Y, OBSTACLE_WIDTH, OBSTACLE_HEIGHT
-                SUB          HIS_X, car1H_Width
-                SUB          HIS_X, 10
-                SUB          HIS_Y, car1H_Height
-                SUB          HIS_Y, 10
+                ADD          HIS_X, 20
                 JMP          END
 
   ; allow me to go throgh obstacles
