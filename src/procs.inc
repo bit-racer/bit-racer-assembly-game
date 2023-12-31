@@ -102,6 +102,94 @@ PutBCD2 PROC
     ret
 PutBCD2 ENDP
 
+;description
+getScores PROC far
+    pusha
+
+    lea si, TRACK_AXIS + 4
+
+    popa
+    ret
+getScores ENDP
+
+printScores PROC far
+    pusha
+
+    mov currentRow, 2
+    mov currentColumn, 0
+    call moveCursor
+
+    mov dx, offset username1
+    call printmsg
+    mov dx, offset str_score
+    call printmsg
+    ;todo: print actual score
+    mov ah, 02
+    mov dl, player1Score
+    add dl, 30h
+    int 21h
+
+    inc currentRow
+    call moveCursor
+
+    mov dx, offset username2
+    call printmsg
+    mov dx, offset str_score
+    call printmsg
+    ;todo: print actual score
+    mov ah, 02
+    mov dl, player2Score
+    add dl, 30h
+    int 21h
+
+
+    popa
+    ret
+printScores ENDP
+
+; JUST FOR TESTING
+printIndicators PROC
+    pusha
+    
+    mov currentRow, 10
+    mov currentColumn, 0
+    call moveCursor
+    
+    mov dl, 32h
+
+    mov si, offset TRACK_AXIS + 4 ; address of x offset of 1st segment
+    mov di, offset TRACK_AXIS + 6 ; address of y offset of 1st segment
+    ; [si] ; x offset of 1st segment
+    ; [di] ; y offset of 1st segment
+
+    mov ax, car1_X_Offset
+    mov bx, car1_Y_Offset
+    mov cx, car2_X_Offset
+    mov dx, car2_Y_Offset
+
+    mov bx, [si]
+    cmp ax, bx
+    jl gg
+    mov dl, 31h
+    jmp hh
+    
+    gg:
+    mov dl, 30h
+    hh:
+   
+    mov ah, 02
+    int 21h
+    
+    inc currentRow
+    call moveCursor
+    mov dl, '#'
+    mov ah, 02
+    int 21h
+
+    popa
+    ret
+printIndicators ENDP
+
 ; nested empty loops
 delay5s PROC
     mov cx, 0ffffh
