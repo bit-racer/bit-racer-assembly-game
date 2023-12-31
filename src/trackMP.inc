@@ -1,7 +1,7 @@
 ; Macors for moving track
 moveTrackUp proc 
-             CMP LAST_DIR_VERT,0
-             JE mtu_up_end
+            ;  CMP LAST_DIR_VERT,0
+            ;  JE mtu_up_end
              mtu_up:
              mov cx,[track_Y_Offset]
              sub cx,[track_speed]
@@ -17,7 +17,7 @@ moveTrackUp proc
              mtu_passUP:
              mov Where,1
              MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed]
-          CMP LAST_DIR_VERT,0
+          CMP LAST_DIR_VERT,1
              JE mtu_up_end             
              jmp mtu_up_end
              mtu_borderUp:
@@ -28,8 +28,8 @@ endp
 
   
 moveTrackDown PROC
-            CMP LAST_DIR_VERT,1
-             JE mtd_D_end
+            ; CMP LAST_DIR_VERT,1
+            ;  JE mtd_D_end
             mtd_D:
             mov      cx,[track_Y_Offset]
             add      cx, SEGMENT_SIZE
@@ -46,7 +46,7 @@ moveTrackDown PROC
             mtd_passD:
             mov Where,0
             MoveTrack TRACK_IMG,[track_X_Offset],[track_Y_Offset],[track_Y_Offset],SEGMENT_SIZE,SEGMENT_SIZE,[track_speed]
-            CMP LAST_DIR_VERT,1
+            CMP LAST_DIR_VERT,0
              JE mtu_up_end
             jmp mtd_D_end
             mtd_borderD:
@@ -55,8 +55,8 @@ moveTrackDown PROC
              ret
              endp
 moveTrackLeft PROC 
-          CMP LAST_DIR_HORIZ,0
-             JE mtl_L_end
+          ; CMP LAST_DIR_HORIZ,0
+            ;  JE mtl_L_end
             mtl_L:
             mov cx,[track_X_Offset]
             sub cx,[track_speed]
@@ -82,8 +82,8 @@ moveTrackLeft PROC
             
 
 moveTrackRight PROC
-          CMP LAST_DIR_HORIZ,1
-             JE mtr_R_end
+          ; CMP LAST_DIR_HORIZ,1
+            ;  JE mtr_R_end
              mtr_R:
              mov      cx,[track_X_Offset]
              add      cx,[track_speed]

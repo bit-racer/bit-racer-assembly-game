@@ -62,7 +62,7 @@ DATA SEGMENT USE16
                         include         car2s.inc                             ; green car small
                         include         track.inc                             ; track
                         include         bgt_img.inc
-
+                    
     ;=================================================================================
 
     ; --------------------------------------------------------------------------------------------------------------------------------
@@ -169,9 +169,6 @@ DATA SEGMENT USE16
 
     INITIAL_TRACK_X     DW              0
     INITIAL_TRACK_Y     DW              0
-    ; FINAL_TRACK_X           DW              0
-    ; FINAL_TRACK_Y           DW              0
-    ; INITIAL_TRACK_DIRECTION DW              0
 
     ; Winning Variables
     CUR_CHECKING_CAR    DB              0                                     ; 0: none, 1: user1, 2: user2
@@ -196,11 +193,14 @@ DATA SEGMENT USE16
     CAR2_HAVE_SHIELD    db              0
 
     TRACK_AXIS          DW              50 DUP(?)
+    RECIEVED_TRACK_AXIS        DW       50 DUP(?)
     COUNT_DRAWN_AXIS    DW              0
     
     LAST_DIR_HORIZ      DB              0
     LAST_DIR_VERT       DB              0
-    
+    flag            DB 1
+    sendData            DB        0
+    RecFlag            DB 1
 DATA ENDS
 ;=================================================================================
 
@@ -217,7 +217,8 @@ CODE SEGMENT USE16
                       include            moveP.inc
                       include            chatP.inc
                       include            randomP.inc                                                         ; random walker functions (randomization)
-                      include            trackMP.inc                                                         ; Move track random walker functions
+                      include            trackMP.inc    
+                                                                                                                 ; Move track random walker functions
     ;=================================================================================
 
     BEG:              

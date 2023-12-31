@@ -24,8 +24,14 @@ moveUp proc
   ;* check top border
              cmp   [byte ptr KeyList + 48h], 1
              je    up
-             jmp up_end
+             jmp NO0
              up:
+             MOV Bl ,[sendData]
+             OR Bl,0001b
+             MOV [sendData],bl
+             mov dx , 3F8H		; Transmit data register
+             mov al,Bl        ; put the data into al
+             out dx , al         ; sending the data
              mov cx,[car1_Y_Offset]
              sub cx,[car1_speed]
              cmp cx, [car1_Y_Offset]
@@ -82,21 +88,35 @@ U_SHIELD:
              Move img1F,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],car1V_Width,car1V_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
              jmp up_end
              borderUp:
+             NO0:
+    ;  mov dx , 3F8H
+    MOV AL,sendData		; Transmit data register
+    AND al,1110b        ; put the data into al
+    ; out dx , al         ; sending the data
+    MOV sendData,AL		; Transmit data register
+      MOV [flag],1
   up_end:    
+    
              ret
              endp
 moveDown PROC
   ;* check bottom border
             cmp      [byte ptr KeyList + 50h], 1
-            je      D
-            jmp D_end
+            JE D
+            jmp NO1
             D:
-            mov      cx,[car1_Y_Offset]
-            add      cx, car1V_Height
-            add      cx, [car1_speed]
-            cmp      cx,SCREEN_HEIGHT
-            jb       Dcont
-            jmp      borderD
+             MOV Bl ,[sendData]
+             OR Bl,0010b
+             MOV [sendData],bl
+             mov dx , 3F8H		; Transmit data register
+             mov al,Bl        ; put the data into al
+             out dx , al         ; sending the data
+             mov      cx,[car1_Y_Offset]
+             add      cx, car1V_Height
+             add      cx, [car1_speed]
+             cmp      cx,SCREEN_HEIGHT
+             jb       Dcont
+             jmp      borderD
             Dcont:
 
             MoveDownConstraint [car1_X_Offset],[car1_Y_Offset],[car1_speed],car1V_Width,car1V_Height
@@ -149,16 +169,29 @@ D_SHIELD:
             Move img1D,[car1_X_Offset],[car1_Y_Offset],[car1_Y_Offset],car1V_Width,car1V_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
             jmp D_end
             borderD:
-              
+     NO1:
+      ; mov dx , 3F8H
+    MOV AL,sendData		; Transmit data register
+    AND al,1101b        ; put the data into al
+  ;  out dx , al         ; sending the data
+    MOV sendData,AL		; Transmit data register
+        MOV [flag],1         
   D_end:     
+     
              ret
              endp
 moveLeft PROC 
   ;* check left border
             cmp      [byte ptr KeyList + 4bh], 1
             je      L
-            jmp L_end
+            jmp NO2
             L:
+    MOV Bl ,[sendData]
+    OR Bl,1000b
+    MOV [sendData],bl
+    mov dx , 3F8H		; Transmit data register
+    mov al,Bl        ; put the data into al
+    out dx , al         ; sending the data
             mov cx,[car1_X_Offset]
             sub cx,[car1_speed]
             cmp cx,[car1_X_Offset]
@@ -214,8 +247,15 @@ L_SHIELD:
             Move img1L,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],car1H_Width,car1H_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
             jmp L_end
             borderL:
+NO2:
+              ;  mov dx , 3F8H
+    MOV AL,sendData		; Transmit data register
+    AND al,0111b        ; put the data into al
+    ;  out dx , al         ; sending the data
+    MOV sendData,AL		; Transmit data register
+        MOV [flag],1         
+            L_end: 
 
-            L_end:     
             ret
             endp
             
@@ -224,9 +264,15 @@ moveRight PROC
   ;* check right border
              cmp      [byte ptr KeyList + 4dh], 1
              je      R
-             jmp R_end
+             jmp NO3
              R:
-             mov      cx,[car1_X_Offset]
+            MOV Bl ,[sendData]
+             OR Bl,0100b
+             MOV [sendData],bl
+             mov dx , 3F8H		; Transmit data register
+             mov al,Bl        ; put the data into al
+             out dx , al         ; sending the data
+                      mov      cx,[car1_X_Offset]
              add      cx,[car1_speed]
              add      cx,car1H_Width
              cmp      cx,SCREEN_WIDTH
@@ -284,15 +330,27 @@ R_SHIELD:
              Move img1R,[car1_X_Offset],[car1_Y_Offset],[car1_X_Offset],car1H_Width,car1H_Height,[car1_speed],[car1_width_prev],[car1_height_prev]
              jmp R_end
              borderR:
-  
+    NO3:
+  ; mov dx , 3F8H
+    MOV AL,sendData		; Transmit data register
+    AND al,1011b        ; put the data into al
+    ;  out dx , al         ; sending the data
+       MOV sendData,AL		; Transmit data register
+        MOV [flag],1      
   R_end:     
+    
+
              ret
              endp
 moveUp2 PROC
   ;* check top border
-             cmp   [byte ptr KeyList + 11h], 1
-             je    up2
-             jmp up_end2
+             mov dx , 03F8H
+             in al , dx 
+             MOV [sendData],al
+             MOV Al,[sendData]
+             AND al,0001b
+             CMP al,1
+             jNE up_end2
              up2:
              mov cx,[car2_Y_Offset]
              sub cx,[car2_speed]
@@ -354,16 +412,20 @@ U2_SHIELD:
   
 moveDown2 PROC
   ;* check bottom border
-             cmp        [byte ptr KeyList + 1fh], 1
-             je      D2
-             jmp D_end2
+       mov dx , 03F8H
+    in al , dx 
+    MOV [sendData],al
+    MOV Al,[sendData]
+    AND al,0010b
+    CMP al,2
+             jNE D_end2
              D2:
              mov      cx,[car2_Y_Offset]
              add      cx, car2V_Height
              add      cx, [car2_speed]
              cmp      cx,SCREEN_HEIGHT
              jb       Dcont2
-             jmp      borderD2
+             JMP      borderD2
              Dcont2:
 
              MoveDownConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2V_Width,car2V_Height
@@ -424,15 +486,19 @@ D2_SHIELD:
   
 moveLeft2 PROC 
   ;* check left border
-            cmp      [byte ptr KeyList + 30], 1
-            je      L2
-            jmp L_end2
+               mov dx , 03F8H
+    in al , dx 
+    MOV [sendData],al
+    MOV Al,[sendData]
+    AND al,1000b
+    CMP al,8
+            jNE L_end2
             L2:
             mov cx,[car2_X_Offset]
             sub cx,[car2_speed]
             cmp cx,[car2_X_Offset]
             jb  Lcont2
-            jmp borderL2
+            JMP borderL2
             Lcont2:
             MoveLeftConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height
             cmp COLLISION,1
@@ -489,9 +555,13 @@ L2_SHIELD:
             endp
 moveRight2 PROC 
   ;* check right border
-             cmp     [byte ptr KeyList + 32], 1
-             je      R2
-             jmp R_end2
+              mov dx , 03F8H
+              in al , dx 
+              MOV [sendData],al
+              MOV Al,[sendData]
+              AND al,0100b
+              CMP al,4
+              JNE R_end2
              R2:
              mov      cx,[car2_X_Offset]
              add      cx,[car2_speed]
@@ -499,7 +569,6 @@ moveRight2 PROC
              cmp      cx,SCREEN_WIDTH
              jb       Rcont2
              jmp borderR2
-             jmp R_end2
              Rcont2:
 
              MoveRightConstraint [car2_X_Offset],[car2_Y_Offset],[car2_speed],car2H_Width,car2H_Height
@@ -558,6 +627,7 @@ main PROC
                mov CAR2_POWER_UP,4
                MOV CAR1_HAVE_SHIELD, 0
                MOV CAR2_HAVE_SHIELD, 0
+               initPort
   mainLoop:  
                call     sleepSomeTime
                MOV CUR_CHECKING_CAR, 1
@@ -565,6 +635,14 @@ main PROC
                call     moveDown
                call     moveLeft
                call     moveRight
+                  mov ah,1            ;check if there is key pressed then go to the sending mode
+            int 16h
+            ; jnz mainLoop
+
+            mov dx , 3FDH		; Line Status Register
+            in al , dx 
+            and al , 1
+            JZ mainLoop           
                MOV CUR_CHECKING_CAR, 2
                call     moveUp2
                call     moveDown2
@@ -641,10 +719,17 @@ PutCars PROC
          mov [car1_Y_Offset], 180
          mov [car2_X_Offset], 205
          mov [car2_Y_Offset], 150
+
           mov          di,offset img1R
           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height
           mov          di,offset img2R
           DrawCar      [car2_X_Offset],[car2_Y_Offset],car2H_Width,car2H_Height
+          ; JMP DRIVE
+          ; d1:
+          ; mov          di,offset img1R
+          ; DrawCar      [car2_X_Offset],[car2_Y_Offset],car1H_Width,car1H_Height
+          ; mov          di,offset img2R
+          ; DrawCar      [car1_X_Offset],[car1_Y_Offset],car2H_Width,car2H_Height
                                  
           ; mov bx,offset TRACK_AXIS
           ; MOV CX,WORD PTR [BX+12]
