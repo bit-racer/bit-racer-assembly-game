@@ -430,6 +430,7 @@ GET_X:
   JE GET_X
 
   MOV point_x, CX
+  INC CX
 
 ; Get Y poistion
 GET_Y:
