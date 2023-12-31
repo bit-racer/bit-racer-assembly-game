@@ -102,16 +102,6 @@ PutBCD2 PROC
     ret
 PutBCD2 ENDP
 
-;description
-getScores PROC far
-    pusha
-
-    lea si, TRACK_AXIS + 4
-
-    popa
-    ret
-getScores ENDP
-
 printScores PROC far
     pusha
 
@@ -123,11 +113,8 @@ printScores PROC far
     call printmsg
     mov dx, offset str_score
     call printmsg
-    ;todo: print actual score
-    mov ah, 02
-    mov dl, player1Score
-    add dl, 30h
-    int 21h
+
+    print2DigitNum player1Score
 
     inc currentRow
     call moveCursor
@@ -136,64 +123,71 @@ printScores PROC far
     call printmsg
     mov dx, offset str_score
     call printmsg
-    ;todo: print actual score
-    mov ah, 02
-    mov dl, player2Score
-    add dl, 30h
-    int 21h
 
+    print2DigitNum player2Score
 
     popa
     ret
 printScores ENDP
 
 ; JUST FOR TESTING
-printIndicators PROC
+calcScore1 PROC
     pusha
-    
-    mov currentRow, 10
-    mov currentColumn, 0
-    call moveCursor
-    
-    mov dl, 32h
 
     mov si, offset TRACK_AXIS + 4 ; address of x offset of 1st segment
     mov di, offset TRACK_AXIS + 6 ; address of y offset of 1st segment
     ; [si] ; x offset of 1st segment
     ; [di] ; y offset of 1st segment
 
+    mov cl, 1
+lookFind1:
     mov ax, car1_X_Offset
     mov bx, car1_Y_Offset
-    mov cx, car2_X_Offset
-    mov dx, car2_Y_Offset
+    insideSeg [si], [di], ax, bx
+    cmp foundHere, 1
+    je success1
+    inc cl
+    add si, 4
+    add di, 4
+    cmp cl, COUNT
+    jl lookFind1
 
-    ; split them into two inequatities
-    ; [si] < ax
-    ; ax - 69 < [si]
-
-    cmp ax, [si]
-    jl notInside
-    sub ax, SEGMENT_SIZE
-    cmp ax, [si]
-    jg notInside
-    cmp bx, [di]
-    jl notInside
-    sub bx, SEGMENT_SIZE
-    cmp bx, [di]
-    jg notInside
-    mov dl, 31h ; print 1 = inside seg 1
-    jmp hh
-    
-    notInside:
-    mov dl, 30h ; print 0 = not inside seg 1
-    
-    hh:
-    mov ah, 02
-    int 21h
+success1:
+    mov player1Score, cl
 
     popa
     ret
-printIndicators ENDP
+calcScore1 ENDP
+
+calcScore2 PROC
+    pusha
+
+    mov si, offset TRACK_AXIS + 4 ; address of x offset of 1st segment
+    mov di, offset TRACK_AXIS + 6 ; address of y offset of 1st segment
+    ; [si] ; x offset of 1st segment
+    ; [di] ; y offset of 1st segment
+
+    mov cl, 1
+lookFind2:
+    mov ax, car2_X_Offset
+    mov bx, car2_Y_Offset
+    insideSeg [si], [di], ax, bx
+    cmp foundHere, 1
+    je success2
+    inc cl
+    add si, 4
+    add di, 4
+    cmp cl, COUNT
+    jl lookFind2
+
+success2:
+    mov player2Score, cl
+
+    popa
+    ret
+calcScore2 ENDP
+
+
 
 ; nested empty loops
 delay5s PROC

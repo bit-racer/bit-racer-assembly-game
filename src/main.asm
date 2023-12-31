@@ -115,8 +115,9 @@ DATA SEGMENT USE16
 
 
     ; variables
-    player1Score        db              0
-    player2Score        db              0
+    player1Score        db              78
+    player2Score        db              12
+    foundHere           db              0
     currentColumn       db              0
     currentRow          db              0
     currentColor        db              BLACK

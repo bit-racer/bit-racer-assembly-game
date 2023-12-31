@@ -578,8 +578,9 @@ main PROC
               CALL GET_TIME
               CALL PrintTimer
 
+              call calcScore1
+              call calcScore2
               call printScores
-              call printIndicators  ;todo to be removed
 
                CMP WINNER, 0
                JNE WIN
