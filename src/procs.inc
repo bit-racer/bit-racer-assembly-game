@@ -167,22 +167,27 @@ printIndicators PROC
     mov cx, car2_X_Offset
     mov dx, car2_Y_Offset
 
-    mov bx, [si]
-    cmp ax, bx
-    jl gg
-    mov dl, 31h
+    ; split them into two inequatities
+    ; [si] < ax
+    ; ax - 69 < [si]
+
+    cmp ax, [si]
+    jl notInside
+    sub ax, SEGMENT_SIZE
+    cmp ax, [si]
+    jg notInside
+    cmp bx, [di]
+    jl notInside
+    sub bx, SEGMENT_SIZE
+    cmp bx, [di]
+    jg notInside
+    mov dl, 31h ; print 1 = inside seg 1
     jmp hh
     
-    gg:
-    mov dl, 30h
-    hh:
-   
-    mov ah, 02
-    int 21h
+    notInside:
+    mov dl, 30h ; print 0 = not inside seg 1
     
-    inc currentRow
-    call moveCursor
-    mov dl, '#'
+    hh:
     mov ah, 02
     int 21h
 
