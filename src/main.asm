@@ -84,6 +84,13 @@ DATA SEGMENT USE16
     str_enter_usrname2  db              "User2's Name: ", '$'
     str_player2         db              "Player 2: ", '$'
 
+    ; row and column in which to print
+    row_warn            equ             18
+    col_warn            equ             30
+    warning             db              "MaxLength=15", '$'
+    len_warn            equ             $ - warning
+    len_username        equ             15
+
     str_choose_car      db              "Choose your car using < >", '$'
     str_press_enter_key db              "Press Enter Key To Continue", '$'
 
@@ -253,7 +260,18 @@ CODE SEGMENT USE16
                       call               moveCursor
     
     ; Read username1
-                      readData           str_enter_usrname1, usernameBuffer1
+                      mov  dx, offset str_enter_usrname1
+                      call printmsg
+
+                      inc  currentRow
+                      call moveCursor
+                      
+                      lea si, username1
+                      call readUsername
+                      
+                      mov currentRow, 18
+                      mov currentColumn, 30
+                      call moveCursor
     
                       printData          str_choose_car
 
@@ -310,7 +328,18 @@ CODE SEGMENT USE16
                       call               moveCursor
 
     ; Read username2
-                      readData           str_enter_usrname2, usernameBuffer2
+                      mov  dx, offset str_enter_usrname2
+                      call printmsg
+
+                      inc  currentRow
+                      call moveCursor
+                      
+                      lea si, username2
+                      call readUsername
+                      
+                      mov currentRow, 18
+                      mov currentColumn, 30
+                      call moveCursor
 
                       printData          str_choose_car
     
