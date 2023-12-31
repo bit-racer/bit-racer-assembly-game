@@ -646,66 +646,15 @@ PutCars PROC
           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height
           mov          di,offset img2R
           DrawCar      [car2_X_Offset],[car2_Y_Offset],car2H_Width,car2H_Height
-;         MOV DI,0000H
-;         MOV SI,0000H
-;     MOV DI,INITIAL_TRACK_X  
- 
-;     MOV SI,INITIAL_TRACK_Y
-
-;     MOV  [car1_X_Offset]      ,            DI
-;     MOV [car1_Y_Offset]       ,             SI
-;      MOV  [car2_X_Offset]      ,            DI
-
-;     MOV [car2_Y_Offset]       ,             SI
-;          CMP BYTE PTR[INITIAL_TRACK_DIRECTION+1],0
-;          JE FACE_UP
-;          CMP BYTE PTR[INITIAL_TRACK_DIRECTION+1],1
-;          JE FACE_DOWN
-;          CMP BYTE PTR[INITIAL_TRACK_DIRECTION+1],2
-;          JE FACE_LEFT
-;          CMP BYTE PTR[INITIAL_TRACK_DIRECTION+1],3
-;          JE FACE_RIGHT
-
-; FACE_UP:
+                                 
+          ; mov bx,offset TRACK_AXIS
+          ; MOV CX,WORD PTR [BX+12]
+          ;  mov [car2_X_Offset],CX
+          ;   MOV CX,WORD PTR [BX+14]
+          ;  mov [car2_Y_Offset],CX
+          ;    mov          di,offset img2R
+          ; DrawCar     [car2_X_Offset],[car2_Y_Offset],car2H_Width,car2H_Height
         
-;          ADD [car1_Y_Offset],SEGMENT_SIZE-car1V_Height
-;           ADD [car2_X_Offset] ,20
-;         ADD [car2_Y_Offset],SEGMENT_SIZE-car2V_Height
-   
-;           mov          di,offset img1F
-;           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1V_Width,car1V_Height
-;           mov          di,offset img2F
-;           DrawCar      [car2_X_Offset],[car2_Y_Offset],car2V_Width,car2V_Height
-;           JMP DRIVE
-; FACE_DOWN:
-;      ADD [car2_X_Offset] ,20
-;           mov          di,offset img1D
-;           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1V_Width,car1V_Height
-;           mov          di,offset img2D
-;           DrawCar      [car2_X_Offset],[car2_Y_Offset],car2V_Width,car2V_Height
-;           JMP DRIVE
-; FACE_LEFT:
-
-;          ADD [car1_X_Offset],car1H_Width
-;         ADD [car1_Y_Offset],5
-;         ADD [car2_X_Offset],car2H_Width
-;          ADD [car2_Y_Offset],35
-;           mov          di,offset img1L
-;           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height
-;           mov          di,offset img2L
-;           DrawCar      [car2_X_Offset],[car2_Y_Offset],car2H_Width,car2H_Height
-;           JMP DRIVE
-       
-; FACE_RIGHT:
-;          ADD [car1_Y_Offset],5
-
-;         ADD [car2_Y_Offset],35
-
-;           mov          di,offset img1R
-;           DrawCar      [car1_X_Offset],[car1_Y_Offset],car1H_Width,car1H_Height
-;           mov          di,offset img2R
-;           DrawCar      [car2_X_Offset],[car2_Y_Offset],car2H_Width,car2H_Height
-;           JMP DRIVE
 
 DRIVE:
      ; get                the address of the existing int09h handler
