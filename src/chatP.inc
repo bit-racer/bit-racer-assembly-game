@@ -4,8 +4,8 @@ StartChat PROC
        initPort
       
 
-       mov ax, 0003h
-        int 10h
+      ;  mov ax, 0003h
+      ;   int 10h
        
 
 C_MAIN_LOOP:
@@ -104,7 +104,7 @@ C_SCROLL:
           dec sender_row
           JMP C_MAIN_LOOP
 C_EXIT:
-  ; SetVideoMode
+  SetVideoMode
 
 
 ret 
@@ -127,11 +127,11 @@ GC_MAIN_LOOP:
           
             movCur rec_row, rec_col 
           checkRecive
-          JZ C_SEND
+          JZ GC_SEND
 
           reciveChar
           cmp al, 0dh
-          jz C_NEWLINE_C
+          jz GC_NEWLINE_C
 
           inc rec_col
 

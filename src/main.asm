@@ -440,6 +440,9 @@ CODE SEGMENT USE16
                       JMP                ChooseAction
     
     Chat:             
+    
+                      mov                ax, 0003h
+                      int                10h
                       CALL               StartChat
                       JMP                PROGRAM_LOOP
     Play:             
