@@ -104,7 +104,7 @@ C_SCROLL:
           dec sender_row
           JMP C_MAIN_LOOP
 C_EXIT:
-  SetVideoMode
+  ; SetVideoMode
 
 
 ret 

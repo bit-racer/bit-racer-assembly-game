@@ -260,18 +260,18 @@ CODE SEGMENT USE16
                       call               moveCursor
     
     ; Read username1
-                      mov  dx, offset str_enter_usrname1
-                      call printmsg
+                      mov                dx, offset str_enter_usrname1
+                      call               printmsg
 
-                      inc  currentRow
-                      call moveCursor
+                      inc                currentRow
+                      call               moveCursor
                       
-                      lea si, username1
-                      call readUsername
+                      lea                si, username1
+                      call               readUsername
                       
-                      mov currentRow, 18
-                      mov currentColumn, 30
-                      call moveCursor
+                      mov                currentRow, 18
+                      mov                currentColumn, 30
+                      call               moveCursor
     
                       printData          str_choose_car
 
@@ -328,18 +328,18 @@ CODE SEGMENT USE16
                       call               moveCursor
 
     ; Read username2
-                      mov  dx, offset str_enter_usrname2
-                      call printmsg
+                      mov                dx, offset str_enter_usrname2
+                      call               printmsg
 
-                      inc  currentRow
-                      call moveCursor
+                      inc                currentRow
+                      call               moveCursor
                       
-                      lea si, username2
-                      call readUsername
+                      lea                si, username2
+                      call               readUsername
                       
-                      mov currentRow, 18
-                      mov currentColumn, 30
-                      call moveCursor
+                      mov                currentRow, 18
+                      mov                currentColumn, 30
+                      call               moveCursor
 
                       printData          str_choose_car
     
