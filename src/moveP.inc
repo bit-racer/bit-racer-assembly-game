@@ -26,6 +26,7 @@ moveUp proc
              je    up
              jmp up_end
              up:
+             OR player_1_state, 00000001B
              mov cx,[car1_Y_Offset]
              sub cx,[car1_speed]
              cmp cx, [car1_Y_Offset]
@@ -83,6 +84,7 @@ U_SHIELD:
              jmp up_end
              borderUp:
   up_end:    
+              AND player_1_state, 11111110B
              ret
              endp
 moveDown PROC
@@ -91,6 +93,7 @@ moveDown PROC
             je      D
             jmp D_end
             D:
+            OR player_1_state, 00000010B
             mov      cx,[car1_Y_Offset]
             add      cx, car1V_Height
             add      cx, [car1_speed]
@@ -151,6 +154,7 @@ D_SHIELD:
             borderD:
               
   D_end:     
+              AND player_1_state, 11111101B
              ret
              endp
 moveLeft PROC 
@@ -159,6 +163,7 @@ moveLeft PROC
             je      L
             jmp L_end
             L:
+            OR player_1_state, 00000100B
             mov cx,[car1_X_Offset]
             sub cx,[car1_speed]
             cmp cx,[car1_X_Offset]
@@ -216,6 +221,7 @@ L_SHIELD:
             borderL:
 
             L_end:     
+              AND player_1_state, 11111011B
             ret
             endp
             
@@ -226,6 +232,7 @@ moveRight PROC
              je      R
              jmp R_end
              R:
+              OR player_1_state, 00001000B
              mov      cx,[car1_X_Offset]
              add      cx,[car1_speed]
              add      cx,car1H_Width
@@ -286,11 +293,15 @@ R_SHIELD:
              borderR:
   
   R_end:     
+              AND player_1_state, 11110111B
              ret
              endp
 moveUp2 PROC
   ;* check top border
-             cmp   [byte ptr KeyList + 11h], 1
+            ;  cmp   [byte ptr KeyList + 11h], 1
+             MOV DL, player_2_state
+             AND DL, 00000001B
+             CMP DL, 00000001B
              je    up2
              jmp up_end2
              up2:
@@ -354,7 +365,10 @@ U2_SHIELD:
   
 moveDown2 PROC
   ;* check bottom border
-             cmp        [byte ptr KeyList + 1fh], 1
+            ;  cmp        [byte ptr KeyList + 1fh], 1
+             MOV DL, player_2_state
+             AND DL, 00000010B
+             CMP DL, 00000010B
              je      D2
              jmp D_end2
              D2:
@@ -424,7 +438,10 @@ D2_SHIELD:
   
 moveLeft2 PROC 
   ;* check left border
-            cmp      [byte ptr KeyList + 30], 1
+            ; cmp      [byte ptr KeyList + 30], 1
+             MOV DL, player_2_state
+             AND DL, 00000100B
+             CMP DL, 00000100B
             je      L2
             jmp L_end2
             L2:
@@ -489,7 +506,10 @@ L2_SHIELD:
             endp
 moveRight2 PROC 
   ;* check right border
-             cmp     [byte ptr KeyList + 32], 1
+            ;  cmp     [byte ptr KeyList + 32], 1
+             MOV DL, player_2_state
+             AND DL, 00001000B
+             CMP DL, 00001000B
              je      R2
              jmp R_end2
              R2:
@@ -553,7 +573,8 @@ SHIELD:
              endp
  
 main PROC 
-  MOV curdur, DURATION_SS
+               initPort
+               MOV curdur, DURATION_SS
                mov CAR1_POWER_UP,4
                mov CAR2_POWER_UP,4
                MOV CAR1_HAVE_SHIELD, 0
@@ -565,11 +586,17 @@ main PROC
                call     moveDown
                call     moveLeft
                call     moveRight
+               sendChar player_1_state
+               call sleepSomeTime
                MOV CUR_CHECKING_CAR, 2
+               reciveChar player_2_state
+               cmp player_2_state, 0
+                je cnttt
                call     moveUp2
                call     moveDown2
                call     moveLeft2
                call     moveRight2
+               cnttt:
 
                ; ACTIVATE POWER UP
                ActivatePowerUp

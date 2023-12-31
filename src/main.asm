@@ -218,6 +218,9 @@ DATA SEGMENT USE16
     LAST_DIR_HORIZ      DB              0
     LAST_DIR_VERT       DB              0
 
+    player_1_state db 00000000B
+    player_2_state db 00000000B
+
     
 DATA ENDS
 ;=================================================================================
