@@ -681,16 +681,25 @@ DRIVE:
           ;mov          ah, 0
           ;mov          al, 2
           ;int          10h
-          
-          ;! sleep for 5 sec TEST if there is no winner
-          ;TODO: REMOVE THIS 
-          
-          CMP WINNER, 0
-          JNE DNOTDELAY
-          mov dx, offset str_exiting_5sec
-          call printmsg 
-          
-          call delay5s
+                    
+          mov al, player1Score
+          mov bl, player2Score
+
+          cmp al, bl
+          jg oneWins
+          jl twoWins
+          je tieWins
+
+oneWins:
+          mov WINNER, 1
+          jmp DNOTDELAY
+twoWins:  
+          mov WINNER, 2
+          jmp DNOTDELAY
+tieWins:
+          mov WINNER, 3
+          jmp DNOTDELAY
+
 
           DNOTDELAY:
      ; restore the original int09h handler
