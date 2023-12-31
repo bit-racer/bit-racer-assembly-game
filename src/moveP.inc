@@ -599,9 +599,9 @@ main PROC
 
 
   CONT_MAIN:
-  ; if Esc is not pressed, jump back to mainLoop
+  ; if F4 is not pressed, jump back to mainLoop
                                                                            ; -> AH=1 Pressed, AH=0 Released
-             cmp     [byte ptr KeyList+01h], 1
+             cmp     [byte ptr KeyList+3eh], 1
              jne     mainLoop
             
     WIN:
@@ -615,6 +615,7 @@ PutCars PROC
 
         ; Reset key map
         mov [byte ptr KeyList+01h],0 ; reset esc
+        mov [byte ptr KeyList+3eh],0 ; reset F4
 
         ; reset all keys
         mov [byte ptr KeyList+48h],0 ; reset up
@@ -726,7 +727,18 @@ DRIVE:
           ;mov          ah, 0
           ;mov          al, 2
           ;int          10h
+          
+          ;! sleep for 5 sec TEST if there is no winner
+          ;TODO: REMOVE THIS 
+          
+          CMP WINNER, 0
+          JNE DNOTDELAY
+          mov dx, offset str_exiting_5sec
+          call printmsg 
+          
+          call delay5s
 
+          DNOTDELAY:
      ; restore the original int09h handler
           pop          dx ds
           mov          ax, 2509h

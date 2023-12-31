@@ -20,6 +20,25 @@ printmsg PROC
     ret
 ENDP
 
+;* welcome screen summary
+printSummary PROC
+
+    mov dx, offset str_player1
+    mov ah, 09
+    int 21h
+    printData          username1
+    
+    inc  currentRow
+    call moveCursor
+
+    mov dx, offset str_player2
+    mov ah, 09
+    int 21h
+    printData          username2
+
+    ret
+printSummary ENDP
+
 
 GET_TIME PROC
     PUSH AX
@@ -83,3 +102,15 @@ PutBCD2 PROC
     ret
 PutBCD2 ENDP
 
+;description
+delay5s PROC
+    mov cx, 0ffffh
+    lbl:
+        mov ax, 0b00h
+        lbl1:
+            dec ax
+        jnz lbl1
+    loop lbl
+
+    ret
+delay5s ENDP
