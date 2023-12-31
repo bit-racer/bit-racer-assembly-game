@@ -411,6 +411,40 @@ DrawRectangle MACRO X, Y, WIDTH, HEIGHT, COLOR
                 popa
 ENDM
 
+; ============================================================================================================================
+; Erase PowerUp
+ErasePowerup macro point_x, point_y, color
+LOCAL GET_X, GET_y
+  pusha
+  ; loop till you fuond the top left corner then erase
+  
+  MOV CX, point_x
+  MOV DX, point_y
+
+; Get X poistion
+GET_X:
+  DEC CX        ; move left
+  MOV AH, 0Dh   ; Get pixel
+  INT 10h       ; Call video interrupt
+  CMP AL, color ; Check if color is the same 
+  JE GET_X
+
+  MOV point_x, CX
+
+; Get Y poistion
+GET_Y:
+  DEC DX        ; move up
+  MOV AH, 0Dh   ; Get pixel
+  INT 10h       ; Call video interrupt
+  CMP AL, color ; Check if color is the same
+  JE GET_Y
+
+  MOV point_y, DX
+
+        DrawRectangle point_x, point_y, POWERUP_SIZE+8, POWERUP_SIZE+8, TRACK_COLOR
+  popa
+ENDM
+
 
 ; ============================================================================================================================
 ; Draw BG tile macro

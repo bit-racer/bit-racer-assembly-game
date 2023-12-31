@@ -1,3 +1,19 @@
+
+; ====================================================================================================
+; Check if the car is colliding with the powerup
+; ====================================================================================================
+CheckColisionForPowerup MACRO point_x, point_y, color 
+LOCAL ENDL
+pusha
+CMP COLLISION,1
+JE ENDL 
+              MOV PU_X,point_x
+              MOV PU_Y,point_y
+              ErasePowerup PU_X,PU_Y,color
+ENDL:
+popa
+ENDM CheckColisionForPowerup
+
 POWERUP_UP Macro car_x,car_y,car_speed,car_width,NEXT_COLOR
 LOCAL End,cmp_,continue, FINISH_LINE,cmp_2
 MOV COLLISION,0
@@ -24,6 +40,7 @@ MOV COLLISION,0
               End:
               mov COLLISION,1
               continue:
+              CheckColisionForPowerup cx, dx, NEXT_COLOR
               endm POWERUP_UP
 
 
@@ -56,6 +73,7 @@ MOV COLLISION,0
               End:
 mov COLLISION,1
 continue:
+              CheckColisionForPowerup cx, dx, NEXT_COLOR
 Endm POWERUP_DOWN
 
 ;Collision handling while moving right
@@ -86,6 +104,9 @@ MOV COLLISION,0
 End:
 mov COLLISION,1
 continue:
+
+            CheckColisionForPowerup cx, dx, NEXT_COLOR
+
 Endm POWERUP_LEFT
 
 ;Collision handling while moving left
@@ -114,4 +135,7 @@ MOV COLLISION,0
             End:
 mov COLLISION,1
 continue:
+
+            CheckColisionForPowerup cx, dx, NEXT_COLOR
 Endm POWERUP_RIGHT
+

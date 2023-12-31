@@ -82,7 +82,7 @@ DATA SEGMENT USE16
     str_player1         db              "Player 1: ", '$'
 
     str_enter_usrname2  db              "User2's Name: ", '$'
-    str_player2         db              "Player 2: ", '$' 
+    str_player2         db              "Player 2: ", '$'
 
     str_choose_car      db              "Choose your car using < >", '$'
     str_press_enter_key db              "Press Enter Key To Continue", '$'
@@ -198,11 +198,18 @@ DATA SEGMENT USE16
     CAR1_HAVE_SHIELD    db              0
     CAR2_HAVE_SHIELD    db              0
 
+
+    ; power up position
+    PU_X                dw              0
+    PU_Y                dw              0
+    
+    ; track
     TRACK_AXIS          DW              50 DUP(?)
     COUNT_DRAWN_AXIS    DW              0
     
     LAST_DIR_HORIZ      DB              0
     LAST_DIR_VERT       DB              0
+
     
 DATA ENDS
 ;=================================================================================
@@ -355,8 +362,8 @@ CODE SEGMENT USE16
                       mov                currentRow, 16
                       call               moveCursor
 
-    ; print players' data 
-                      call printSummary
+    ; print players' data
+                      call               printSummary
 
                       WaitForKeyPress
     
@@ -438,9 +445,9 @@ CODE SEGMENT USE16
                       MOV                SI, offset img_green_car_large
                       CALL               DrawImageE
                       CALL               WAIT_FOR_DELAY
-                      GeneralDelayINT 50000
+                      GeneralDelayINT    50000
                       
-                      call delay5s
+                      call               delay5s
                       JMP                PROGRAM_LOOP
     User2Wins:        
                       ColorScreen        2
@@ -458,11 +465,11 @@ CODE SEGMENT USE16
                       SetDrawImageParams 273, 351, pink_car_large_width, pink_car_large_height, 0, 0, 0
                       MOV                SI, offset img_pink_car_large
                       CALL               DrawImageE
-                      GeneralDelayINT 50000
+                      GeneralDelayINT    50000
                       CALL               WAIT_FOR_DELAY
                       delayM             1000
                       
-                      call delay5s
+                      call               delay5s
                       JMP                PROGRAM_LOOP
     Tie:              
                       ColorScreen        3
@@ -472,10 +479,10 @@ CODE SEGMENT USE16
                       MOV                DX, offset str_tie
                       call               printmsg
                       CALL               WAIT_FOR_DELAY
-                      GeneralDelayINT 50000
+                      GeneralDelayINT    50000
                       delayM             1000
                       
-                      call delay5s
+                      call               delay5s
                       JMP                PROGRAM_LOOP
 
 
