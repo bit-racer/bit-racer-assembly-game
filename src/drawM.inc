@@ -333,6 +333,49 @@ pusha
 popa
 endm SpawnPowerUps
 
+; ============================================================================================================================
+; Draw Random powerup
+; ============================================================================================================================
+DrawRandomPowerup MACRO cur_time
+LOCAL CONFIG_1, CONFIG_2, CONFIG_3, ENDMM
+pusha
+
+    ; if cur_time = 90 then draw configure 1
+    CMP curdur, 10010000B
+    JE CONFIG_1
+    ; if cur_time = 70 then draw configure 2
+    CMP curdur, 01110000B
+    JE CONFIG_2
+    ; if cur_time = 50 then draw configure 3
+    CMP curdur, 01010000B
+    JE CONFIG_3
+    JMP ENDMM
+
+   MOV SI, offset TRACK_AXIS
+
+
+        ; TO KNOW HOW TO HANDLE THE CONFIGS LOOK AT THE POWERUP SPAWNER ABOVE
+        ; THE DIFFERNECE IS THAT WE DON"T HAVE THE TRACK_X AND TRACK_Y we to get from the array
+        CONFIG_1:
+        DrawRectangle 50, 0, POWERUP_SIZE, POWERUP_SIZE, POWERUP1_COLOR
+
+        JMP ENDMM
+
+        CONFIG_2:
+        DrawRectangle 50, 0, POWERUP_SIZE, POWERUP_SIZE, POWERUP2_COLOR
+        JMP ENDMM
+
+        CONFIG_3:
+        DrawRectangle 50, 0, POWERUP_SIZE, POWERUP_SIZE, POWERUP3_COLOR
+        JMP ENDMM
+
+
+
+ENDMM:
+popa
+ENDM
+
+
 
 ; ============================================================================================================================
 ; Draw Obstacle
