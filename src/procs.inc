@@ -102,6 +102,93 @@ PutBCD2 PROC
     ret
 PutBCD2 ENDP
 
+printScores PROC far
+    pusha
+
+    mov currentRow, 2
+    mov currentColumn, 0
+    call moveCursor
+
+    mov dx, offset username1
+    call printmsg
+    mov dx, offset str_score
+    call printmsg
+
+    print2DigitNum player1Score
+
+    inc currentRow
+    call moveCursor
+
+    mov dx, offset username2
+    call printmsg
+    mov dx, offset str_score
+    call printmsg
+
+    print2DigitNum player2Score
+
+    popa
+    ret
+printScores ENDP
+
+; JUST FOR TESTING
+calcScore1 PROC
+    pusha
+
+    mov si, offset TRACK_AXIS + 4 ; address of x offset of 1st segment
+    mov di, offset TRACK_AXIS + 6 ; address of y offset of 1st segment
+    ; [si] ; x offset of 1st segment
+    ; [di] ; y offset of 1st segment
+
+    mov cl, 1
+lookFind1:
+    mov ax, car1_X_Offset
+    mov bx, car1_Y_Offset
+    insideSeg [si], [di], ax, bx
+    cmp foundHere, 1
+    je success1
+    inc cl
+    add si, 4
+    add di, 4
+    cmp cl, COUNT
+    jl lookFind1
+
+success1:
+    mov player1Score, cl
+
+    popa
+    ret
+calcScore1 ENDP
+
+calcScore2 PROC
+    pusha
+
+    mov si, offset TRACK_AXIS + 4 ; address of x offset of 1st segment
+    mov di, offset TRACK_AXIS + 6 ; address of y offset of 1st segment
+    ; [si] ; x offset of 1st segment
+    ; [di] ; y offset of 1st segment
+
+    mov cl, 1
+lookFind2:
+    mov ax, car2_X_Offset
+    mov bx, car2_Y_Offset
+    insideSeg [si], [di], ax, bx
+    cmp foundHere, 1
+    je success2
+    inc cl
+    add si, 4
+    add di, 4
+    cmp cl, COUNT
+    jl lookFind2
+
+success2:
+    mov player2Score, cl
+
+    popa
+    ret
+calcScore2 ENDP
+
+
+
 ; nested empty loops
 delay5s PROC
     mov cx, 0ffffh

@@ -84,7 +84,6 @@ DATA SEGMENT USE16
     str_enter_usrname2  db              "User2's Name: ", '$'
     str_player2         db              "Player 2: ", '$'
 
-    ; row and column in which to print
     row_warn            equ             18
     col_warn            equ             30
     warning             db              "MaxLength=15", '$'
@@ -112,8 +111,13 @@ DATA SEGMENT USE16
     TIMER_STR           DB              '00S', 0dh, 0ah, '$', 10 DUP('$')
     
     str_exiting_5sec    db              "Exiting in < 5 sec", '$'
+    str_score           db              " Score: ", '$'
+
 
     ; variables
+    player1Score        db              78
+    player2Score        db              12
+    foundHere           db              0
     currentColumn       db              0
     currentRow          db              0
     currentColor        db              BLACK
@@ -481,6 +485,7 @@ CODE SEGMENT USE16
                       GeneralDelayINT    50000
                       
                       call               delay5s
+
                       JMP                PROGRAM_LOOP
     User2Wins:        
                       ColorScreen        2
@@ -503,6 +508,7 @@ CODE SEGMENT USE16
                       delayM             1000
                       
                       call               delay5s
+
                       JMP                PROGRAM_LOOP
     Tie:              
                       ColorScreen        3
@@ -516,6 +522,7 @@ CODE SEGMENT USE16
                       delayM             1000
                       
                       call               delay5s
+                      
                       JMP                PROGRAM_LOOP
 
 

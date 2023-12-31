@@ -578,6 +578,10 @@ main PROC
               CALL GET_TIME
               CALL PrintTimer
 
+              call calcScore1
+              call calcScore2
+              call printScores
+
                CMP WINNER, 0
                JNE WIN
 
@@ -649,6 +653,7 @@ PutCars PROC
         ; Reset key map
         mov [byte ptr KeyList+01h],0 ; reset esc
         mov [byte ptr KeyList+3eh],0 ; reset F4
+        mov [byte ptr KeyList+1ch],0 ; reset enter
 
         ; reset all keys
         mov [byte ptr KeyList+48h],0 ; reset up
@@ -709,22 +714,33 @@ DRIVE:
           ;mov          ah, 0
           ;mov          al, 2
           ;int          10h
-          
-          ;! sleep for 5 sec TEST if there is no winner
-          ;TODO: REMOVE THIS 
-          
-          CMP WINNER, 0
-          JNE DNOTDELAY
-          mov dx, offset str_exiting_5sec
-          call printmsg 
-          
-          call delay5s
+                    
+          mov al, player1Score
+          mov bl, player2Score
+
+          cmp al, bl
+          jg oneWins
+          jl twoWins
+          je tieWins
+
+oneWins:
+          mov WINNER, 1
+          jmp DNOTDELAY
+twoWins:  
+          mov WINNER, 2
+          jmp DNOTDELAY
+tieWins:
+          mov WINNER, 3
+          jmp DNOTDELAY
+
 
           DNOTDELAY:
      ; restore the original int09h handler
           pop          dx ds
           mov          ax, 2509h
           int          21h
+
+          
 
           mov ax, DATA
           mov ds, ax
