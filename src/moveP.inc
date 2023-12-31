@@ -599,6 +599,39 @@ main PROC
 
 
   CONT_MAIN:
+            cmp [byte ptr KeyList+3dh], 1
+            JNE CHECK_EXIT
+
+          pop SI
+          pop          dx ds
+          mov          ax, 2509h
+          int          21h
+
+          mov ax, DATA
+          mov ds, ax
+          mov ax, EXTRA
+          mov es, ax
+
+          PUSH SI
+            CALL StartGameChat
+          POP SI
+
+          mov          ax, 3509h                                                    ; Get Interrupt Vector
+          int          21h                                                          ; -> ES:BX
+          push         es bx
+
+     ; replace the existing int09h handler with ours
+          mov          dx, offset onKeyEvent
+          PUSH         DS
+          MOV          AX,CS
+          MOV          DS,AX
+          mov          ax, 2509h
+          int          21h
+          POP          DS
+          PUSH SI
+          MOV [byte ptr KeyList+3dh], 0
+
+  CHECK_EXIT:
   ; if F4 is not pressed, jump back to mainLoop
                                                                            ; -> AH=1 Pressed, AH=0 Released
              cmp     [byte ptr KeyList+3eh], 1

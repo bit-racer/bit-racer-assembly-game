@@ -1,3 +1,30 @@
+restoreHandler MACRO 
+          ; pop          dx ds
+          mov          ax, 2509h
+          int          21h
+
+          mov ax, DATA
+          mov ds, ax
+          mov ax, EXTRA
+          mov es, ax 
+ENDM
+
+hijackHandler MACRO
+          mov          ax, 3509h                                                    ; Get Interrupt Vector
+          int          21h                                                          ; -> ES:BX
+          push         es bx
+
+     ; replace the existing int09h handler with ours
+          mov          dx, offset onKeyEvent
+          PUSH         DS
+          MOV          AX,CS
+          MOV          DS,AX
+          mov          ax, 2509h
+          int          21h
+          POP          DS
+ENDM
+
+
 ;Delete car last position and draw car in new position
 
 Move Macro img,car_x, car_y,direction,width,height,car_speed,w_p,h_p
