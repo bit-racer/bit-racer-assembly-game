@@ -54,155 +54,159 @@ EXTRA ENDS
 DATA SEGMENT USE16
     ;=================================================================================
     ; includes
-                        include         consts.inc
+                        include consts.inc
     ; Images
-                        include         exit_img.inc                          ; exit btn image
-                        include         arr_up.inc                            ; arrow up image
-                        include         car1s.inc                             ; red car small
-                        include         car2s.inc                             ; green car small
-                        include         track.inc                             ; track
-                        include         bgt_img.inc
+                        include exit_img.inc                          ; exit btn image
+                        include arr_up.inc                            ; arrow up image
+                        include car1s.inc                             ; red car small
+                        include car2s.inc                             ; green car small
+                        include track.inc                             ; track
+                        include bgt_img.inc
 
     ;=================================================================================
 
     ; --------------------------------------------------------------------------------------------------------------------------------
     ; DRAW PARAMETERS
-    IMAGE_OFFSET_X      dw              0
-    IMAGE_OFFSET_Y      dw              0
-    IMAGE_SIZE_X        dw              0
-    IMAGE_SIZE_Y        dw              0
-    REVERSE             DB              0
-    ERASE               DB              0
-    RECOLOR             DB              0
+    IMAGE_OFFSET_X      dw      0
+    IMAGE_OFFSET_Y      dw      0
+    IMAGE_SIZE_X        dw      0
+    IMAGE_SIZE_Y        dw      0
+    REVERSE             DB      0
+    ERASE               DB      0
+    RECOLOR             DB      0
     ;---------------------------------------------------------------------------------------------------------------------------------
 
 
     ; strings to print
-    str_enter_usrname1  db              "User1's Name: ", '$'
-    str_player1         db              "Player 1: ", '$'
+    str_enter_usrname1  db      "User1's Name: ", '$'
+    str_player1         db      "Player 1: ", '$'
 
-    str_enter_usrname2  db              "User2's Name: ", '$'
-    str_player2         db              "Player 2: ", '$'
+    str_enter_usrname2  db      "User2's Name: ", '$'
+    str_player2         db      "Player 2: ", '$'
 
-    row_warn            equ             18
-    col_warn            equ             30
-    warning             db              "MaxLength=15", '$'
-    len_warn            equ             $ - warning
-    len_username        equ             15
+    row_warn            equ     18
+    col_warn            equ     30
+    warning             db      "MaxLength=15", '$'
+    len_warn            equ     $ - warning
+    len_username        equ     15
 
-    str_choose_car      db              "Choose your car using < >", '$'
-    str_press_enter_key db              "Press Enter Key To Continue", '$'
-
-
-    str_clear           db              "            $$$$", '$'
-
-    str_won             db              "Won This Race!", '$'
-    str_tie             db              "This race was a Tie!", '$'
-
-    str_no_pu           db              "No Power Up", '$'
-    str_pu1             db              "Speed up", '$'
-    str_pu2             db              "Slow down", '$'
-    str_pu3             db              "Obstacle", '$'
-    str_pu4             db              "Sheild", '$'
+    str_choose_car      db      "Choose your car using < >", '$'
+    str_press_enter_key db      "Press Enter Key To Continue", '$'
 
 
-    TIMER_STR           DB              '00S', 0dh, 0ah, '$', 10 DUP('$')
+    str_clear           db      "            $$$$", '$'
+
+    str_won             db      "Won This Race!", '$'
+    str_tie             db      "This race was a Tie!", '$'
+
+    str_no_pu           db      "No Power Up", '$'
+    str_pu1             db      "Speed up", '$'
+    str_pu2             db      "Slow down", '$'
+    str_pu3             db      "Obstacle", '$'
+    str_pu4             db      "Sheild", '$'
+
+
+    TIMER_STR           DB      '00S', 0dh, 0ah, '$', 10 DUP('$')
     
-    str_exiting_5sec    db              "Exiting in < 5 sec", '$'
-    str_score           db              "'s Score: ", '$'
+    str_exiting_5sec    db      "Exiting in < 5 sec", '$'
+    str_score           db      "'s Score: ", '$'
 
 
     ; variables
-    player1Score        db              78
-    player2Score        db              12
-    foundHere           db              0
-    currentColumn       db              0
-    currentRow          db              0
-    currentColor        db              BLACK
-    curCar              db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
+    player1Score        db      78
+    player2Score        db      12
+    foundHere           db      0
+    currentColumn       db      0
+    currentRow          db      0
+    currentColor        db      BLACK
+    curCar              db      0                                     ; 0: red, 1: green, 2: reed, 3: pink
 
     ; User 1's Data
 
-    username1           db              17 DUP ('$')
-    usrCar1             db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
+    username1           db      17 DUP ('$')
+    usrCar1             db      0                                     ; 0: red, 1: green, 2: reed, 3: pink
 
 
     ; User 2 data
     
-    username2           db              17 DUP ('$')
-    usrCar2             db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
+    username2           db      17 DUP ('$')
+    usrCar2             db      0                                     ; 0: red, 1: green, 2: reed, 3: pink
 
     ; Main Menu Buttons variables
-    curBtn              db              1                                     ; 0: chat, 1: play, 2: exit
+    curBtn              db      1                                     ; 0: chat, 1: play, 2: exit
 
     ; Car Movement Variables and keyboard input handling
-    KeyList             db              128 dup (0)
-    Where               db              0
-    Prev_img            dw              0
+    KeyList             db      128 dup (0)
+    Where               db      0
+    Prev_img            dw      0
 
     ; Chat Variables
 
     ; User 1 cursor position
-    sender_row          db              0
-    sender_col          db              0
+    sender_row          db      0
+    sender_col          db      0
 
     ; User 2 cursor position
-    rec_row             db              0
-    rec_col             db              40
+    rec_row             db      0
+    rec_col             db      40
 
     ; Track Params
-    DIR                 DB              0
-    COUNT               DB              0
-                        label           INITIAL_TRACK_DIRECTION
-    DIRECTIONS_DEMO     DB              DIR_SIZE (?)
-    spare               db              20
-    DELAY               DW              10000
+    DIR                 DB      0
+    COUNT               DB      0
+                        label   INITIAL_TRACK_DIRECTION
+    DIRECTIONS_DEMO     DB      DIR_SIZE (?)
+    spare               db      20
+    DELAY               DW      10000
   
-    DIRECTION           DB              ?
-    SEED                DB              ?
+    DIRECTION           DB      ?
+    SEED                DB      ?
 
 
 
-    INITIAL_TRACK_X     DW              0
-    INITIAL_TRACK_Y     DW              0
+    INITIAL_TRACK_X     DW      0
+    INITIAL_TRACK_Y     DW      0
     ; FINAL_TRACK_X           DW              0
     ; FINAL_TRACK_Y           DW              0
     ; INITIAL_TRACK_DIRECTION DW              0
 
     ; Winning Variables
-    CUR_CHECKING_CAR    DB              0                                     ; 0: none, 1: user1, 2: user2
-    WINNER              DB              0                                     ; 0: idle, 1: user1, 2: user2, 3: tie
-    START_TRACK         DB              0
+    CUR_CHECKING_CAR    DB      0                                     ; 0: none, 1: user1, 2: user2
+    WINNER              DB      0                                     ; 0: idle, 1: user1, 2: user2, 3: tie
+    START_TRACK         DB      0
 
     ; rand
-    rand_value          dw              0
+    rand_value          dw      0
 
     ; TIMER Data
-    DURATION_SS         EQU             10011001B                             ; Write in BCD
-    curdur              db              0
-    CMINUTES            DB              ?
-    CSECONDS            DB              ?
-    PSECONDS            DB              ?
-    COLLISION           DB              0
+    DURATION_SS         EQU     10011001B                             ; Write in BCD
+    curdur              db      0
+    CMINUTES            DB      ?
+    CSECONDS            DB      ?
+    PSECONDS            DB      ?
+    COLLISION           DB      0
 
-    CAR1_POWER_UP       db              4
-    CAR2_POWER_UP       db              4
-    CUR_POWER_UP        db              4
+    CAR1_POWER_UP       db      4
+    CAR2_POWER_UP       db      4
+    CUR_POWER_UP        db      4
 
-    CAR1_HAVE_SHIELD    db              0
-    CAR2_HAVE_SHIELD    db              0
+    CAR1_HAVE_SHIELD    db      0
+    CAR2_HAVE_SHIELD    db      0
+    car1_active_pu      db      4
+    car2_active_pu      db      4
+    car1_pu_count       db      0
+    car2_pu_count       db      0
 
 
     ; power up position
-    PU_X                dw              0
-    PU_Y                dw              0
+    PU_X                dw      0
+    PU_Y                dw      0
     
     ; track
-    TRACK_AXIS          DW              50 DUP(?)
-    COUNT_DRAWN_AXIS    DW              0
+    TRACK_AXIS          DW      50 DUP(?)
+    COUNT_DRAWN_AXIS    DW      0
     
-    LAST_DIR_HORIZ      DB              0
-    LAST_DIR_VERT       DB              0
+    LAST_DIR_HORIZ      DB      0
+    LAST_DIR_VERT       DB      0
 
     
 DATA ENDS
@@ -450,7 +454,7 @@ CODE SEGMENT USE16
                       ColorScreen        1
                       DrawBGTile
     ; Set curser to the middle of the screen
-                      bravo username1
+                      bravo              username1
 
                       SetDrawImageParams 273, 351, green_car_large_width, green_car_large_height, 0, 0, 0
                       MOV                SI, offset img_green_car_large
@@ -464,7 +468,7 @@ CODE SEGMENT USE16
     User2Wins:        
                       ColorScreen        2
                       DrawBGTile
-                      bravo username2
+                      bravo              username2
                       
                       SetDrawImageParams 273, 351, pink_car_large_width, pink_car_large_height, 0, 0, 0
                       MOV                SI, offset img_pink_car_large
@@ -478,7 +482,7 @@ CODE SEGMENT USE16
                       JMP                PROGRAM_LOOP
     Tie:              
                       ColorScreen        3
-                      bravo str_tie
+                      bravo              str_tie
 
                       CALL               WAIT_FOR_DELAY
                       GeneralDelayINT    50000
