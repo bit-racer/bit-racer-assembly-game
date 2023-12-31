@@ -2,6 +2,11 @@
 
 StartChat PROC
        initPort
+      mov rec_row, 0
+      mov sender_row, 0
+      mov rec_col, 39
+      mov sender_col, 0
+
       
 
       ;  mov ax, 0003h
