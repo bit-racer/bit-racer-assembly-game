@@ -156,7 +156,7 @@ GC_NEWLINE_C:
           JMP GBACK1
 GC_SCROLL_C:
           
-       DrawRectangle 0,0,SCREEN_WIDTH,32,05h
+       DrawRectangle SCREEN_WIDTH/2,0,SCREEN_WIDTH,32,05h
 
 
           dec rec_row
@@ -201,7 +201,7 @@ GC_NEWLINE:
 GC_SCROLL:
           
 
-       DrawRectangle 0,0,SCREEN_WIDTH,32,05h
+       DrawRectangle 0,0,SCREEN_WIDTH/2,32,05h
 
           
           
