@@ -96,10 +96,8 @@ DATA SEGMENT USE16
 
     str_clear           db              "            $$$$", '$'
 
-    str_user1_won       db              "User1 Won!", '$'
-    str_user2_won       db              "User2 Won!", '$'
-    str_tie             db              "Tie!", '$'
-    str_won             db              " won the game!", '$'
+    str_won             db              "Won This Race!", '$'
+    str_tie             db              "This race was a Tie!", '$'
 
     str_no_pu           db              "No Power Up", '$'
     str_pu1             db              "Speed up", '$'
@@ -111,7 +109,7 @@ DATA SEGMENT USE16
     TIMER_STR           DB              '00S', 0dh, 0ah, '$', 10 DUP('$')
     
     str_exiting_5sec    db              "Exiting in < 5 sec", '$'
-    str_score           db              " Score: ", '$'
+    str_score           db              "'s Score: ", '$'
 
 
     ; variables
@@ -123,31 +121,15 @@ DATA SEGMENT USE16
     currentColor        db              BLACK
     curCar              db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
 
-    ; User 1 data
-                        usernameBuffer1 label byte
-    usrMaxSize1         db              16
-    usrActualSize1      db              ?
-    username1           db              17 DUP ('$')
-    
-                        pointsBuffer1   label byte
-    ptsMaxSize1         db              4
-    ptsActualSize1      db              ?
-    pointsString1       db              5 DUP ('$')
+    ; User 1's Data
 
+    username1           db              17 DUP ('$')
     usrCar1             db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
 
 
     ; User 2 data
-                        usernameBuffer2 label byte
-    usrMaxSize2         db              16
-    usrActualSize2      db              ?
-    username2           db              17 DUP ('$')
     
-                        pointsBuffer2   label byte
-    ptsMaxSize2         db              4
-    ptsActualSize2      db              ?
-    pointsString2       db              5 DUP ('$')
-
+    username2           db              17 DUP ('$')
     usrCar2             db              0                                     ; 0: red, 1: green, 2: reed, 3: pink
 
     ; Main Menu Buttons variables
@@ -465,16 +447,8 @@ CODE SEGMENT USE16
                       ColorScreen        1
                       DrawBGTile
     ; Set curser to the middle of the screen
-                      mov                currentColumn, 30
-                      mov                currentRow, 16
-                      call               moveCursor
-                      MOV                DX, offset username1
-                      call               printmsg
-                      mov                currentColumn, 30
-                      mov                currentRow, 17
-                      call               moveCursor
-                      MOV                DX, offset str_won
-                      call               printmsg
+                      bravo username1
+
                       SetDrawImageParams 273, 351, green_car_large_width, green_car_large_height, 0, 0, 0
                       MOV                SI, offset img_green_car_large
                       CALL               DrawImageE
@@ -487,16 +461,8 @@ CODE SEGMENT USE16
     User2Wins:        
                       ColorScreen        2
                       DrawBGTile
-                      mov                currentColumn, 30
-                      mov                currentRow, 16
-                      call               moveCursor
-                      MOV                DX, offset username2
-                      call               printmsg
-                      mov                currentColumn, 30
-                      mov                currentRow, 17
-                      call               moveCursor
-                      MOV                DX, offset str_won
-                      call               printmsg
+                      bravo username2
+                      
                       SetDrawImageParams 273, 351, pink_car_large_width, pink_car_large_height, 0, 0, 0
                       MOV                SI, offset img_pink_car_large
                       CALL               DrawImageE
@@ -509,11 +475,8 @@ CODE SEGMENT USE16
                       JMP                PROGRAM_LOOP
     Tie:              
                       ColorScreen        3
-                      mov                currentColumn, 30
-                      mov                currentRow, 16
-                      call               moveCursor
-                      MOV                DX, offset str_tie
-                      call               printmsg
+                      bravo str_tie
+
                       CALL               WAIT_FOR_DELAY
                       GeneralDelayINT    50000
                       delayM             1000
