@@ -25,7 +25,7 @@ JE ENDL
 
 POWERUP1:
         CMP CUR_CHECKING_CAR, 2
-        JNE PU1C2
+        JE PU1C2
         MOV CAR1_POWER_UP,0
         JMP ENDL
 PU1C2:
@@ -33,7 +33,7 @@ PU1C2:
         JMP ENDL
 POWERUP2:
         CMP CUR_CHECKING_CAR, 2
-        JNE PU2C2
+        JE PU2C2
         MOV CAR1_POWER_UP,1
         JMP ENDL
 PU2C2:
@@ -41,7 +41,7 @@ PU2C2:
         JMP ENDL
 POWERUP3:
         CMP CUR_CHECKING_CAR, 2
-        JNE PU3C2
+        JE PU3C2
         MOV CAR1_POWER_UP,2
         JMP ENDL
 PU3C2:
@@ -49,7 +49,7 @@ PU3C2:
         JMP ENDL
 POWERUP4:
         CMP CUR_CHECKING_CAR, 2
-        JNE PU4C2
+        JE PU4C2
         MOV CAR1_POWER_UP,3
         JMP ENDL
 PU4C2:
