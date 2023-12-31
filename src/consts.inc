@@ -84,6 +84,7 @@ BG_COLOR        equ 204
 ;* scan code of released key = scan code + 80h
 ESCAPE_KEY      equ 01h
 ENTER_KEY       equ 1ch
+BACKSPACE_KEY   EQU 0Eh
 F1              equ 3bh
 F2              equ 3ch
 UP_ARROW        equ 48h
