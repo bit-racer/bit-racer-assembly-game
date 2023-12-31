@@ -106,6 +106,14 @@ DATA SEGMENT USE16
     str_pu4             db      "Sheild", '$'
 
 
+    s1_x                dw      ?
+    s1_y                dw      ?
+    s2_x                dw      ?
+    s2_y                dw      ?
+    s3_x                dw      ?
+    s3_y                dw      ?
+    
+
     TIMER_STR           DB      '00S', 0dh, 0ah, '$', 10 DUP('$')
     
     str_exiting_5sec    db      "Exiting in < 5 sec", '$'
@@ -200,13 +208,15 @@ DATA SEGMENT USE16
     ; power up position
     PU_X                dw      0
     PU_Y                dw      0
-    
+
     ; track
     TRACK_AXIS          DW      50 DUP(?)
     COUNT_DRAWN_AXIS    DW      0
     
     LAST_DIR_HORIZ      DB      0
     LAST_DIR_VERT       DB      0
+
+    
 
     
 DATA ENDS
@@ -441,6 +451,7 @@ CODE SEGMENT USE16
                       WaitForKeyPress
                       CMP                AH, ENTER_KEY
                       JNE                Play
+                      call               initPUconfig
                       CALL               PutCars
                       CMP                WINNER, 1
                       JE                 User1Wins

@@ -593,6 +593,7 @@ main PROC
               SUB AL, 1
               DAS
               MOV curdur, AL
+              DrawRandomPowerup
               DecPUCount
 
               DINC_TIMER:

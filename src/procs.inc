@@ -336,3 +336,50 @@ done_reading:
 
     ret
 readUsername ENDP
+
+; just run this once after generating the track
+; it sets the data varibles S1_x, S1_y, S2_x, S2_y, S3_x, S3_y
+; as the offsets of the third, sixth, ninth segments in the track
+initPUconfig PROC
+    pusha
+
+    ; segment 1 is [si], [di]
+    mov si, offset TRACK_AXIS + 4
+    mov di, offset TRACK_AXIS + 6
+
+    mov cl, 0
+walkToNext:
+    inc cl
+    add si, 4
+    add di, 4
+    cmp cl, 2 ; third
+    je third
+    cmp cl, 5 ; sixth
+    je sixth
+    cmp cl, 8
+    je ninth
+
+third:
+    mov dx, [si]
+    mov s1_x, dx
+    mov dx, [di]
+    mov s1_y, dx
+    jmp walkToNext
+
+sixth:
+    mov dx, [si]
+    mov s2_x, dx
+    mov dx, [di]
+    mov s2_y, dx
+    jmp walkToNext
+
+ninth:
+    mov dx, [si]
+    mov s3_x, dx
+    mov dx, [di]
+    mov s3_y, dx
+    ; done
+
+    popa
+    ret
+initPUconfig ENDP
