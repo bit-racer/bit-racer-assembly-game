@@ -1,20 +1,4 @@
 ; General purpose macros
-readData MACRO promt, buffer
-    ; print prompt string
-             mov  dx, offset promt
-             call printmsg
-
-             inc  currentRow
-             call moveCursor
-    
-    ; read username
-             mov  dx, offset buffer
-             mov  ah, 0ah
-             int  21h
-
-             inc  currentRow
-             call moveCursor
-ENDM
 
 printData MACRO usrname
               mov  dx, offset usrname
@@ -117,5 +101,33 @@ insideSeg MACRO seg_x, seg_y, car_x, car_y
     mov foundHere, 0
 
     Inside: 
+    popa
+ENDM
+
+bravo MACRO user
+    LOCAL goodbye
+    pusha
+
+    call printScores
+
+    mov currentColumn, 30
+    mov currentRow, 16
+    call moveCursor
+    MOV DX, offset user
+    call printmsg
+    
+    mov al, player1Score
+    mov bl, player2Score
+    cmp al, bl
+    je goodbye
+    
+    mov currentColumn, 30
+    mov currentRow, 17
+    call moveCursor
+    MOV DX, offset str_won
+    call printmsg
+
+goodbye:
+
     popa
 ENDM
